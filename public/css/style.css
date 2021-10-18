@@ -1,0 +1,41 @@
+#content {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#footer {
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.card-header {
+    color: #00698c;
+    /*color: #8c0000;*/
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.title-pg {
+    color: #00698c;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.content-pg {
+    font-size: 18px;
+    text-align: justify;
+}
+
+.title-footer {
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.content-footer {
+    font-size: 10px;
+    text-align: center;
+    color: #ffffff;
+}
