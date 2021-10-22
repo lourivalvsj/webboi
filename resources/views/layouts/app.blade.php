@@ -140,7 +140,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#"><i
-                                                class="fas fa-desktop"></i>&nbsp;&nbsp;Compador</a>
+                                                class="fas fa-desktop"></i>&nbsp;&nbsp;Comprador</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#"><i
@@ -148,7 +148,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#"><i
-                                                class="fas fa-dollar-sign"></i>&nbsp;&nbsp;finaceiro</a>
+                                                class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Finaceiro</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#"><i
