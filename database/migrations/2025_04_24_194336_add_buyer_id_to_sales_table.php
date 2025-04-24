@@ -14,7 +14,8 @@ class AddBuyerIdToSalesTable extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            //
+            $table->unsignedBigInteger('buyer_id')->nullable()->after('animal_id');
+            $table->foreign('buyer_id')->references('id')->on('buyers')->onDelete('set null');
         });
     }
 
@@ -26,7 +27,8 @@ class AddBuyerIdToSalesTable extends Migration
     public function down()
     {
         Schema::table('sales', function (Blueprint $table) {
-            //
+            $table->dropForeign(['buyer_id']);
+            $table->dropColumn('buyer_id');
         });
     }
 }
