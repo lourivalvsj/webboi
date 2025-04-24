@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Purchase extends Model
+class Sale extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'animal_id',
-        'vendor_id',
-        'purchase_date',
+        'buyer_id',
+        'sale_date',
         'value',
-        'freight_cost',
-        'transporter',
-        'commission_value',
-        'commission_percent'
+        'weight_at_sale'
     ];
 
     public function animal()
@@ -25,8 +22,8 @@ class Purchase extends Model
         return $this->belongsTo(Animal::class);
     }
 
-    public function vendor()
+    public function buyer()
     {
-        return $this->belongsTo(Vendor::class);
+        return $this->belongsTo(Buyer::class);
     }
 }

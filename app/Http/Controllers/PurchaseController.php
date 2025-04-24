@@ -3,84 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
+use App\Models\Animal;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $purchases = PurchaseController::all();
-        return view('purchases.index',compact('purchases'));
+        $purchases = Purchase::with(['animal', 'vendor'])->get();
+        return view('purchases.index', compact('purchases'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $animals = Animal::all();
+        $vendors = Vendor::all();
+        return view('purchases.create', compact('animals', 'vendors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'animal_id' => 'required|exists:animals,id',
+            'vendor_id' => 'nullable|exists:vendors,id',
+            'purchase_date' => 'nullable|date',
+            'value' => 'required|numeric',
+        ]);
+
+        Purchase::create($request->all());
+        return redirect()->route('purchases.index')->with('success', 'Purchase recorded successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Purchase  $purchase
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Purchase $purchase)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Purchase  $purchase
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Purchase $purchase)
     {
-        //
+        $animals = Animal::all();
+        $vendors = Vendor::all();
+        return view('purchases.edit', compact('purchase', 'animals', 'vendors'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Purchase  $purchase
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Purchase $purchase)
     {
-        //
+        $request->validate([
+            'animal_id' => 'required|exists:animals,id',
+            'vendor_id' => 'nullable|exists:vendors,id',
+            'purchase_date' => 'nullable|date',
+            'value' => 'required|numeric',
+        ]);
+
+        $purchase->update($request->all());
+        return redirect()->route('purchases.index')->with('success', 'Purchase updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Purchase  $purchase
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Purchase $purchase)
     {
-        //
+        $purchase->delete();
+        return redirect()->route('purchases.index')->with('success', 'Purchase deleted.');
     }
 }

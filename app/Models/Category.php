@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['description'];
+    protected $fillable = ['name', 'type', 'description'];
+
+    public function animals()
+    {
+        return $this->hasMany(Animal::class);
+    }
 }
