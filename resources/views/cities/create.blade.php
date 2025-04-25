@@ -5,7 +5,6 @@
         <h2>Nova Cidade</h2>
         <form action="{{ route('cities.store') }}" method="POST">
             @csrf
-
             <div class="mb-3">
                 <label for="name" class="form-label">Nome da Cidade</label>
                 <input type="text" name="name" class="form-control" required>
