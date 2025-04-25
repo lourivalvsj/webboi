@@ -11,6 +11,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AnimalWeightController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicationController;
+use App\Http\Controllers\UfController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\TruckDriverController;
+use App\Http\Controllers\FreightController;
+use App\Http\Controllers\LocalController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SupplyExpenseController;
+use App\Http\Controllers\OperationalExpenseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,6 +33,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('vendors', VendorController::class);
     Route::resource('buyers', BuyerController::class);
     Route::resource('categories', CategoryController::class);
+
+    Route::resource('ufs', UfController::class);
+    Route::resource('cities', CityController::class);
+    Route::resource('truck-drivers', TruckDriverController::class);
+    Route::resource('freights', FreightController::class);
+    Route::resource('locals', LocalController::class);
+    Route::resource('schedules', ScheduleController::class);
+    Route::resource('supply-expenses', SupplyExpenseController::class);
+    Route::resource('operational-expenses', OperationalExpenseController::class);
 
     // 🆕 Rotas para recursos de saúde animal
     Route::resource('animal-weights', AnimalWeightController::class);

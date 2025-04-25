@@ -124,7 +124,7 @@
                                         </li>
 
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') ? 'active' : '' }}"
+                                            <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') || request()->is('locals*') ? 'active' : '' }}"
                                                 href="#" id="menuCadastros" role="button" data-bs-toggle="dropdown"
                                                 aria-expanded="false">
                                                 <i class="fas fa-users"></i>&nbsp;&nbsp;Cadastros
@@ -136,6 +136,46 @@
                                                         href="{{ route('buyers.index') }}">Compradores</a></li>
                                                 <li><a class="dropdown-item"
                                                         href="{{ route('categories.index') }}">Categorias</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('locals.index') }}">Locais</a></li>
+                                                <!-- Link para Locais -->
+                                                <li><a class="dropdown-item" href="{{ route('ufs.index') }}">UFs</a></li>
+                                                <!-- Cadastrar UF -->
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('cities.index') }}">Cidades</a></li>
+                                                <!-- Cadastrar Cidade -->
+                                            </ul>
+                                        </li>
+
+                                        <!-- Novo submenu Despesas -->
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle {{ request()->is('supply-expenses*') || request()->is('operational-expenses*') ? 'active' : '' }}"
+                                                href="#" id="menuDespesas" role="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-money-check-alt"></i>&nbsp;&nbsp;Despesas
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="menuDespesas">
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('supply-expenses.index') }}">Gastos com Insumos</a>
+                                                </li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('operational-expenses.index') }}">Despesas
+                                                        Operacionais</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <!-- Novo submenu Transporte -->
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle {{ request()->is('truck-drivers*') || request()->is('freights*') ? 'active' : '' }}"
+                                                href="#" id="menuTransporte" role="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-truck"></i>&nbsp;&nbsp;Transporte
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="menuTransporte">
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('truck-drivers.index') }}">Caminhoneiros</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('freights.index') }}">Fretes</a></li>
                                             </ul>
                                         </li>
 
@@ -158,6 +198,9 @@
                                         style="display: none;">
                                         @csrf
                                     </form>
+
+
+
 
 
                                 </div>
