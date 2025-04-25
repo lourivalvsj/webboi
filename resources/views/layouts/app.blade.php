@@ -10,10 +10,32 @@
     <link rel="sortcut icon" href="{{ asset('storage/img/favicon.png') }}" type="image/x-icon" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        .nav-link:hover,
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/js.js') }}" defer></script>
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -61,52 +83,83 @@
                                 </button>
 
                                 <div class="collapse navbar-collapse" id="navbarMenu">
-                                    <ul class="nav flex-row">
+                                    <ul class="nav flex-wrap">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('dashboard') }}"><i
-                                                    class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Dashboard</a>
+                                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                                                href="{{ route('dashboard') }}">
+                                                <i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Dashboard
+                                            </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('animals.index') }}"><i
-                                                    class="fas fa-cow"></i>&nbsp;&nbsp;Animais</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('purchases.index') }}"><i
-                                                    class="fas fa-cart-plus"></i>&nbsp;&nbsp;Compras</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('sales.index') }}"><i
-                                                    class="fas fa-shopping-basket"></i>&nbsp;&nbsp;Vendas</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('vendors.index') }}"><i
-                                                    class="fas fa-user-tie"></i>&nbsp;&nbsp;Vendedores</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('buyers.index') }}"><i
-                                                    class="fas fa-user-tag"></i>&nbsp;&nbsp;Compradores</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('categories.index') }}"><i
-                                                    class="fas fa-tags"></i>&nbsp;&nbsp;Categorias</a>
-                                        </li>
+
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-                                                role="button">
+                                            <a class="nav-link dropdown-toggle {{ request()->is('animals*') || request()->is('animal-weights*') || request()->is('feedings*') || request()->is('medications*') ? 'active' : '' }}"
+                                                href="#" id="menuAnimal" role="button" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="fas fa-cow"></i>&nbsp;&nbsp;Animais
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="menuAnimal">
+                                                <li><a class="dropdown-item" href="{{ route('animals.index') }}">Gerenciar
+                                                        Animais</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('animal-weights.index') }}">Pesagens</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('feedings.index') }}">Alimentações</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('medications.index') }}">Medicações</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle {{ request()->is('purchases*') || request()->is('sales*') ? 'active' : '' }}"
+                                                href="#" id="menuTransacoes" role="button" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;Transações
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="menuTransacoes">
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('purchases.index') }}">Compras</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('sales.index') }}">Vendas</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') ? 'active' : '' }}"
+                                                href="#" id="menuCadastros" role="button" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="fas fa-users"></i>&nbsp;&nbsp;Cadastros
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="menuCadastros">
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('vendors.index') }}">Vendedores</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('buyers.index') }}">Compradores</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('categories.index') }}">Categorias</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item dropdown ms-auto">
+                                            <a class="nav-link dropdown-toggle" href="#" id="userMenu"
+                                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="fas fa-user"></i>&nbsp;&nbsp;{{ auth()->user()->name }}
                                             </a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#"
-                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Sair
-                                                </a>
-                                            </div>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#"
+                                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                        Sair
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         style="display: none;">
                                         @csrf
                                     </form>
+
+
                                 </div>
                             </div>
                         </nav>
@@ -143,6 +196,15 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        var dropdownElements = document.querySelectorAll('.dropdown-toggle');
+        dropdownElements.forEach(function(dropdownToggleEl) {
+            new bootstrap.Dropdown(dropdownToggleEl);
+        });
+    </script>
+
+
     <script>
         function mascaraCpfCnpj(field) {
             const v = field.value.replace(/\D/g, '');
