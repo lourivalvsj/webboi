@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Novo Local')
 @section('content')
     <div class="container">
         <h2>Novo Local</h2>

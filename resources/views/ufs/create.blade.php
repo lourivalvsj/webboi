@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Nova UF')
 @section('content')
     <div class="container">
         <h2>Nova UF</h2>
