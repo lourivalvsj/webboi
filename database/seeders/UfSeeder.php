@@ -14,6 +14,11 @@ class UfSeeder extends Seeder
      */
     public function run()
     {
+        if (Uf::count() > 0) {
+            $this->command->warn('Tabela de UFs já possui dados. Seed ignorado.');
+            return;
+        }
+
         $ufs = [
             ['name' => 'Acre', 'abbreviation' => 'AC'],
             ['name' => 'Alagoas', 'abbreviation' => 'AL'],
@@ -47,5 +52,7 @@ class UfSeeder extends Seeder
         foreach ($ufs as $uf) {
             Uf::create($uf);
         }
+
+        $this->command->info('UFs inseridas com sucesso!');
     }
 }
