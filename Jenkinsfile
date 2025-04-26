@@ -53,6 +53,7 @@ pipeline {
                     php artisan route:clear && \
                     php artisan view:clear && \
                     php artisan config:cache && \
+                    php artisan storage:link && \
                     chown -R www-data:www-data storage bootstrap/cache && \
                     chmod -R 775 storage bootstrap/cache
                 '
