@@ -29,13 +29,43 @@ pipeline {
             }
         }
 
-
         stage('Instalar dependências dentro do container') {
             steps {
                 sh """
                 docker exec -i ${CONTAINER_NAME} bash -c '
-                    cd /var/www && \
+                    cd /var/www/html && \
                     composer install --no-interaction --prefer-dist
+                '
+                """
+            }
+        }
+
+        stage('Preparar Laravel (cache, key, permissions)') {
+            steps {
+                sh """
+                docker exec -i ${CONTAINER_NAME} bash -c '
+                    cd /var/www/html && \
+                    if [ ! -f .env ]; then cp .env.example .env; fi && \
+                    php artisan key:generate --force && \
+                    php artisan config:clear && \
+                    php artisan cache:clear && \
+                    php artisan route:clear && \
+                    php artisan view:clear && \
+                    php artisan config:cache && \
+                    chown -R www-data:www-data storage bootstrap/cache && \
+                    chmod -R 775 storage bootstrap/cache
+                '
+                """
+            }
+        }
+
+        stage('Rodar migrations e seeders') {
+            steps {
+                sh """
+                docker exec -i ${CONTAINER_NAME} bash -c '
+                    cd /var/www/html && \
+                    php artisan migrate --force && \
+                    php artisan db:seed --force || true
                 '
                 """
             }
