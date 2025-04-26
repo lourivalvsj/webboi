@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Clonar projeto') {
             steps {
-                git 'https://github.com/lourivalvsj/webboi.git'
+                git branch: 'main', url: 'https://github.com/lourivalvsj/webboi.git'
             }
         }
 
