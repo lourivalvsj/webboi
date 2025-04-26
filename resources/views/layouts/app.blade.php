@@ -71,8 +71,8 @@
             <div class="container bg-white">
                 <div class="row d-flex align-items-center">
                     <div class="col-2">
-                        <a href="{{ route('dashboard') }}"><img class="py-1"
-                                src="{{ asset('storage/img/WebBoiSemFundo.png') }}" width="180px"></a>
+                        <a href="{{ route('dashboard') }}"><img class="py-1" src="{{ asset('img/WebBoiSemFundo.png') }}"
+                                width="180px"></a>
                     </div>
                     <div class="col-10 d-flex justify-content-end">
                         <nav class="nav navbar-expand-md navbar-light bg-white">
