@@ -2,24 +2,16 @@ pipeline {
     agent any
 
     environment {
-        // Ajuste para onde seu container ou app WebBoi vai ser enviado
         REMOTE_USER = 'ubuntu'
         REMOTE_HOST = 'localhost'
         REMOTE_PATH = '/home/ubuntu/containers/webboi/html'
+        CONTAINER_NAME = 'webboi'
     }
 
     stages {
         stage('Clonar projeto') {
             steps {
                 git branch: 'main', url: 'https://github.com/lourivalvsj/webboi.git'
-            }
-        }
-
-        stage('Buildar projeto') {
-            steps {
-                sh '''
-                composer install --no-interaction --prefer-dist
-                '''
             }
         }
 
@@ -30,30 +22,35 @@ pipeline {
                     --exclude '.git' \
                     --exclude 'node_modules' \
                     --exclude 'vendor' \
-                    ./ ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+                    ./ ${REMOTE_PATH}/
                 """
             }
         }
 
-        stage('Deploy no servidor') {
+        stage('Instalar dependências dentro do container') {
             steps {
                 sh """
-                ssh ${REMOTE_USER}@${REMOTE_HOST} '
-                    cd ${REMOTE_PATH} &&
-                    docker compose pull &&
-                    docker compose up -d --build
+                docker exec -i ${CONTAINER_NAME} bash -c '
+                    cd /var/www && \
+                    composer install --no-interaction --prefer-dist
                 '
                 """
+            }
+        }
+
+        stage('Restartar o container') {
+            steps {
+                sh "docker restart ${CONTAINER_NAME}"
             }
         }
     }
 
     post {
         success {
-            echo 'Deploy realizado com sucesso! 🚀'
+            echo '🚀 Deploy realizado com sucesso dentro do container!'
         }
         failure {
-            echo 'Falhou o deploy ❌'
+            echo '❌ Falhou o deploy!'
         }
     }
 }
