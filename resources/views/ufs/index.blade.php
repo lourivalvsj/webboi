@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Ufs')
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Uf</h2>
+            <h2>Ufs</h2>
             <a href="{{ route('ufs.create') }}" class="btn btn-primary">Novo</a>
         </div>
         @if (session('success'))

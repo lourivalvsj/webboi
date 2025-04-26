@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Editar Pesagem')
 @section('content')
     <div class="container">
         <h2>Editar Pesagem</h2>
