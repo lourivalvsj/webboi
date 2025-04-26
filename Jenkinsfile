@@ -22,10 +22,13 @@ pipeline {
                     --exclude '.git' \
                     --exclude 'node_modules' \
                     --exclude 'vendor' \
+                    --exclude 'storage/' \
+                    --exclude 'bootstrap/cache/' \
                     ./ ${REMOTE_PATH}/
                 """
             }
         }
+
 
         stage('Instalar dependências dentro do container') {
             steps {
