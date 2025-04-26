@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Nova Pesagem')
 @section('content')
     <div class="container">
         <h2>Nova Pesagem</h2>
