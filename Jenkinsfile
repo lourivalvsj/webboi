@@ -33,7 +33,7 @@ pipeline {
             steps {
                 sh """
                 docker exec -i ${CONTAINER_NAME} bash -c '
-                    cd /var/www/html && \
+                    cd /var/www && \
                     composer install --no-interaction --prefer-dist
                 '
                 """
@@ -44,7 +44,7 @@ pipeline {
             steps {
                 sh """
                 docker exec -i ${CONTAINER_NAME} bash -c '
-                    cd /var/www/html && \
+                    cd /var/www && \
                     if [ ! -f .env ]; then cp .env.example .env; fi && \
                     php artisan key:generate --force && \
                     php artisan config:clear && \
@@ -63,7 +63,7 @@ pipeline {
             steps {
                 sh """
                 docker exec -i ${CONTAINER_NAME} bash -c '
-                    cd /var/www/html && \
+                    cd /var/www && \
                     php artisan migrate --force && \
                     php artisan db:seed --force || true
                 '
