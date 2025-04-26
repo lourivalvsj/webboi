@@ -54,11 +54,11 @@
                 <div class="container">
                     <div class="row d-flex align-items-center">
                         <div class="col-12 d-flex justify-content-end">
-                            <img src="{{ asset('storage/img/facebook-icon.png') }}" height="25px" alt="Facebook">
+                            {{-- <img src="{{ asset('storage/img/facebook-icon.png') }}" height="25px" alt="Facebook">
                             &nbsp;&nbsp;<img src="{{ asset('storage/img/instagram-icon.png') }}" height="25px"
                                 alt="Instagram">
                             &nbsp;&nbsp;<img src="{{ asset('storage/img/email-icon.png') }}" height="25px"
-                                alt="E-Mail">
+                                alt="E-Mail"> --}}
                         </div>
                     </div>
                 </div>
@@ -71,8 +71,8 @@
             <div class="container bg-white">
                 <div class="row d-flex align-items-center">
                     <div class="col-2">
-                        <a href="{{ route('dashboard') }}"><img class="py-1" src="{{ asset('storage/img/logosis.png') }}"
-                                width="180px"></a>
+                        <a href="{{ route('dashboard') }}"><img class="py-1"
+                                src="{{ asset('storage/img/WebBoiSemFundo.png') }}" width="180px"></a>
                     </div>
                     <div class="col-10 d-flex justify-content-end">
                         <nav class="nav navbar-expand-md navbar-light bg-white">
