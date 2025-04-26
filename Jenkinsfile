@@ -20,6 +20,7 @@ pipeline {
                 sh """
                 rsync -avz --delete-after \
                     --exclude '.git' \
+                    --exclude '.env' \
                     --exclude 'node_modules' \
                     --exclude 'vendor' \
                     --exclude 'storage/' \
