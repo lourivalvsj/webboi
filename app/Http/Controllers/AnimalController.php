@@ -8,10 +8,33 @@ use Illuminate\Http\Request;
 
 class AnimalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $animals = Animal::with('category')->get();
-        return view('animals.index', compact('animals'));
+        $query = Animal::with('category');
+        
+        // Filtro de busca por brinco ou raça
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('tag', 'like', "%{$search}%")
+                  ->orWhere('breed', 'like', "%{$search}%");
+            });
+        }
+        
+        // Filtro por categoria
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+        
+        // Filtro por data de nascimento
+        if ($request->filled('birth_date')) {
+            $query->whereDate('birth_date', $request->birth_date);
+        }
+        
+        $animals = $query->paginate(15)->withQueryString();
+        $categories = Category::where('type', 'animal')->get();
+        
+        return view('animals.index', compact('animals', 'categories'));
     }
 
     public function create()

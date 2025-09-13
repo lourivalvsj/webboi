@@ -7,9 +7,26 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
+        $query = Category::query();
+        
+        // Filtro de busca por nome ou tipo
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('type', 'like', "%{$search}%");
+            });
+        }
+        
+        // Filtro por tipo
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+        
+        $categories = $query->paginate(15)->withQueryString();
+        
         return view('categories.index', compact('categories'));
     }
 

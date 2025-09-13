@@ -7,9 +7,22 @@ use Illuminate\Http\Request;
 
 class BuyerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $buyers = Buyer::all();
+        $query = Buyer::query();
+
+        // Filtro de busca
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%")
+                  ->orWhere('phone', 'LIKE', "%{$search}%")
+                  ->orWhere('city', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $buyers = $query->orderBy('name')->paginate(15)->withQueryString();
         return view('buyers.index', compact('buyers'));
     }
 
