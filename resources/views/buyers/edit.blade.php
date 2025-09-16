@@ -115,7 +115,7 @@
             </div>
 
             <div class="modern-form-actions">
-                <button type="submit" class="modern-btn modern-btn-primary">
+                <button type="submit" class="modern-btn modern-btn-primary" style="opacity: 1 !important; visibility: visible !important; background: linear-gradient(45deg, #667eea, #764ba2) !important; color: white !important; border: none !important;">
                     <i class="fas fa-save"></i>
                     Atualizar Comprador
                 </button>
@@ -188,6 +188,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (currentCity) {
         updateCities();
         document.getElementById('city_select').value = currentCity;
+    }
+
+    // Debug do botão para verificar estilos
+    const submitBtn = document.querySelector('button[type="submit"].modern-btn-primary');
+    if (submitBtn) {
+        console.log('Botão encontrado:', submitBtn);
+        console.log('Estilos computados:', window.getComputedStyle(submitBtn));
+        console.log('Opacity:', window.getComputedStyle(submitBtn).opacity);
+        console.log('Visibility:', window.getComputedStyle(submitBtn).visibility);
+        console.log('Background:', window.getComputedStyle(submitBtn).background);
     }
 
     // Configurar modal de adicionar cidade

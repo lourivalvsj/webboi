@@ -1,5 +1,6 @@
 <style>
 :root {
+    --primary-color: #667eea;
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -653,16 +654,34 @@ body.drawer-open {
     gap: 0.5rem;
     margin: 0 0.25rem;
     cursor: pointer;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .modern-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-decoration: none;
+    opacity: 1 !important;
+}
+
+button[type="submit"].modern-btn,
+button[type="submit"].modern-btn-primary,
+.modern-btn-primary[type="submit"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: linear-gradient(45deg, var(--primary-color), #667eea) !important;
+    color: white !important;
+    border: none !important;
 }
 
 .modern-btn-primary {
     background: linear-gradient(45deg, var(--primary-color), #667eea);
+    color: white;
+}
+
+.modern-btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #5a6268);
     color: white;
 }
 
@@ -958,5 +977,61 @@ body.drawer-open {
     background: var(--primary-color);
     color: white;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Bootstrap Override for Modern Buttons */
+form button.modern-btn,
+form button.modern-btn-primary,
+form input.modern-btn,
+form input.modern-btn-primary,
+.form-actions button.modern-btn,
+.form-actions button.modern-btn-primary,
+.modern-form-actions button.modern-btn,
+.modern-form-actions button.modern-btn-primary {
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: linear-gradient(45deg, var(--primary-color), #667eea) !important;
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    border-color: transparent !important;
+    outline: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+form button.modern-btn:hover,
+form button.modern-btn-primary:hover,
+.form-actions button.modern-btn:hover,
+.form-actions button.modern-btn-primary:hover,
+.modern-form-actions button.modern-btn:hover,
+.modern-form-actions button.modern-btn-primary:hover {
+    opacity: 1 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    background: linear-gradient(45deg, var(--primary-color), #667eea) !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+/* Ensure button text is visible */
+form button.modern-btn i,
+form button.modern-btn-primary i,
+.form-actions button.modern-btn i,
+.form-actions button.modern-btn-primary i,
+.modern-form-actions button.modern-btn i,
+.modern-form-actions button.modern-btn-primary i {
+    color: white !important;
+    opacity: 1 !important;
 }
 </style>
