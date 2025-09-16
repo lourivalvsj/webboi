@@ -842,4 +842,121 @@ body.drawer-open {
         transform: translateY(0);
     }
 }
+
+/* Modern Form Styles */
+.modern-form-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.modern-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.modern-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.modern-form-control {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.modern-form-control:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: #ffffff;
+}
+
+.modern-form-control:hover {
+    border-color: #cbd5e1;
+}
+
+.modern-form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Form responsive */
+@media (max-width: 768px) {
+    .modern-form-container {
+        padding: 1.5rem;
+    }
+    
+    .modern-form-actions {
+        flex-direction: column;
+    }
+    
+    .modern-form-actions .modern-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.modern-btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #5a6268);
+    color: white;
+}
+
+/* Pagination styles */
+.modern-pagination {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
+}
+
+.modern-pagination .pagination {
+    margin: 0;
+    justify-content: center;
+}
+
+.modern-pagination .page-link {
+    border: none;
+    padding: 0.75rem 1rem;
+    margin: 0 0.125rem;
+    border-radius: 8px;
+    color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+}
+
+.modern-pagination .page-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.modern-pagination .page-item.active .page-link {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
 </style>

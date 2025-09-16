@@ -35,10 +35,17 @@ class VendorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
+            'cpf_cnpj' => 'nullable|string|max:18',
+            'email' => 'nullable|email|max:100',
+            'phone' => 'nullable|string|max:15',
+            'uf' => 'required|string|size:2',
+            'city' => 'required|string|max:100',
+            'address' => 'nullable|string|max:255',
+            'state_registration' => 'nullable|string|max:50'
         ]);
 
         Vendor::create($request->all());
-        return redirect()->route('vendors.index')->with('success', 'Vendor added successfully.');
+        return redirect()->route('vendors.index')->with('success', 'Vendedor adicionado com sucesso.');
     }
 
     public function edit(Vendor $vendor)
@@ -50,10 +57,17 @@ class VendorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
+            'cpf_cnpj' => 'nullable|string|max:18',
+            'email' => 'nullable|email|max:100',
+            'phone' => 'nullable|string|max:15',
+            'uf' => 'required|string|size:2',
+            'city' => 'required|string|max:100',
+            'address' => 'nullable|string|max:255',
+            'state_registration' => 'nullable|string|max:50'
         ]);
 
         $vendor->update($request->all());
-        return redirect()->route('vendors.index')->with('success', 'Vendor updated successfully.');
+        return redirect()->route('vendors.index')->with('success', 'Vendedor atualizado com sucesso.');
     }
 
     public function destroy(Vendor $vendor)

@@ -2,36 +2,181 @@
 
 @section('title', 'Editar Vendedor')
 @section('content')
-    <div class="container">
-        <h2>Editar Vendedor</h2>
+<div class="container-fluid fade-in-up">
+    <div class="page-header-modern">
+        <h2><i class="fas fa-user-tie me-2"></i>Editar Vendedor</h2>
+    </div>
 
+    <div class="modern-form-container">
         <form action="{{ route('vendors.update', $vendor) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label class="form-label">Nome</label>
-                <input type="text" name="name" value="{{ $vendor->name }}" class="form-control" required>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">Nome *</label>
+                        <input type="text" name="name" class="modern-form-control" value="{{ old('name', $vendor->name) }}" required>
+                        @error('name')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">CPF/CNPJ</label>
+                        <input type="text" name="cpf_cnpj" class="modern-form-control" value="{{ old('cpf_cnpj', $vendor->cpf_cnpj) }}" 
+                               oninput="mascaraCpfCnpj(this)" maxlength="18">
+                        @error('cpf_cnpj')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">CPF/CNPJ</label>
-                <input type="text" name="cpf_cnpj" class="form-control" oninput="mascaraCpfCnpj(this)" maxlength="18">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">Email</label>
+                        <input type="email" name="email" class="modern-form-control" value="{{ old('email', $vendor->email) }}">
+                        @error('email')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">Telefone</label>
+                        <input type="text" name="phone" class="modern-form-control" value="{{ old('phone', $vendor->phone) }}" 
+                               oninput="mascaraTelefone(this)" maxlength="15">
+                        @error('phone')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Telefone</label>
-                <input type="text" name="phone" value="{{ $vendor->phone }}" class="form-control"
-                    oninput="mascaraTelefone(this)" maxlength="15">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">UF *</label>
+                        <select name="uf" id="uf_select" class="modern-form-control" required onchange="updateCities()">
+                            <option value="">Selecione a UF</option>
+                            @foreach(\App\Helpers\LocationHelper::getUfs() as $uf => $name)
+                                <option value="{{ $uf }}" {{ old('uf', $vendor->uf) == $uf ? 'selected' : '' }}>
+                                    {{ $uf }} - {{ $name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('uf')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">Cidade *</label>
+                        <select name="city" id="city_select" class="modern-form-control" required>
+                            <option value="">Selecione primeiro a UF</option>
+                        </select>
+                        @error('city')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">Inscrição Estadual</label>
+                        <input type="text" name="state_registration" class="modern-form-control" value="{{ old('state_registration', $vendor->state_registration) }}">
+                        @error('state_registration')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Endereço</label>
-                <input type="text" name="address" value="{{ $vendor->address }}" class="form-control">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="modern-form-group">
+                        <label class="modern-form-label">Endereço Completo</label>
+                        <textarea name="address" class="modern-form-control" rows="3" placeholder="Rua, número, bairro, CEP...">{{ old('address', $vendor->address) }}</textarea>
+                        @error('address')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Atualizar</button>
-            <a href="{{ route('vendors.index') }}" class="btn btn-secondary">Cancelar</a>
+            <div class="modern-form-actions">
+                <button type="submit" class="modern-btn modern-btn-primary">
+                    <i class="fas fa-save"></i>
+                    Atualizar Vendedor
+                </button>
+                <a href="{{ route('vendors.index') }}" class="modern-btn modern-btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Cancelar
+                </a>
+            </div>
         </form>
     </div>
+</div>
+
+<script>
+const citiesByUf = @json(\App\Helpers\LocationHelper::getCitiesByUf());
+
+function updateCities() {
+    const ufSelect = document.getElementById('uf_select');
+    const citySelect = document.getElementById('city_select');
+    const selectedUf = ufSelect.value;
+    
+    // Limpar opções das cidades
+    citySelect.innerHTML = '<option value="">Selecione a cidade</option>';
+    
+    if (selectedUf && citiesByUf[selectedUf]) {
+        citiesByUf[selectedUf].forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+    }
+}
+
+// Carregar cidades se UF já estiver selecionada
+document.addEventListener('DOMContentLoaded', function() {
+    const currentCity = '{{ old('city', $vendor->city) }}';
+    if (currentCity) {
+        updateCities();
+        document.getElementById('city_select').value = currentCity;
+    }
+});
+
+function mascaraCpfCnpj(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.length <= 11) {
+        // CPF
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    } else {
+        // CNPJ
+        value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+        value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+        value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+        value = value.replace(/(\d{4})(\d)/, '$1-$2');
+    }
+    input.value = value;
+}
+
+function mascaraTelefone(input) {
+    let value = input.value.replace(/\D/g, '');
+    value = value.replace(/(\d{2})(\d)/, '($1) $2');
+    value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
+    input.value = value;
+}
+</script>
 @endsection

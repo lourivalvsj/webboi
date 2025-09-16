@@ -13,6 +13,9 @@ class Vendor extends Model
         'name',
         'cpf_cnpj',
         'address',
+        'uf',
+        'city',
+        'email',
         'phone',
         'state_registration'
     ];

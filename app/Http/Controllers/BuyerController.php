@@ -35,10 +35,17 @@ class BuyerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
+            'cpf_cnpj' => 'nullable|string|max:18',
+            'email' => 'nullable|email|max:100',
+            'phone' => 'nullable|string|max:15',
+            'uf' => 'required|string|size:2',
+            'city' => 'required|string|max:100',
+            'address' => 'nullable|string|max:255',
+            'state_registration' => 'nullable|string|max:50'
         ]);
 
         Buyer::create($request->all());
-        return redirect()->route('buyers.index')->with('success', 'Buyer added successfully.');
+        return redirect()->route('buyers.index')->with('success', 'Comprador adicionado com sucesso.');
     }
 
     public function edit(Buyer $buyer)
@@ -50,10 +57,17 @@ class BuyerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
+            'cpf_cnpj' => 'nullable|string|max:18',
+            'email' => 'nullable|email|max:100',
+            'phone' => 'nullable|string|max:15',
+            'uf' => 'required|string|size:2',
+            'city' => 'required|string|max:100',
+            'address' => 'nullable|string|max:255',
+            'state_registration' => 'nullable|string|max:50'
         ]);
 
         $buyer->update($request->all());
-        return redirect()->route('buyers.index')->with('success', 'Buyer updated successfully.');
+        return redirect()->route('buyers.index')->with('success', 'Comprador atualizado com sucesso.');
     }
 
     public function destroy(Buyer $buyer)
