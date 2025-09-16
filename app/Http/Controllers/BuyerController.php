@@ -48,6 +48,11 @@ class BuyerController extends Controller
         return redirect()->route('buyers.index')->with('success', 'Comprador adicionado com sucesso.');
     }
 
+    public function show(Buyer $buyer)
+    {
+        return view('buyers.show', compact('buyer'));
+    }
+
     public function edit(Buyer $buyer)
     {
         return view('buyers.edit', compact('buyer'));
@@ -73,6 +78,6 @@ class BuyerController extends Controller
     public function destroy(Buyer $buyer)
     {
         $buyer->delete();
-        return redirect()->route('buyers.index')->with('success', 'Buyer deleted.');
+        return redirect()->route('buyers.index')->with('success', 'Comprador excluído com sucesso.');
     }
 }

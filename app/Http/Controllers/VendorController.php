@@ -48,6 +48,11 @@ class VendorController extends Controller
         return redirect()->route('vendors.index')->with('success', 'Vendedor adicionado com sucesso.');
     }
 
+    public function show(Vendor $vendor)
+    {
+        return view('vendors.show', compact('vendor'));
+    }
+
     public function edit(Vendor $vendor)
     {
         return view('vendors.edit', compact('vendor'));
@@ -73,6 +78,6 @@ class VendorController extends Controller
     public function destroy(Vendor $vendor)
     {
         $vendor->delete();
-        return redirect()->route('vendors.index')->with('success', 'Vendor deleted.');
+        return redirect()->route('vendors.index')->with('success', 'Vendedor excluído com sucesso.');
     }
 }
