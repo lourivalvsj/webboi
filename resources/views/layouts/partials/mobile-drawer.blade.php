@@ -74,10 +74,6 @@
                         <i class="fas fa-tags"></i>Categorias</a></li>
                     <li><a class="nav-link" href="{{ route('locals.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-map-marker-alt"></i>Locais</a></li>
-                    <li><a class="nav-link" href="{{ route('ufs.index') }}" onclick="closeDrawer()">
-                        <i class="fas fa-flag"></i>UFs</a></li>
-                    <li><a class="nav-link" href="{{ route('cities.index') }}" onclick="closeDrawer()">
-                        <i class="fas fa-city"></i>Cidades</a></li>
                 </ul>
             </li>
 

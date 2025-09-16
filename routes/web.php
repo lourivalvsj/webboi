@@ -11,8 +11,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AnimalWeightController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicationController;
-use App\Http\Controllers\UfController;
-use App\Http\Controllers\CityController;
+// use App\Http\Controllers\UfController; // Removido - usando helper LocationHelper
+// use App\Http\Controllers\CityController; // Removido - usando helper LocationHelper
 use App\Http\Controllers\TruckDriverController;
 use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LocalController;
@@ -34,8 +34,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('buyers', BuyerController::class);
     Route::resource('categories', CategoryController::class);
 
-    Route::resource('ufs', UfController::class);
-    Route::resource('cities', CityController::class);
+    // Route::resource('ufs', UfController::class); // Removido - usando helper LocationHelper
+    // Route::resource('cities', CityController::class); // Removido - usando helper LocationHelper
     Route::resource('truck-drivers', TruckDriverController::class);
     Route::resource('freights', FreightController::class);
     Route::resource('locals', LocalController::class);

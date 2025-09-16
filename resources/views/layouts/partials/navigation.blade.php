@@ -69,7 +69,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') || request()->is('locals*') || request()->is('ufs*') || request()->is('cities*') ? 'active' : '' }}"
+                                <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') || request()->is('locals*') ? 'active' : '' }}"
                                    href="#" 
                                    id="menuCadastros" 
                                    role="button" 
@@ -86,10 +86,6 @@
                                         <i class="fas fa-tags me-2"></i>Categorias</a></li>
                                     <li><a class="dropdown-item" href="{{ route('locals.index') }}">
                                         <i class="fas fa-map-marker-alt me-2"></i>Locais</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('ufs.index') }}">
-                                        <i class="fas fa-flag me-2"></i>UFs</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('cities.index') }}">
-                                        <i class="fas fa-city me-2"></i>Cidades</a></li>
                                 </ul>
                             </li>
 
