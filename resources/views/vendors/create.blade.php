@@ -78,9 +78,14 @@
                 <div class="col-md-4">
                     <div class="modern-form-group">
                         <label class="modern-form-label">Cidade *</label>
-                        <select name="city" id="city_select" class="modern-form-control" required>
-                            <option value="">Selecione primeiro a UF</option>
-                        </select>
+                        <div class="input-group">
+                            <select name="city" id="city_select" class="modern-form-control" required>
+                                <option value="">Selecione primeiro a UF</option>
+                            </select>
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="add_city_btn" style="margin-left: 5px;" title="Adicionar nova cidade">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
                         @error('city')
                             <div class="form-error">{{ $message }}</div>
                         @enderror
@@ -124,6 +129,39 @@
     </div>
 </div>
 
+<!-- Modal para adicionar nova cidade -->
+<div class="modal fade" id="addCityModal" tabindex="-1" aria-labelledby="addCityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCityModalLabel">Adicionar Nova Cidade</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCityForm">
+                    <div class="mb-3">
+                        <label for="new_city_name" class="form-label">Nome da Cidade *</label>
+                        <input type="text" class="form-control" id="new_city_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_city_uf" class="form-label">UF *</label>
+                        <select class="form-control" id="new_city_uf" required>
+                            <option value="">Selecione a UF</option>
+                            @foreach(\App\Helpers\LocationHelper::getUfs() as $uf => $name)
+                                <option value="{{ $uf }}">{{ $uf }} - {{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="save_city_btn">Salvar Cidade</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 const citiesByUf = @json(\App\Helpers\LocationHelper::getCitiesByUf());
 
@@ -152,6 +190,84 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCities();
         document.getElementById('city_select').value = oldCity;
     }
+
+    // Configurar modal de adicionar cidade
+    const addCityBtn = document.getElementById('add_city_btn');
+    const addCityModal = new bootstrap.Modal(document.getElementById('addCityModal'));
+    const saveCityBtn = document.getElementById('save_city_btn');
+    const newCityUfSelect = document.getElementById('new_city_uf');
+    const ufSelect = document.getElementById('uf_select');
+
+    // Abrir modal para adicionar cidade
+    addCityBtn.addEventListener('click', function() {
+        // Se uma UF já estiver selecionada, pré-selecionar no modal
+        if (ufSelect.value) {
+            newCityUfSelect.value = ufSelect.value;
+        }
+        addCityModal.show();
+    });
+
+    // Salvar nova cidade
+    saveCityBtn.addEventListener('click', function() {
+        const cityName = document.getElementById('new_city_name').value.trim();
+        const uf = document.getElementById('new_city_uf').value;
+
+        if (!cityName || !uf) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        // Mostrar loading
+        saveCityBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+        saveCityBtn.disabled = true;
+
+        // Enviar requisição AJAX
+        fetch('/cities', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                name: cityName,
+                uf: uf
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Adicionar cidade à lista local
+                if (!citiesByUf[uf]) {
+                    citiesByUf[uf] = [];
+                }
+                citiesByUf[uf].push(data.city);
+                citiesByUf[uf].sort();
+
+                // Se a UF da nova cidade for a mesma selecionada, atualizar o select
+                if (ufSelect.value === uf) {
+                    updateCities();
+                    document.getElementById('city_select').value = data.city;
+                }
+
+                // Fechar modal e limpar formulário
+                addCityModal.hide();
+                document.getElementById('addCityForm').reset();
+                
+                alert('Cidade adicionada com sucesso!');
+            } else {
+                alert(data.message || 'Erro ao adicionar cidade.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao adicionar cidade. Tente novamente.');
+        })
+        .finally(() => {
+            // Restaurar botão
+            saveCityBtn.innerHTML = 'Salvar Cidade';
+            saveCityBtn.disabled = false;
+        });
+    });
 });
 
 function mascaraCpfCnpj(input) {

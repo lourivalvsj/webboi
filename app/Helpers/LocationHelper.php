@@ -2,83 +2,104 @@
 
 namespace App\Helpers;
 
+use App\Models\Uf;
+use App\Models\City;
+use Illuminate\Support\Facades\Cache;
+
 class LocationHelper
 {
+    /**
+     * Retorna array com UFs do banco de dados
+     */
     public static function getUfs()
     {
-        return [
-            'AC' => 'Acre',
-            'AL' => 'Alagoas',
-            'AP' => 'Amapá',
-            'AM' => 'Amazonas',
-            'BA' => 'Bahia',
-            'CE' => 'Ceará',
-            'DF' => 'Distrito Federal',
-            'ES' => 'Espírito Santo',
-            'GO' => 'Goiás',
-            'MA' => 'Maranhão',
-            'MT' => 'Mato Grosso',
-            'MS' => 'Mato Grosso do Sul',
-            'MG' => 'Minas Gerais',
-            'PA' => 'Pará',
-            'PB' => 'Paraíba',
-            'PR' => 'Paraná',
-            'PE' => 'Pernambuco',
-            'PI' => 'Piauí',
-            'RJ' => 'Rio de Janeiro',
-            'RN' => 'Rio Grande do Norte',
-            'RS' => 'Rio Grande do Sul',
-            'RO' => 'Rondônia',
-            'RR' => 'Roraima',
-            'SC' => 'Santa Catarina',
-            'SP' => 'São Paulo',
-            'SE' => 'Sergipe',
-            'TO' => 'Tocantins'
-        ];
+        return Cache::remember('ufs_list', 60 * 24, function () {
+            return Uf::orderBy('name')->pluck('name', 'abbreviation')->toArray();
+        });
     }
 
+    /**
+     * Retorna cidades agrupadas por UF do banco de dados
+     */
     public static function getCitiesByUf()
     {
-        return [
-            'AC' => ['Rio Branco', 'Cruzeiro do Sul', 'Sena Madureira', 'Tarauacá', 'Feijó', 'Brasiléia'],
-            'AL' => ['Maceió', 'Arapiraca', 'Palmeira dos Índios', 'Rio Largo', 'Penedo', 'União dos Palmares'],
-            'AP' => ['Macapá', 'Santana', 'Laranjal do Jari', 'Oiapoque', 'Mazagão', 'Porto Grande'],
-            'AM' => ['Manaus', 'Parintins', 'Itacoatiara', 'Manacapuru', 'Coari', 'Tefé', 'Tabatinga'],
-            'BA' => ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna', 'Juazeiro', 'Lauro de Freitas', 'Ilhéus', 'Jequié', 'Teixeira de Freitas'],
-            'CE' => ['Fortaleza', 'Caucaia', 'Juazeiro do Norte', 'Maracanaú', 'Sobral', 'Crato', 'Itapipoca', 'Maranguape', 'Iguatu', 'Quixadá'],
-            'DF' => ['Brasília', 'Gama', 'Taguatinga', 'Brazlândia', 'Sobradinho', 'Planaltina', 'Paranoá', 'Núcleo Bandeirante'],
-            'ES' => ['Vitória', 'Vila Velha', 'Cariacica', 'Serra', 'Cachoeiro de Itapemirim', 'Linhares', 'São Mateus', 'Colatina'],
-            'GO' => ['Goiânia', 'Aparecida de Goiânia', 'Anápolis', 'Rio Verde', 'Luziânia', 'Águas Lindas de Goiás', 'Valparaíso de Goiás', 'Trindade'],
-            'MA' => ['São Luís', 'Imperatriz', 'São José de Ribamar', 'Timon', 'Caxias', 'Codó', 'Paço do Lumiar', 'Açailândia'],
-            'MT' => ['Cuiabá', 'Várzea Grande', 'Rondonópolis', 'Sinop', 'Tangará da Serra', 'Cáceres', 'Sorriso', 'Lucas do Rio Verde'],
-            'MS' => ['Campo Grande', 'Dourados', 'Três Lagoas', 'Corumbá', 'Ponta Porã', 'Naviraí', 'Nova Andradina', 'Sidrolândia'],
-            'MG' => ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora', 'Betim', 'Montes Claros', 'Ribeirão das Neves', 'Uberaba', 'Governador Valadares', 'Ipatinga'],
-            'PA' => ['Belém', 'Ananindeua', 'Santarém', 'Marabá', 'Parauapebas', 'Castanhal', 'Abaetetuba', 'Cametá', 'Bragança', 'Altamira'],
-            'PB' => ['João Pessoa', 'Campina Grande', 'Santa Rita', 'Patos', 'Bayeux', 'Sousa', 'Cajazeiras', 'Cabedelo'],
-            'PR' => ['Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa', 'Cascavel', 'São José dos Pinhais', 'Foz do Iguaçu', 'Colombo', 'Guarapuava', 'Paranaguá'],
-            'PE' => ['Recife', 'Jaboatão dos Guararapes', 'Olinda', 'Caruaru', 'Petrolina', 'Paulista', 'Cabo de Santo Agostinho', 'Camaragibe', 'Garanhuns', 'Vitória de Santo Antão'],
-            'PI' => ['Teresina', 'Parnaíba', 'Picos', 'Piripiri', 'Floriano', 'Campo Maior', 'Barras', 'Altos'],
-            'RJ' => ['Rio de Janeiro', 'São Gonçalo', 'Duque de Caxias', 'Nova Iguaçu', 'Niterói', 'Campos dos Goytacazes', 'Belford Roxo', 'São João de Meriti', 'Petrópolis', 'Volta Redonda'],
-            'RN' => ['Natal', 'Mossoró', 'Parnamirim', 'São Gonçalo do Amarante', 'Macaíba', 'Ceará-Mirim', 'Caicó', 'Assu'],
-            'RS' => ['Porto Alegre', 'Caxias do Sul', 'Pelotas', 'Canoas', 'Santa Maria', 'Gravataí', 'Viamão', 'Novo Hamburgo', 'São Leopoldo', 'Rio Grande'],
-            'RO' => ['Porto Velho', 'Ji-Paraná', 'Ariquemes', 'Vilhena', 'Cacoal', 'Rolim de Moura', 'Guajará-Mirim', 'Jaru'],
-            'RR' => ['Boa Vista', 'Rorainópolis', 'Caracaraí', 'Alto Alegre', 'Mucajaí', 'Cantá', 'Normandia', 'Bonfim'],
-            'SC' => ['Florianópolis', 'Joinville', 'Blumenau', 'São José', 'Criciúma', 'Chapecó', 'Itajaí', 'Lages', 'Palhoça', 'Balneário Camboriú'],
-            'SP' => ['São Paulo', 'Guarulhos', 'Campinas', 'São Bernardo do Campo', 'Santo André', 'Osasco', 'Sorocaba', 'Ribeirão Preto', 'Santos', 'Mauá', 'São José dos Campos', 'Mogi das Cruzes'],
-            'SE' => ['Aracaju', 'Nossa Senhora do Socorro', 'Lagarto', 'Itabaiana', 'São Cristóvão', 'Estância', 'Tobias Barreto', 'Simão Dias'],
-            'TO' => ['Palmas', 'Araguaína', 'Gurupi', 'Porto Nacional', 'Paraíso do Tocantins', 'Colinas do Tocantins', 'Guaraí', 'Tocantinópolis']
-        ];
+        return Cache::remember('cities_by_uf', 60 * 24, function () {
+            $ufs = Uf::with(['cities' => function($query) {
+                $query->orderBy('name');
+            }])->get();
+
+            $result = [];
+            foreach ($ufs as $uf) {
+                $result[$uf->abbreviation] = $uf->cities->pluck('name')->toArray();
+            }
+            return $result;
+        });
     }
 
+    /**
+     * Retorna todas as cidades ordenadas alfabeticamente
+     */
     public static function getAllCities()
     {
-        $cities = [];
-        foreach (self::getCitiesByUf() as $uf => $citiesArray) {
-            foreach ($citiesArray as $city) {
-                $cities[] = $city;
+        return Cache::remember('all_cities', 60 * 24, function () {
+            return City::orderBy('name')->pluck('name')->unique()->values()->toArray();
+        });
+    }
+
+    /**
+     * Adiciona uma nova cidade ao banco de dados
+     */
+    public static function addCity($cityName, $ufAbbreviation)
+    {
+        $uf = Uf::where('abbreviation', $ufAbbreviation)->first();
+        
+        if (!$uf) {
+            return false;
+        }
+
+        // Verifica se a cidade já existe nesta UF
+        $existingCity = City::where('name', $cityName)
+                           ->where('uf_id', $uf->id)
+                           ->first();
+
+        if ($existingCity) {
+            return false; // Cidade já existe
+        }
+
+        $city = City::create([
+            'name' => $cityName,
+            'uf_id' => $uf->id
+        ]);
+
+        // Limpa o cache para atualizar as listas
+        Cache::forget('cities_by_uf');
+        Cache::forget('all_cities');
+
+        return $city;
+    }
+
+    /**
+     * Busca cidades por nome (para autocomplete)
+     */
+    public static function searchCities($search, $ufAbbreviation = null)
+    {
+        $query = City::where('name', 'LIKE', "%{$search}%");
+        
+        if ($ufAbbreviation) {
+            $uf = Uf::where('abbreviation', $ufAbbreviation)->first();
+            if ($uf) {
+                $query->where('uf_id', $uf->id);
             }
         }
-        sort($cities);
-        return array_unique($cities);
+
+        return $query->orderBy('name')->limit(10)->pluck('name')->toArray();
+    }
+
+    /**
+     * Retorna UF por sigla
+     */
+    public static function getUfByAbbreviation($abbreviation)
+    {
+        return Uf::where('abbreviation', $abbreviation)->first();
     }
 }

@@ -11,8 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AnimalWeightController;
 use App\Http\Controllers\FeedingController;
 use App\Http\Controllers\MedicationController;
-// use App\Http\Controllers\UfController; // Removido - usando helper LocationHelper
-// use App\Http\Controllers\CityController; // Removido - usando helper LocationHelper
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\TruckDriverController;
 use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LocalController;
@@ -47,6 +46,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('animal-weights', AnimalWeightController::class);
     Route::resource('feedings', FeedingController::class);
     Route::resource('medications', MedicationController::class);
+
+    // Rotas para gerenciamento de cidades
+    Route::get('/cities/by-uf', [CityController::class, 'getCitiesByUf'])->name('cities.by-uf');
+    Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
+    Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
 });
 
 require __DIR__.'/auth.php';
