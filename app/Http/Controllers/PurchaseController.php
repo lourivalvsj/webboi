@@ -62,11 +62,32 @@ class PurchaseController extends Controller
             'animal_id' => 'required|exists:animals,id',
             'vendor_id' => 'nullable|exists:vendors,id',
             'purchase_date' => 'nullable|date',
-            'value' => 'required|numeric',
+            'value' => 'required|numeric|min:0',
+            'freight_cost' => 'nullable|numeric|min:0',
+            'transporter' => 'nullable|string|max:255',
+            'commission_value' => 'nullable|numeric|min:0',
+            'commission_percent' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        Purchase::create($request->all());
-        return redirect()->route('purchases.index')->with('success', 'Purchase recorded successfully.');
+        $data = $request->only([
+            'animal_id',
+            'vendor_id', 
+            'purchase_date',
+            'value',
+            'freight_cost',
+            'transporter',
+            'commission_value',
+            'commission_percent'
+        ]);
+
+        Purchase::create($data);
+        return redirect()->route('purchases.index')->with('success', 'Compra registrada com sucesso.');
+    }
+
+    public function show(Purchase $purchase)
+    {
+        $purchase->load(['animal', 'vendor']);
+        return view('purchases.show', compact('purchase'));
     }
 
     public function edit(Purchase $purchase)
@@ -82,11 +103,26 @@ class PurchaseController extends Controller
             'animal_id' => 'required|exists:animals,id',
             'vendor_id' => 'nullable|exists:vendors,id',
             'purchase_date' => 'nullable|date',
-            'value' => 'required|numeric',
+            'value' => 'required|numeric|min:0',
+            'freight_cost' => 'nullable|numeric|min:0',
+            'transporter' => 'nullable|string|max:255',
+            'commission_value' => 'nullable|numeric|min:0',
+            'commission_percent' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $purchase->update($request->all());
-        return redirect()->route('purchases.index')->with('success', 'Purchase updated successfully.');
+        $data = $request->only([
+            'animal_id',
+            'vendor_id',
+            'purchase_date', 
+            'value',
+            'freight_cost',
+            'transporter',
+            'commission_value',
+            'commission_percent'
+        ]);
+
+        $purchase->update($data);
+        return redirect()->route('purchases.index')->with('success', 'Compra atualizada com sucesso.');
     }
 
     public function destroy(Purchase $purchase)
