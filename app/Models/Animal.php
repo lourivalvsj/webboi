@@ -16,6 +16,27 @@ class Animal extends Model
         'initial_weight'
     ];
 
+    protected $casts = [
+        'birth_date' => 'date',
+    ];
+
+    /**
+     * Scope para animais disponíveis para venda
+     */
+    public function scopeAvailableForSale($query)
+    {
+        return $query->whereHas('purchase')
+                    ->whereDoesntHave('sale');
+    }
+
+    /**
+     * Scope para animais com compra registrada
+     */
+    public function scopeWithPurchase($query)
+    {
+        return $query->whereHas('purchase');
+    }
+
     public function purchase()
     {
         return $this->hasOne(Purchase::class);
@@ -43,5 +64,30 @@ class Animal extends Model
     public function medications()
     {
         return $this->hasMany(Medication::class);
+    }
+
+    /**
+     * Verifica se o animal está disponível para venda
+     * (tem compra registrada e ainda não foi vendido)
+     */
+    public function isAvailableForSale()
+    {
+        return $this->purchase && !$this->sale;
+    }
+
+    /**
+     * Verifica se o animal já foi vendido
+     */
+    public function isSold()
+    {
+        return $this->sale !== null;
+    }
+
+    /**
+     * Verifica se o animal tem compra registrada
+     */
+    public function hasPurchase()
+    {
+        return $this->purchase !== null;
     }
 }

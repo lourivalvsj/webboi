@@ -51,7 +51,8 @@ class SaleController extends Controller
 
     public function create()
     {
-        $animals = Animal::all();
+        // Apenas animais disponíveis para venda (com compra e sem venda)
+        $animals = Animal::availableForSale()->get();
         $buyers = Buyer::all();
         return view('sales.create', compact('animals', 'buyers'));
     }
@@ -65,13 +66,35 @@ class SaleController extends Controller
             'value' => 'required|numeric',
         ]);
 
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ser vendido pois não possui uma compra registrada.']);
+        }
+
+        // Verificar se o animal já foi vendido
+        if ($animal->isSold()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal já foi vendido anteriormente.']);
+        }
+
         Sale::create($request->all());
-        return redirect()->route('sales.index')->with('success', 'Sale recorded successfully.');
+        return redirect()->route('sales.index')->with('success', 'Venda registrada com sucesso.');
     }
 
     public function edit(Sale $sale)
     {
-        $animals = Animal::all();
+        // Animais disponíveis para venda
+        $animals = Animal::availableForSale()->get();
+        
+        // Adicionar o animal atual da venda à lista (para permitir edição)
+        if ($sale->animal && !$animals->contains('id', $sale->animal->id)) {
+            $animals->push($sale->animal);
+        }
+        
         $buyers = Buyer::all();
         return view('sales.edit', compact('sale', 'animals', 'buyers'));
     }
@@ -85,8 +108,23 @@ class SaleController extends Controller
             'value' => 'required|numeric',
         ]);
 
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ser vendido pois não possui uma compra registrada.']);
+        }
+
+        // Se mudou o animal, verificar se o novo animal já foi vendido (exceto se for o mesmo da venda atual)
+        if ($request->animal_id != $sale->animal_id && $animal->isSold() && $animal->sale->id != $sale->id) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal já foi vendido anteriormente.']);
+        }
+
         $sale->update($request->all());
-        return redirect()->route('sales.index')->with('success', 'Sale updated successfully.');
+        return redirect()->route('sales.index')->with('success', 'Venda atualizada com sucesso.');
     }
 
     public function destroy(Sale $sale)
