@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>WebBoi - Sistema de Gestão Bovina</title>
+        <title>WebBoi - Sistema de Gestão Pecuária de Corte</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -233,6 +233,49 @@
                 color: #fff;
             }
 
+            .contact-info {
+                margin: 2rem 0;
+            }
+
+            .contact-item {
+                margin-bottom: 1rem;
+            }
+
+            .contact-link {
+                color: white;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                padding: 12px 20px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 25px;
+                transition: all 0.3s ease;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .contact-link:hover {
+                color: white;
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                text-decoration: none;
+            }
+
+            .contact-link i {
+                font-size: 1.2rem;
+            }
+
+            .fa-whatsapp {
+                color: #25D366;
+            }
+
+            .fa-envelope {
+                color: #EA4335;
+            }
+
             @media (max-width: 768px) {
                 .logo {
                     font-size: 3rem;
@@ -299,7 +342,7 @@
                             <i class="fas fa-cow me-3"></i>WebBoi
                         </div>
                         <div class="tagline">
-                            Sistema Completo de Gestão Bovina
+                            Sistema Completo de Gestão Pecuária de Corte
                         </div>
                     </div>
 
@@ -310,7 +353,7 @@
                             </div>
                             <div class="feature-title">Controle Financeiro</div>
                             <div class="feature-description">
-                                Gerencie compras, vendas, despesas operacionais e acompanhe a rentabilidade do seu rebanho em tempo real.
+                                Gerencie compras, vendas, despesas operacionais e acompanhe a rentabilidade do seu rebanho de corte em tempo real.
                             </div>
                         </div>
 
@@ -320,7 +363,7 @@
                             </div>
                             <div class="feature-title">Saúde Animal</div>
                             <div class="feature-description">
-                                Controle de medicamentos, alimentação, peso dos animais e mantenha histórico completo de saúde.
+                                Controle de medicamentos, alimentação, peso dos animais e mantenha histórico completo de saúde do gado de corte.
                             </div>
                         </div>
 
@@ -340,7 +383,7 @@
                             </div>
                             <div class="feature-title">Logística</div>
                             <div class="feature-description">
-                                Controle de fretes, agendamentos, locais de origem e destino para otimizar o transporte dos animais.
+                                Controle de fretes, agendamentos, locais de origem e destino para otimizar o transporte do gado de corte.
                             </div>
                         </div>
 
@@ -350,7 +393,7 @@
                             </div>
                             <div class="feature-title">Categorização</div>
                             <div class="feature-description">
-                                Organize seu rebanho por categorias, facilite a busca e mantenha controle detalhado de cada animal.
+                                Organize seu rebanho de corte por categorias, facilite a busca e mantenha controle detalhado de cada animal.
                             </div>
                         </div>
 
@@ -398,6 +441,35 @@
                             <span class="stat-number">∞</span>
                             <span class="stat-label">Animais</span>
                         </div>
+                    </div>
+
+                    <!-- Copyright -->
+                    <div class="mt-5 pt-4" style="border-top: 1px solid rgba(255, 255, 255, 0.2);">
+                        <!-- Contato -->
+                        <div class="contact-info mb-4">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="contact-item text-center mb-3">
+                                        <a href="https://wa.me/5564999671030" target="_blank" class="contact-link">
+                                            <i class="fab fa-whatsapp me-2"></i>
+                                            <span>WhatsApp: (64) 9.9967-1030</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="contact-item text-center mb-3">
+                                        <a href="mailto:lourivalvsj@gmail.com" class="contact-link">
+                                            <i class="fas fa-envelope me-2"></i>
+                                            <span>E-mail: lourivalvsj@gmail.com</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-center text-white" style="opacity: 0.8; font-size: 0.9rem;">
+                            Copyright © 2025 WebBoi - Sistema de Gestão Pecuária. Todos os direitos reservados.
+                        </p>
                     </div>
                 </div>
             </div>
