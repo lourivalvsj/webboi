@@ -16,7 +16,8 @@ class MedicationController extends Controller
 
     public function create()
     {
-        $animals = Animal::all();
+        // Apenas animais que já têm uma compra registrada
+        $animals = Animal::withPurchase()->get();
         return view('medications.create', compact('animals'));
     }
 
@@ -29,13 +30,28 @@ class MedicationController extends Controller
             'administration_date' => 'required|date',
         ]);
 
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ter medicação registrada pois não possui uma compra registrada.']);
+        }
+
         Medication::create($request->all());
         return redirect()->route('medications.index')->with('success', 'Medicação registrada com sucesso.');
     }
 
     public function edit(Medication $medication)
     {
-        $animals = Animal::all();
+        // Animais com compra + o animal atual da medicação (para permitir edição)
+        $animals = Animal::withPurchase()->get();
+        
+        // Adicionar o animal atual se não estiver na lista
+        if ($medication->animal && !$animals->contains('id', $medication->animal->id)) {
+            $animals->push($medication->animal);
+        }
+        
         return view('medications.edit', compact('medication', 'animals'));
     }
 
@@ -47,6 +63,14 @@ class MedicationController extends Controller
             'dose' => 'required|string|max:50',
             'administration_date' => 'required|date',
         ]);
+
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ter medicação registrada pois não possui uma compra registrada.']);
+        }
 
         $medication->update($request->all());
         return redirect()->route('medications.index')->with('success', 'Medicação atualizada com sucesso.');

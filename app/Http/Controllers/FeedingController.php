@@ -16,7 +16,8 @@ class FeedingController extends Controller
 
     public function create()
     {
-        $animals = Animal::all();
+        // Apenas animais que já têm uma compra registrada
+        $animals = Animal::withPurchase()->get();
         return view('feedings.create', compact('animals'));
     }
 
@@ -29,13 +30,28 @@ class FeedingController extends Controller
             'feeding_date' => 'required|date',
         ]);
 
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ter alimentação registrada pois não possui uma compra registrada.']);
+        }
+
         Feeding::create($request->all());
         return redirect()->route('feedings.index')->with('success', 'Alimentação registrada com sucesso.');
     }
 
     public function edit(Feeding $feeding)
     {
-        $animals = Animal::all();
+        // Animais com compra + o animal atual da alimentação (para permitir edição)
+        $animals = Animal::withPurchase()->get();
+        
+        // Adicionar o animal atual se não estiver na lista
+        if ($feeding->animal && !$animals->contains('id', $feeding->animal->id)) {
+            $animals->push($feeding->animal);
+        }
+        
         return view('feedings.edit', compact('feeding', 'animals'));
     }
 
@@ -47,6 +63,14 @@ class FeedingController extends Controller
             'quantity' => 'required|numeric',
             'feeding_date' => 'required|date',
         ]);
+
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ter alimentação registrada pois não possui uma compra registrada.']);
+        }
 
         $feeding->update($request->all());
         return redirect()->route('feedings.index')->with('success', 'Alimentação atualizada com sucesso.');

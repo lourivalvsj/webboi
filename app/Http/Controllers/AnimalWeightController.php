@@ -16,7 +16,8 @@ class AnimalWeightController extends Controller
 
     public function create()
     {
-        $animals = Animal::all();
+        // Apenas animais que já têm uma compra registrada
+        $animals = Animal::withPurchase()->get();
         return view('animal_weights.create', compact('animals'));
     }
 
@@ -28,13 +29,28 @@ class AnimalWeightController extends Controller
             'recorded_at' => 'required|date',
         ]);
 
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ter pesagem registrada pois não possui uma compra registrada.']);
+        }
+
         AnimalWeight::create($request->all());
         return redirect()->route('animal-weights.index')->with('success', 'Pesagem registrada com sucesso.');
     }
 
     public function edit(AnimalWeight $animalWeight)
     {
-        $animals = Animal::all();
+        // Animais com compra + o animal atual da pesagem (para permitir edição)
+        $animals = Animal::withPurchase()->get();
+        
+        // Adicionar o animal atual se não estiver na lista
+        if ($animalWeight->animal && !$animals->contains('id', $animalWeight->animal->id)) {
+            $animals->push($animalWeight->animal);
+        }
+        
         return view('animal_weights.edit', compact('animalWeight', 'animals'));
     }
 
@@ -45,6 +61,14 @@ class AnimalWeightController extends Controller
             'weight' => 'required|numeric',
             'recorded_at' => 'required|date',
         ]);
+
+        // Verificar se o animal tem uma compra registrada
+        $animal = Animal::find($request->animal_id);
+        if (!$animal->hasPurchase()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Este animal não pode ter pesagem registrada pois não possui uma compra registrada.']);
+        }
 
         $animalWeight->update($request->all());
         return redirect()->route('animal-weights.index')->with('success', 'Pesagem atualizada com sucesso.');
