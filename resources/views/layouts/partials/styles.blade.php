@@ -342,6 +342,12 @@ body {
     background: rgba(255, 255, 255, 0.2) !important;
 }
 
+.submenu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 20px;
+}
+
 .drawer-toggle {
     color: white;
     font-size: 0.9rem;

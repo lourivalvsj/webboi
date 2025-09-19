@@ -31,7 +31,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ request()->is('animals*') || request()->is('animal-weights*') || request()->is('feedings*') || request()->is('medications*') ? 'active' : '' }}"
+                                <a class="nav-link dropdown-toggle {{ request()->is('animals*') || request()->is('animal-weights*') || request()->is('feedings*') || request()->is('medications*') || request()->is('purchases*') || request()->is('sales*') ? 'active' : '' }}"
                                    href="#" 
                                    id="menuAnimal" 
                                    role="button" 
@@ -42,29 +42,18 @@
                                 <ul class="dropdown-menu" aria-labelledby="menuAnimal">
                                     <li><a class="dropdown-item" href="{{ route('animals.index') }}">
                                         <i class="fas fa-list-ul me-2"></i>Gerenciar Animais</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ route('purchases.index') }}">
+                                        <i class="fas fa-shopping-cart me-2"></i>Compras</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('sales.index') }}">
+                                        <i class="fas fa-chart-line me-2"></i>Vendas</a></li>
+                                    <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{ route('animal-weights.index') }}">
                                         <i class="fas fa-weight me-2"></i>Pesagens</a></li>
                                     <li><a class="dropdown-item" href="{{ route('feedings.index') }}">
                                         <i class="fas fa-seedling me-2"></i>Alimentações</a></li>
                                     <li><a class="dropdown-item" href="{{ route('medications.index') }}">
                                         <i class="fas fa-pills me-2"></i>Medicações</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ request()->is('purchases*') || request()->is('sales*') ? 'active' : '' }}"
-                                   href="#" 
-                                   id="menuTransacoes" 
-                                   role="button" 
-                                   data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <i class="fas fa-dollar-sign"></i>Transações
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="menuTransacoes">
-                                    <li><a class="dropdown-item" href="{{ route('purchases.index') }}">
-                                        <i class="fas fa-shopping-cart me-2"></i>Compras</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('sales.index') }}">
-                                        <i class="fas fa-chart-line me-2"></i>Vendas</a></li>
                                 </ul>
                             </li>
 

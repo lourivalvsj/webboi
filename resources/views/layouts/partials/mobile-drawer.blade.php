@@ -32,28 +32,18 @@
                 <ul class="drawer-submenu" id="animalsSubmenu">
                     <li><a class="nav-link" href="{{ route('animals.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-list-ul"></i>Gerenciar Animais</a></li>
+                    <li><div class="submenu-divider"></div></li>
+                    <li><a class="nav-link" href="{{ route('purchases.index') }}" onclick="closeDrawer()">
+                        <i class="fas fa-shopping-cart"></i>Compras</a></li>
+                    <li><a class="nav-link" href="{{ route('sales.index') }}" onclick="closeDrawer()">
+                        <i class="fas fa-chart-line"></i>Vendas</a></li>
+                    <li><div class="submenu-divider"></div></li>
                     <li><a class="nav-link" href="{{ route('animal-weights.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-weight"></i>Pesagens</a></li>
                     <li><a class="nav-link" href="{{ route('feedings.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-seedling"></i>Alimentações</a></li>
                     <li><a class="nav-link" href="{{ route('medications.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-pills"></i>Medicações</a></li>
-                </ul>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" 
-                   href="#" 
-                   onclick="toggleSubmenu('transactionsSubmenu', this)"
-                   aria-expanded="false">
-                    <i class="fas fa-dollar-sign"></i>Transações
-                    <i class="fas fa-chevron-down drawer-toggle"></i>
-                </a>
-                <ul class="drawer-submenu" id="transactionsSubmenu">
-                    <li><a class="nav-link" href="{{ route('purchases.index') }}" onclick="closeDrawer()">
-                        <i class="fas fa-shopping-cart"></i>Compras</a></li>
-                    <li><a class="nav-link" href="{{ route('sales.index') }}" onclick="closeDrawer()">
-                        <i class="fas fa-chart-line"></i>Vendas</a></li>
                 </ul>
             </li>
 
