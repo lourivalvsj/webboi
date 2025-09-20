@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's first name.
+     *
+     * @return string
+     */
+    public function getFirstNameAttribute()
+    {
+        return explode(' ', $this->name)[0];
+    }
 }

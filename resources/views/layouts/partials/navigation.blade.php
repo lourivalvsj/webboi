@@ -119,7 +119,7 @@
                                    role="button" 
                                    data-bs-toggle="dropdown" 
                                    aria-expanded="false">
-                                    <i class="fas fa-user-circle"></i>{{ auth()->user()->name }}
+                                    <i class="fas fa-user-circle"></i>{{ auth()->user()->first_name }}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                                     <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

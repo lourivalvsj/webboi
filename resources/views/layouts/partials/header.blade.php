@@ -10,7 +10,7 @@
                         </small>
                         <small class="text-light opacity-75">
                             <i class="fas fa-envelope me-1"></i>
-                            lourivalvsjo@gmail.com
+                            lourivalvsj@gmail.com
                         </small>
                     </div>
                 </div>
