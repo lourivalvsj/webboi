@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            CategorySeeder::class,
             // UfSeeder::class, // Removido - usando helper LocationHelper
             // CitySeeder::class, // Removido - usando helper LocationHelper
         ]);

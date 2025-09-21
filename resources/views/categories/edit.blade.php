@@ -15,11 +15,6 @@
             </div>
 
             <div class="mb-3">
-                <label for="type" class="form-label">Tipo</label>
-                <input type="text" name="type" id="type" value="{{ $category->type }}" class="form-control">
-            </div>
-
-            <div class="mb-3">
                 <label for="description" class="form-label">Descrição</label>
                 <textarea name="description" id="description" class="form-control">{{ $category->description }}</textarea>
             </div>

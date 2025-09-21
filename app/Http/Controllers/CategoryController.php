@@ -11,18 +11,10 @@ class CategoryController extends Controller
     {
         $query = Category::query();
         
-        // Filtro de busca por nome ou tipo
+        // Filtro de busca por nome
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('type', 'like', "%{$search}%");
-            });
-        }
-        
-        // Filtro por tipo
-        if ($request->filled('type')) {
-            $query->where('type', $request->type);
+            $query->where('name', 'like', "%{$search}%");
         }
         
         $categories = $query->paginate(15)->withQueryString();
@@ -39,7 +31,6 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'type' => 'nullable|string|max:50',
             'description' => 'nullable|string',
         ]);
 
@@ -62,7 +53,6 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'type' => 'nullable|string|max:50',
             'description' => 'nullable|string',
         ]);
 

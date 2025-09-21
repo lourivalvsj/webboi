@@ -32,14 +32,14 @@ class AnimalController extends Controller
         }
         
         $animals = $query->paginate(15)->withQueryString();
-        $categories = Category::where('type', 'animal')->get();
+        $categories = Category::orderBy('name')->get();
         
         return view('animals.index', compact('animals', 'categories'));
     }
 
     public function create()
     {
-        $categories = Category::where('type', 'animal')->get();
+        $categories = Category::orderBy('name')->get();
         return view('animals.create', compact('categories'));
     }
 
@@ -64,7 +64,8 @@ class AnimalController extends Controller
 
     public function edit(Animal $animal)
     {
-        $categories = Category::where('type', 'animal')->get();
+        $animal->load('category');
+        $categories = Category::orderBy('name')->get();
         return view('animals.edit', compact('animal', 'categories'));
     }
 

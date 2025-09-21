@@ -28,6 +28,16 @@
                 <input type="number" step="0.01" name="initial_weight" class="form-control">
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Categoria</label>
+                <select name="category_id" class="form-select">
+                    <option value="">Selecione uma categoria</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-success">Salvar</button>
             <a href="{{ route('animals.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>

@@ -32,24 +32,15 @@
     <div class="modern-search-container">
         <form method="GET" action="{{ route('categories.index') }}">
             <div class="row g-3">
-                <div class="col-md-5">
+                <div class="col-md-8">
                     <div class="input-group">
                         <span class="input-group-text">
                             <i class="fas fa-search"></i>
                         </span>
                         <input type="text" name="search" class="form-control modern-search-input" 
-                               placeholder="Buscar por nome, tipo ou descrição..." 
+                               placeholder="Buscar por nome ou descrição..." 
                                value="{{ request('search') }}">
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <select name="type" class="form-select modern-search-input">
-                        <option value="">Todos os tipos</option>
-                        <option value="gado" {{ request('type') == 'gado' ? 'selected' : '' }}>Gado</option>
-                        <option value="suino" {{ request('type') == 'suino' ? 'selected' : '' }}>Suíno</option>
-                        <option value="ovino" {{ request('type') == 'ovino' ? 'selected' : '' }}>Ovino</option>
-                        <option value="caprino" {{ request('type') == 'caprino' ? 'selected' : '' }}>Caprino</option>
-                    </select>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="modern-btn modern-btn-primary w-100">
@@ -75,7 +66,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Nome</th>
-                            <th>Tipo</th>
                             <th>Descrição</th>
                             <th>Data Criação</th>
                             <th width="200">Ações</th>
@@ -87,9 +77,6 @@
                                 <td data-label="ID">{{ $category->id }}</td>
                                 <td data-label="Nome">
                                     <strong class="text-primary">{{ $category->name }}</strong>
-                                </td>
-                                <td data-label="Tipo">
-                                    <span class="status-badge active">{{ ucfirst($category->type) }}</span>
                                 </td>
                                 <td data-label="Descrição">
                                     {{ $category->description ?? 'Sem descrição' }}

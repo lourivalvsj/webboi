@@ -13,7 +13,8 @@ class Animal extends Model
         'tag',
         'breed',
         'birth_date',
-        'initial_weight'
+        'initial_weight',
+        'category_id'
     ];
 
     protected $casts = [
