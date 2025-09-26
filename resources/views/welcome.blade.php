@@ -296,7 +296,19 @@
             }
 
             .contact-item {
-                margin-bottom: 1rem;
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+
+            /* Espaçamento adicional para desktop */
+            @media (min-width: 768px) {
+                .contact-row {
+                    gap: 2rem;
+                }
+                
+                .contact-col {
+                    padding: 0 2rem;
+                }
             }
 
             .contact-link {
@@ -511,8 +523,8 @@
                     <div class="mt-5 pt-4" style="border-top: 1px solid rgba(255, 255, 255, 0.2);">
                         <!-- Contato -->
                         <div class="contact-info mb-4">
-                            <div class="row justify-content-center">
-                                <div class="col-md-6">
+                            <div class="row justify-content-center contact-row">
+                                <div class="col-md-5 mb-3 contact-col">
                                     <div class="contact-item text-center mb-3">
                                         <a href="https://wa.me/5564999671030" target="_blank" class="contact-link">
                                             <i class="fab fa-whatsapp me-2"></i>
@@ -520,7 +532,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5 mb-3 contact-col">
                                     <div class="contact-item text-center mb-3">
                                         <a href="mailto:lourivalvsj@gmail.com" class="contact-link">
                                             <i class="fas fa-envelope me-2"></i>
