@@ -28,6 +28,21 @@
                 overflow-x: hidden;
             }
 
+            /* Padrão moderno e elegante */
+            body::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: 
+                    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+                opacity: 1;
+                pointer-events: none;
+            }
+
             .background-pattern {
                 position: absolute;
                 top: 0;
@@ -72,18 +87,21 @@
                 background: rgba(255, 255, 255, 0.2);
                 transform: translateY(-2px);
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                border-color: rgba(255, 255, 255, 0.5);
             }
 
             .btn-light {
                 background: rgba(255, 255, 255, 0.9);
                 color: #667eea;
                 font-weight: 600;
+                border: 1px solid rgba(255, 255, 255, 0.3);
             }
 
             .btn-light:hover {
                 background: white;
+                color: #5a67d8;
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             }
 
             .hero-content {
@@ -114,6 +132,44 @@
                 font-weight: 300;
                 opacity: 0.9;
                 margin-bottom: 3rem;
+            }
+
+            /* Ícones decorativos modernos */
+            .field-decoration {
+                position: absolute;
+                font-size: 1.2rem;
+                opacity: 0.08;
+                animation: float 8s ease-in-out infinite;
+                color: rgba(255, 255, 255, 0.6);
+            }
+
+            .field-decoration:nth-child(1) {
+                top: 15%;
+                left: 10%;
+                animation-delay: -1s;
+            }
+
+            .field-decoration:nth-child(2) {
+                top: 25%;
+                right: 15%;
+                animation-delay: -3s;
+            }
+
+            .field-decoration:nth-child(3) {
+                bottom: 30%;
+                left: 20%;
+                animation-delay: -5s;
+            }
+
+            .field-decoration:nth-child(4) {
+                bottom: 15%;
+                right: 10%;
+                animation-delay: -2s;
+            }
+
+            @keyframes float {
+                0%, 100% { transform: translateY(0px) rotate(0deg); }
+                50% { transform: translateY(-10px) rotate(5deg); }
             }
 
             .features-grid {
@@ -187,12 +243,14 @@
                 background: linear-gradient(45deg, #fff, #f0f0f0);
                 color: #667eea;
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                font-weight: 600;
             }
 
             .cta-btn-primary:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
                 color: #5a67d8;
+                background: linear-gradient(45deg, #ffffff, #f8f9fa);
             }
 
             .cta-btn-secondary {
@@ -313,6 +371,12 @@
     </head>
     <body>
         <div class="background-pattern"></div>
+        
+        <!-- Elementos decorativos modernos -->
+        <div class="field-decoration"><i class="fas fa-chart-line"></i></div>
+        <div class="field-decoration"><i class="fas fa-database"></i></div>
+        <div class="field-decoration"><i class="fas fa-cog"></i></div>
+        <div class="field-decoration"><i class="fas fa-analytics"></i></div>
         
         <!-- Auth Buttons -->
         @if (Route::has('login'))
