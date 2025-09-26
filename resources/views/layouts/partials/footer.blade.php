@@ -20,10 +20,10 @@
                     <i class="fas fa-envelope me-2"></i>E-Mail
                 </h6>
                 <p class="content-footer mb-0">
-                    <a href="mailto:lourivalvsjo@gmail.com" 
+                    <a href="mailto:lourivalvsj@gmail.com" 
                        class="text-decoration-none" 
                        style="color: inherit;">
-                        lourivalvsjo@gmail.com
+                        lourivalvsj@gmail.com
                     </a>
                 </p>
             </div>
