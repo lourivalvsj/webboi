@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>@yield('title', 'WebBoi') - Sistema de Gestão Pecuária</title>
-    <meta name="description" content="Sistema completo de gestão pecuária - WebBoi">
+    <meta name="description" content="Sistema de gestão pecuária - WebBoi">
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('storage/img/favicon.png') }}" type="image/x-icon">

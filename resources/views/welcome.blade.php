@@ -418,7 +418,7 @@
                             <i class="fas fa-cow me-3"></i>WebBoi
                         </div>
                         <div class="tagline">
-                            Sistema Completo de Gestão Pecuária de Corte
+                            Sistema de Gestão Pecuária de Corte
                         </div>
                     </div>
 
