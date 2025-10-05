@@ -101,6 +101,31 @@
 
             <li class="nav-item">
                 <a class="nav-link" 
+                   href="#" 
+                   onclick="toggleSubmenu('relatoriosSubmenu', this)"
+                   aria-expanded="false">
+                    <i class="fas fa-chart-bar"></i>Relatórios
+                    <i class="fas fa-chevron-down drawer-toggle"></i>
+                </a>
+                <ul class="drawer-submenu" id="relatoriosSubmenu">
+                    <li><a class="nav-link" href="#" onclick="alert('Relatório de Animais em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-cow"></i>Relatório de Animais</a></li>
+                    <li><a class="nav-link" href="#" onclick="alert('Relatório Financeiro em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-money-bill-wave"></i>Relatório Financeiro</a></li>
+                    <li><a class="nav-link" href="#" onclick="alert('Relatório de Vendas em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-chart-line"></i>Relatório de Vendas</a></li>
+                    <li><a class="nav-link" href="#" onclick="alert('Relatório de Compras em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-shopping-cart"></i>Relatório de Compras</a></li>
+                    <li><div class="submenu-divider"></div></li>
+                    <li><a class="nav-link" href="#" onclick="alert('Relatório de Transportes em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-truck"></i>Relatório de Transportes</a></li>
+                    <li><a class="nav-link" href="#" onclick="alert('Relatório de Despesas em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-receipt"></i>Relatório de Despesas</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" 
                    href="#"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i>Sair

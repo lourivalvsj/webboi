@@ -113,6 +113,32 @@
                             </li>
 
                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {{ request()->is('reports*') ? 'active' : '' }}"
+                                   href="#" 
+                                   id="menuRelatorios" 
+                                   role="button"
+                                   data-bs-toggle="dropdown" 
+                                   aria-expanded="false">
+                                    <i class="fas fa-chart-bar"></i>Relatórios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="menuRelatorios">
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Relatório de Animais em desenvolvimento')">
+                                        <i class="fas fa-cow me-2"></i>Relatório de Animais</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Relatório Financeiro em desenvolvimento')">
+                                        <i class="fas fa-money-bill-wave me-2"></i>Relatório Financeiro</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Relatório de Vendas em desenvolvimento')">
+                                        <i class="fas fa-chart-line me-2"></i>Relatório de Vendas</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Relatório de Compras em desenvolvimento')">
+                                        <i class="fas fa-shopping-cart me-2"></i>Relatório de Compras</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Relatório de Transportes em desenvolvimento')">
+                                        <i class="fas fa-truck me-2"></i>Relatório de Transportes</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Relatório de Despesas em desenvolvimento')">
+                                        <i class="fas fa-receipt me-2"></i>Relatório de Despesas</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle user-menu" 
                                    href="#" 
                                    id="userMenu"
