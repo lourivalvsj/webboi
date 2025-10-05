@@ -75,7 +75,7 @@
                                         <i class="fas fa-tags me-2"></i>Categorias</a></li>
                                     <li><a class="dropdown-item" href="{{ route('locals.index') }}">
                                         <i class="fas fa-map-marker-alt me-2"></i>Locais</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="alert('Agenda em desenvolvimento')">
+                                    <li><a class="dropdown-item" href="{{ route('schedules.index') }}">
                                         <i class="fas fa-calendar-alt me-2"></i>Agenda</a></li>
                                 </ul>
                             </li>

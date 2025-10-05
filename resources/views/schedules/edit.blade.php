@@ -1,35 +1,128 @@
 @extends('layouts.app')
 
-@section('title', 'Editar Agendamento')
+@section('title', 'Editar Anotação')
+
 @section('content')
-    <div class="container">
-        <h2>Editar Agendamento</h2>
-        <form action="{{ route('schedules.update', $schedule) }}" method="POST">
-            @csrf
-            @method('PUT')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Editar Anotação</h5>
+                </div>
+                <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-            <div class="mb-3">
-                <label for="date" class="form-label">Data</label>
-                <input type="date" name="date" value="{{ $schedule->date }}" class="form-control" required>
+                    <form action="{{ route('schedules.update', $schedule) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título *</label>
+                            <input type="text" name="title" id="title" class="form-control" 
+                                   value="{{ old('title', $schedule->title) }}" required maxlength="255">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Data *</label>
+                            <input type="date" name="date" id="date" class="form-control" 
+                                   value="{{ old('date', $schedule->date->format('Y-m-d')) }}" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="start_time" class="form-label">Horário Início</label>
+                                <input type="time" name="start_time" id="start_time" class="form-control" 
+                                       value="{{ old('start_time', $schedule->start_time) }}">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="end_time" class="form-label">Horário Fim</label>
+                                <input type="time" name="end_time" id="end_time" class="form-control" 
+                                       value="{{ old('end_time', $schedule->end_time) }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição</label>
+                            <textarea name="description" id="description" class="form-control" rows="3" 
+                                      maxlength="1000" placeholder="Detalhes da anotação...">{{ old('description', $schedule->description) }}</textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ route('schedules.index', ['date' => $schedule->date->format('Y-m-d')]) }}" 
+                               class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Voltar
+                            </a>
+                            <div>
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-save me-2"></i>Atualizar
+                                </button>
+                                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                                    <i class="fas fa-trash me-2"></i>Excluir
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Form oculto para exclusão -->
+                    <form id="deleteForm" action="{{ route('schedules.destroy', $schedule) }}" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label for="start_time" class="form-label">Hora de Início</label>
-                <input type="time" name="start_time" value="{{ $schedule->start_time }}" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="end_time" class="form-label">Hora de Término</label>
-                <input type="time" name="end_time" value="{{ $schedule->end_time }}" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Descrição</label>
-                <input type="text" name="description" value="{{ $schedule->description }}" class="form-control">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Atualizar</button>
-            <a href="{{ route('schedules.index') }}" class="btn btn-secondary">Cancelar</a>
-        </form>
+        </div>
     </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Validação de horários
+    const startTime = document.getElementById('start_time');
+    const endTime = document.getElementById('end_time');
+    
+    function validateTimes() {
+        if (startTime.value && endTime.value) {
+            if (endTime.value <= startTime.value) {
+                endTime.setCustomValidity('O horário de fim deve ser posterior ao horário de início');
+            } else {
+                endTime.setCustomValidity('');
+            }
+        }
+    }
+    
+    startTime.addEventListener('change', validateTimes);
+    endTime.addEventListener('change', validateTimes);
+    
+    // Preview de prioridade
+    const prioritySelect = document.getElementById('priority');
+    prioritySelect.addEventListener('change', function() {
+        const colors = {
+            'low': 'success',
+            'medium': 'warning', 
+            'high': 'danger'
+        };
+        this.className = `form-select border-${colors[this.value]}`;
+    });
+    
+    // Trigger inicial
+    prioritySelect.dispatchEvent(new Event('change'));
+});
+
+function confirmDelete() {
+    if (confirm('Tem certeza que deseja excluir este evento? Esta ação não pode ser desfeita.')) {
+        document.getElementById('deleteForm').submit();
+    }
+}
+</script>
+@endpush
