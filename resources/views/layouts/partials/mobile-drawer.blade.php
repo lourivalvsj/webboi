@@ -64,6 +64,8 @@
                         <i class="fas fa-tags"></i>Categorias</a></li>
                     <li><a class="nav-link" href="{{ route('locals.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-map-marker-alt"></i>Locais</a></li>
+                    <li><a class="nav-link" href="#" onclick="alert('Agenda em desenvolvimento'); closeDrawer()">
+                        <i class="fas fa-calendar-alt"></i>Agenda</a></li>
                 </ul>
             </li>
 
