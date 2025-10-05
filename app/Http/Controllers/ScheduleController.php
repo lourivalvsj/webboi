@@ -10,6 +10,7 @@ class ScheduleController extends Controller
 {
     public function index(Request $request)
     {
+        Carbon::setLocale('pt_BR');
         $currentDate = $request->get('date', now()->toDateString());
         $currentMonth = Carbon::parse($currentDate);
         

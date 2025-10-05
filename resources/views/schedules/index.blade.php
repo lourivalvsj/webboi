@@ -16,7 +16,7 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>{{ $currentMonth->format('F Y') }}</h4>
+                    <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>{{ $currentMonth->translatedFormat('F Y') }}</h4>
                     <div class="d-flex gap-2">
                         <a href="{{ route('schedules.index', ['date' => $currentMonth->copy()->subMonth()->toDateString()]) }}" 
                            class="btn btn-outline-light btn-sm">
