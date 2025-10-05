@@ -58,7 +58,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') || request()->is('locals*') ? 'active' : '' }}"
+                                <a class="nav-link dropdown-toggle {{ request()->is('vendors*') || request()->is('buyers*') || request()->is('categories*') || request()->is('locals*') || request()->is('schedules*') ? 'active' : '' }}"
                                    href="#" 
                                    id="menuCadastros" 
                                    role="button" 
@@ -75,6 +75,8 @@
                                         <i class="fas fa-tags me-2"></i>Categorias</a></li>
                                     <li><a class="dropdown-item" href="{{ route('locals.index') }}">
                                         <i class="fas fa-map-marker-alt me-2"></i>Locais</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="alert('Agenda em desenvolvimento')">
+                                        <i class="fas fa-calendar-alt me-2"></i>Agenda</a></li>
                                 </ul>
                             </li>
 
