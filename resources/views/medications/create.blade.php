@@ -89,11 +89,11 @@
                                     <option value="g" {{ old('unit_of_measure') == 'g' ? 'selected' : '' }}>Grama (g)</option>
                                     <option value="kg" {{ old('unit_of_measure') == 'kg' ? 'selected' : '' }}>Quilograma (kg)</option>
                                     <option value="dose" {{ old('unit_of_measure') == 'dose' ? 'selected' : '' }}>Dose</option>
-                                    <option value="comprimido" {{ old('unit_of_measure') == 'comprimido' ? 'selected' : '' }}>Comprimido</option>
-                                    <option value="capsula" {{ old('unit_of_measure') == 'capsula' ? 'selected' : '' }}>Cápsula</option>
-                                    <option value="ampola" {{ old('unit_of_measure') == 'ampola' ? 'selected' : '' }}>Ampola</option>
-                                    <option value="frasco" {{ old('unit_of_measure') == 'frasco' ? 'selected' : '' }}>Frasco</option>
-                                    <option value="aplicacao" {{ old('unit_of_measure') == 'aplicacao' ? 'selected' : '' }}>Aplicação</option>
+                                    <option value="cp" {{ old('unit_of_measure') == 'comprimido' ? 'selected' : '' }}>Comprimido (cp)</option>
+                                    <option value="caps" {{ old('unit_of_measure') == 'capsula' ? 'selected' : '' }}>Cápsula (caps)</option>
+                                    <option value="amp" {{ old('unit_of_measure') == 'ampola' ? 'selected' : '' }}>Ampola (amp)</option>
+                                    <option value="fr" {{ old('unit_of_measure') == 'frasco' ? 'selected' : '' }}>Frasco (fr)</option>
+                                    <option value="apl" {{ old('unit_of_measure') == 'aplicacao' ? 'selected' : '' }}>Aplicação (apl)</option>
                                 </select>
                                 @error('unit_of_measure')
                                     <div class="invalid-feedback">{{ $message }}</div>

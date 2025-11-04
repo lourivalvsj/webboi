@@ -56,10 +56,10 @@
                             <option value="ml">Mililitro (ml)</option>
                             <option value="m">Metro (m)</option>
                             <option value="cm">Centímetro (cm)</option>
-                            <option value="unidade">Unidade</option>
-                            <option value="pacote">Pacote</option>
-                            <option value="saco">Saco</option>
-                            <option value="caixa">Caixa</option>
+                            <option value="und">Unidade (und)</option>
+                            <option value="pct">Pacote (pct)</option>
+                            <option value="sc">Saco (sc)</option>
+                            <option value="cx">Caixa (cx)</option>
                             <option value="outro">Outro</option>
                         </select>
                     </div>

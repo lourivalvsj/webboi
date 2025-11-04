@@ -59,10 +59,10 @@
                             <option value="ml" {{ $supplyExpense->unit_of_measure == 'ml' ? 'selected' : '' }}>Mililitro (ml)</option>
                             <option value="m" {{ $supplyExpense->unit_of_measure == 'm' ? 'selected' : '' }}>Metro (m)</option>
                             <option value="cm" {{ $supplyExpense->unit_of_measure == 'cm' ? 'selected' : '' }}>Centímetro (cm)</option>
-                            <option value="unidade" {{ $supplyExpense->unit_of_measure == 'unidade' ? 'selected' : '' }}>Unidade</option>
-                            <option value="pacote" {{ $supplyExpense->unit_of_measure == 'pacote' ? 'selected' : '' }}>Pacote</option>
-                            <option value="saco" {{ $supplyExpense->unit_of_measure == 'saco' ? 'selected' : '' }}>Saco</option>
-                            <option value="caixa" {{ $supplyExpense->unit_of_measure == 'caixa' ? 'selected' : '' }}>Caixa</option>
+                            <option value="und" {{ in_array($supplyExpense->unit_of_measure, ['unidade', 'und']) ? 'selected' : '' }}>Unidade (und)</option>
+                            <option value="pct" {{ $supplyExpense->unit_of_measure == 'pacote' ? 'selected' : '' }}>Pacote (pct)</option>
+                            <option value="sc" {{ $supplyExpense->unit_of_measure == 'saco' ? 'selected' : '' }}>Saco (sc)</option>
+                            <option value="cx" {{ $supplyExpense->unit_of_measure == 'caixa' ? 'selected' : '' }}>Caixa (cx)</option>
                             <option value="outro" {{ $supplyExpense->unit_of_measure == 'outro' ? 'selected' : '' }}>Outro</option>
                         </select>
                     </div>

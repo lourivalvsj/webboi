@@ -88,10 +88,10 @@
                                     <option value="t" {{ old('unit_of_measure') == 't' ? 'selected' : '' }}>Tonelada (t)</option>
                                     <option value="l" {{ old('unit_of_measure') == 'l' ? 'selected' : '' }}>Litro (l)</option>
                                     <option value="ml" {{ old('unit_of_measure') == 'ml' ? 'selected' : '' }}>Mililitro (ml)</option>
-                                    <option value="balde" {{ old('unit_of_measure') == 'balde' ? 'selected' : '' }}>Balde</option>
-                                    <option value="saco" {{ old('unit_of_measure') == 'saco' ? 'selected' : '' }}>Saco</option>
-                                    <option value="fardo" {{ old('unit_of_measure') == 'fardo' ? 'selected' : '' }}>Fardo</option>
-                                    <option value="unidade" {{ old('unit_of_measure') == 'unidade' ? 'selected' : '' }}>Unidade</option>
+                                    <option value="bld">Balde (bld)</option>
+                                    <option value="sc" {{ old('unit_of_measure') == 'saco' ? 'selected' : '' }}>Saco (sc)</option>
+                                    <option value="fd">Fardo (fd)</option>
+                                    <option value="und" {{ in_array(old('unit_of_measure'), ['unidade', 'und']) ? 'selected' : '' }}>Unidade (und)</option>
                                 </select>
                                 @error('unit_of_measure')
                                     <div class="invalid-feedback">{{ $message }}</div>
