@@ -16,18 +16,18 @@ class SupplyExpenseController extends Controller
 
     public function create()
     {
-        $animals = Animal::all();
-        return view('supply_expenses.create', compact('animals'));
+        return view('supply_expenses.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'animal_id' => 'required|exists:animals,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'purchase_date' => 'required|date',
             'value' => 'required|numeric|min:0',
+            'unit_of_measure' => 'nullable|string|max:50',
+            'quantity' => 'nullable|numeric|min:0',
         ]);
 
         SupplyExpense::create($request->all());
@@ -36,18 +36,18 @@ class SupplyExpenseController extends Controller
 
     public function edit(SupplyExpense $supplyExpense)
     {
-        $animals = Animal::all();
-        return view('supply_expenses.edit', compact('supplyExpense', 'animals'));
+        return view('supply_expenses.edit', compact('supplyExpense'));
     }
 
     public function update(Request $request, SupplyExpense $supplyExpense)
     {
         $request->validate([
-            'animal_id' => 'required|exists:animals,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'purchase_date' => 'required|date',
             'value' => 'required|numeric|min:0',
+            'unit_of_measure' => 'nullable|string|max:50',
+            'quantity' => 'nullable|numeric|min:0',
         ]);
 
         $supplyExpense->update($request->all());

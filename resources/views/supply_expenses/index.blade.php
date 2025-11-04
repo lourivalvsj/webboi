@@ -13,9 +13,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Animal</th>
-                    <th>Gasto</th>
+                    <th>Produto/Insumo</th>
                     <th>Data</th>
+                    <th>Quantidade</th>
+                    <th>Unidade</th>
                     <th>Valor</th>
                     <th>Ações</th>
                 </tr>
@@ -23,9 +24,21 @@
             <tbody>
                 @foreach ($expenses as $item)
                     <tr>
-                        <td>{{ $item->animal->tag ?? '-' }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->purchase_date }}</td>
+                        <td>
+                            <strong>{{ $item->name }}</strong>
+                            @if ($item->description)
+                                <br><small class="text-muted">{{ $item->description }}</small>
+                            @endif
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($item->purchase_date)->format('d/m/Y') }}</td>
+                        <td>{{ $item->quantity ? number_format($item->quantity, 3, ',', '.') : '-' }}</td>
+                        <td>
+                            @if ($item->unit_of_measure)
+                                <span class="badge bg-secondary">{{ $item->unit_of_measure }}</span>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>R$ {{ number_format($item->value, 2, ',', '.') }}</td>
                         <td>
                             <a href="{{ route('supply-expenses.edit', $item) }}" class="btn btn-sm btn-warning">Editar</a>
