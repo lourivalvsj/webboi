@@ -20,8 +20,9 @@ class MedicationController extends Controller
         // Apenas animais que já têm uma compra registrada
         $animals = Animal::withPurchase()->get();
         
-        // Buscar produtos únicos dos insumos cadastrados
-        $medicationNames = SupplyExpense::select('name')
+        // Buscar produtos únicos dos insumos cadastrados de medicamento
+        $medicationNames = SupplyExpense::where('category', 'medicamento')
+            ->select('name')
             ->distinct()
             ->orderBy('name')
             ->pluck('name');
@@ -61,8 +62,9 @@ class MedicationController extends Controller
             $animals->push($medication->animal);
         }
         
-        // Buscar produtos únicos dos insumos cadastrados
-        $medicationNames = SupplyExpense::select('name')
+        // Buscar produtos únicos dos insumos cadastrados de medicamento
+        $medicationNames = SupplyExpense::where('category', 'medicamento')
+            ->select('name')
             ->distinct()
             ->orderBy('name')
             ->pluck('name');

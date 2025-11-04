@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>Produto/Insumo</th>
+                    <th>Categoria</th>
                     <th>Data</th>
                     <th>Quantidade</th>
                     <th>Unidade</th>
@@ -29,6 +30,11 @@
                             @if ($item->description)
                                 <br><small class="text-muted">{{ $item->description }}</small>
                             @endif
+                        </td>
+                        <td>
+                            <span class="badge {{ $item->category === 'medicamento' ? 'bg-danger' : 'bg-success' }}">
+                                {{ $item->category_label }}
+                            </span>
                         </td>
                         <td>{{ \Carbon\Carbon::parse($item->purchase_date)->format('d/m/Y') }}</td>
                         <td>{{ $item->quantity ? number_format($item->quantity, 3, ',', '.') : '-' }}</td>

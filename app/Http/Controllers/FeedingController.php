@@ -20,8 +20,9 @@ class FeedingController extends Controller
         // Apenas animais que já têm uma compra registrada
         $animals = Animal::withPurchase()->get();
         
-        // Buscar produtos únicos dos insumos cadastrados
-        $feedTypes = SupplyExpense::select('name')
+        // Buscar produtos únicos dos insumos cadastrados de alimentação
+        $feedTypes = SupplyExpense::where('category', 'alimentacao')
+            ->select('name')
             ->distinct()
             ->orderBy('name')
             ->pluck('name');
@@ -61,8 +62,9 @@ class FeedingController extends Controller
             $animals->push($feeding->animal);
         }
         
-        // Buscar produtos únicos dos insumos cadastrados
-        $feedTypes = SupplyExpense::select('name')
+        // Buscar produtos únicos dos insumos cadastrados de alimentação
+        $feedTypes = SupplyExpense::where('category', 'alimentacao')
+            ->select('name')
             ->distinct()
             ->orderBy('name')
             ->pluck('name');

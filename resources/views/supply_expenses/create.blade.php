@@ -13,6 +13,16 @@
             </div>
 
             <div class="mb-3">
+                <label for="category" class="form-label">Categoria *</label>
+                <select name="category" class="form-select" required>
+                    <option value="">Selecione a categoria</option>
+                    @foreach(App\Models\SupplyExpense::getCategories() as $key => $label)
+                        <option value="{{ $key }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label for="description" class="form-label">Descrição</label>
                 <textarea name="description" class="form-control" rows="3"></textarea>
             </div>

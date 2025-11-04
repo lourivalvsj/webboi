@@ -23,6 +23,7 @@ class SupplyExpenseController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'required|in:medicamento,alimentacao',
             'description' => 'nullable|string|max:1000',
             'purchase_date' => 'required|date',
             'value' => 'required|numeric|min:0',
@@ -43,6 +44,7 @@ class SupplyExpenseController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'required|in:medicamento,alimentacao',
             'description' => 'nullable|string|max:1000',
             'purchase_date' => 'required|date',
             'value' => 'required|numeric|min:0',
