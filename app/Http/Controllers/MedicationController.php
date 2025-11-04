@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Medication;
+use App\Models\SupplyExpense;
 use Illuminate\Http\Request;
 
 class MedicationController extends Controller
@@ -18,7 +19,14 @@ class MedicationController extends Controller
     {
         // Apenas animais que já têm uma compra registrada
         $animals = Animal::withPurchase()->get();
-        return view('medications.create', compact('animals'));
+        
+        // Buscar produtos únicos dos insumos cadastrados
+        $medicationNames = SupplyExpense::select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+            
+        return view('medications.create', compact('animals', 'medicationNames'));
     }
 
     public function store(Request $request)
@@ -26,7 +34,8 @@ class MedicationController extends Controller
         $request->validate([
             'animal_id' => 'required|exists:animals,id',
             'medication_name' => 'required|string|max:100',
-            'dose' => 'required|string|max:50',
+            'dose' => 'required|numeric|min:0',
+            'unit_of_measure' => 'nullable|string|max:50',
             'administration_date' => 'required|date',
         ]);
 
@@ -52,7 +61,13 @@ class MedicationController extends Controller
             $animals->push($medication->animal);
         }
         
-        return view('medications.edit', compact('medication', 'animals'));
+        // Buscar produtos únicos dos insumos cadastrados
+        $medicationNames = SupplyExpense::select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+        
+        return view('medications.edit', compact('medication', 'animals', 'medicationNames'));
     }
 
     public function update(Request $request, Medication $medication)
@@ -60,7 +75,8 @@ class MedicationController extends Controller
         $request->validate([
             'animal_id' => 'required|exists:animals,id',
             'medication_name' => 'required|string|max:100',
-            'dose' => 'required|string|max:50',
+            'dose' => 'required|numeric|min:0',
+            'unit_of_measure' => 'nullable|string|max:50',
             'administration_date' => 'required|date',
         ]);
 

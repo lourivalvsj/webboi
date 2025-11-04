@@ -14,7 +14,8 @@
                 <tr>
                     <th>Animal</th>
                     <th>Medicamento</th>
-                    <th>Dosagem</th>
+                    <th>Quantidade</th>
+                    <th>Unidade</th>
                     <th>Data</th>
                     <th>Ações</th>
                 </tr>
@@ -23,9 +24,16 @@
                 @foreach ($medications as $medication)
                     <tr>
                         <td>{{ $medication->animal->tag }}</td>
-                        <td>{{ $medication->medication_name }}</td>
-                        <td>{{ $medication->dose }}</td>
-                        <td>{{ $medication->administration_date }}</td>
+                        <td><strong>{{ $medication->medication_name }}</strong></td>
+                        <td>{{ number_format($medication->dose, 3, ',', '.') }}</td>
+                        <td>
+                            @if ($medication->unit_of_measure)
+                                <span class="text-primary fw-bold">{{ $medication->unit_of_measure }}</span>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($medication->administration_date)->format('d/m/Y') }}</td>
                         <td>
                             <a href="{{ route('medications.edit', $medication) }}" class="btn btn-sm btn-warning">Editar</a>
                             <form action="{{ route('medications.destroy', $medication) }}" method="POST"
