@@ -53,14 +53,14 @@
                             <option value="cm">Centímetro (cm)</option>
                             <option value="m²">Metro quadrado (m²)</option>
                             <option value="m³">Metro cúbico (m³)</option>
-                            <option value="unidade">Unidade</option>
-                            <option value="pacote">Pacote</option>
-                            <option value="saco">Saco</option>
-                            <option value="caixa">Caixa</option>
-                            <option value="hora">Hora</option>
-                            <option value="dia">Dia</option>
-                            <option value="mês">Mês</option>
-                            <option value="serviço">Serviço</option>
+                            <option value="und">Unidade (und)</option>
+                            <option value="pct">Pacote (pct)</option>
+                            <option value="sc">Saco (sc)</option>
+                            <option value="cx">Caixa (cx)</option>
+                            <option value="h">Hora (h)</option>
+                            <option value="d">Dia (d)</option>
+                            <option value="mes">Mês (mes)</option>
+                            <option value="srv">Serviço (srv)</option>
                             <option value="outro">Outro</option>
                         </select>
                     </div>

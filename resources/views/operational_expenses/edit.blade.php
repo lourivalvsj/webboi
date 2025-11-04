@@ -57,14 +57,14 @@
                             <option value="cm" {{ $operationalExpense->unit_of_measure == 'cm' ? 'selected' : '' }}>Centímetro (cm)</option>
                             <option value="m²" {{ $operationalExpense->unit_of_measure == 'm²' ? 'selected' : '' }}>Metro quadrado (m²)</option>
                             <option value="m³" {{ $operationalExpense->unit_of_measure == 'm³' ? 'selected' : '' }}>Metro cúbico (m³)</option>
-                            <option value="unidade" {{ $operationalExpense->unit_of_measure == 'unidade' ? 'selected' : '' }}>Unidade</option>
-                            <option value="pacote" {{ $operationalExpense->unit_of_measure == 'pacote' ? 'selected' : '' }}>Pacote</option>
-                            <option value="saco" {{ $operationalExpense->unit_of_measure == 'saco' ? 'selected' : '' }}>Saco</option>
-                            <option value="caixa" {{ $operationalExpense->unit_of_measure == 'caixa' ? 'selected' : '' }}>Caixa</option>
-                            <option value="hora" {{ $operationalExpense->unit_of_measure == 'hora' ? 'selected' : '' }}>Hora</option>
-                            <option value="dia" {{ $operationalExpense->unit_of_measure == 'dia' ? 'selected' : '' }}>Dia</option>
-                            <option value="mês" {{ $operationalExpense->unit_of_measure == 'mês' ? 'selected' : '' }}>Mês</option>
-                            <option value="serviço" {{ $operationalExpense->unit_of_measure == 'serviço' ? 'selected' : '' }}>Serviço</option>
+                            <option value="und" {{ in_array($operationalExpense->unit_of_measure, ['unidade', 'und']) ? 'selected' : '' }}>Unidade (und)</option>
+                            <option value="pct" {{ in_array($operationalExpense->unit_of_measure, ['pacote', 'pct']) ? 'selected' : '' }}>Pacote (pct)</option>
+                            <option value="sc" {{ in_array($operationalExpense->unit_of_measure, ['saco', 'sc']) ? 'selected' : '' }}>Saco (sc)</option>
+                            <option value="cx" {{ in_array($operationalExpense->unit_of_measure, ['caixa', 'cx']) ? 'selected' : '' }}>Caixa (cx)</option>
+                            <option value="h" {{ in_array($operationalExpense->unit_of_measure, ['hora', 'h']) ? 'selected' : '' }}>Hora (h)</option>
+                            <option value="d" {{ in_array($operationalExpense->unit_of_measure, ['dia', 'd']) ? 'selected' : '' }}>Dia (d)</option>
+                            <option value="mes" {{ in_array($operationalExpense->unit_of_measure, ['mês', 'mes']) ? 'selected' : '' }}>Mês (mes)</option>
+                            <option value="srv" {{ in_array($operationalExpense->unit_of_measure, ['serviço', 'srv', 'servico']) ? 'selected' : '' }}>Serviço (srv)</option>
                             <option value="outro" {{ $operationalExpense->unit_of_measure == 'outro' ? 'selected' : '' }}>Outro</option>
                         </select>
                     </div>
