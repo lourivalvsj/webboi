@@ -15,8 +15,10 @@
                 <tr>
                     <th>Local</th>
                     <th>Despesa</th>
-                    <th>Valor</th>
                     <th>Data</th>
+                    <th>Quantidade</th>
+                    <th>Unidade</th>
+                    <th>Valor</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -24,9 +26,17 @@
                 @foreach ($expenses as $item)
                     <tr>
                         <td>{{ $item->local->name ?? '-' }}</td>
-                        <td>{{ $item->name }}</td>
+                        <td><strong>{{ $item->name }}</strong></td>
+                        <td>{{ \Carbon\Carbon::parse($item->date)->format('d/m/Y') }}</td>
+                        <td>{{ $item->quantity ? number_format($item->quantity, 3, ',', '.') : '-' }}</td>
+                        <td>
+                            @if ($item->unit_of_measure)
+                                <span class="badge bg-secondary">{{ $item->unit_of_measure }}</span>
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>R$ {{ number_format($item->value, 2, ',', '.') }}</td>
-                        <td>{{ $item->date }}</td>
                         <td>
                             <a href="{{ route('operational-expenses.edit', $item) }}"
                                 class="btn btn-sm btn-warning">Editar</a>

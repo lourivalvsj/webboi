@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OperationalExpense extends Model
 {
-    protected $fillable = ['local_id', 'name', 'value', 'date'];
+    protected $fillable = ['local_id', 'name', 'value', 'date', 'unit_of_measure', 'quantity'];
 
     public function local()
     {

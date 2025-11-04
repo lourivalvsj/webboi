@@ -27,6 +27,8 @@ class OperationalExpenseController extends Controller
             'name' => 'required|string|max:255',
             'value' => 'required|numeric|min:0',
             'date' => 'required|date',
+            'unit_of_measure' => 'nullable|string|max:50',
+            'quantity' => 'nullable|numeric|min:0',
         ]);
 
         OperationalExpense::create($request->all());
@@ -46,6 +48,8 @@ class OperationalExpenseController extends Controller
             'name' => 'required|string|max:255',
             'value' => 'required|numeric|min:0',
             'date' => 'required|date',
+            'unit_of_measure' => 'nullable|string|max:50',
+            'quantity' => 'nullable|numeric|min:0',
         ]);
 
         $operationalExpense->update($request->all());
