@@ -34,9 +34,9 @@
                         <td>{{ $item->quantity ? number_format($item->quantity, 3, ',', '.') : '-' }}</td>
                         <td>
                             @if ($item->unit_of_measure)
-                                <span class="badge bg-secondary">{{ $item->unit_of_measure }}</span>
+                                <span class="text-primary fw-bold">{{ $item->unit_of_measure }}</span>
                             @else
-                                -
+                                <span class="text-muted">-</span>
                             @endif
                         </td>
                         <td>R$ {{ number_format($item->value, 2, ',', '.') }}</td>

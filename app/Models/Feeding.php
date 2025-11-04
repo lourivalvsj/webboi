@@ -9,7 +9,7 @@ class Feeding extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['animal_id', 'feed_type', 'quantity', 'feeding_date'];
+    protected $fillable = ['animal_id', 'feed_type', 'quantity', 'unit_of_measure', 'feeding_date'];
 
     public function animal()
     {

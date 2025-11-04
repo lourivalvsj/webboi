@@ -38,7 +38,28 @@
                         <div class="col-md-6">
                             <div class="modern-form-group">
                                 <label class="modern-form-label">Tipo de Alimento *</label>
-                                <input type="text" name="feed_type" class="modern-form-control @error('feed_type') is-invalid @enderror" value="{{ old('feed_type') }}" required>
+                                @if($feedTypes->count() > 0)
+                                    <select name="feed_type" class="modern-form-control @error('feed_type') is-invalid @enderror" required>
+                                        <option value="">Selecione um alimento</option>
+                                        @foreach ($feedTypes as $feedType)
+                                            <option value="{{ $feedType }}" {{ old('feed_type') == $feedType ? 'selected' : '' }}>
+                                                {{ $feedType }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Apenas produtos cadastrados em "Gastos com Insumos" aparecem aqui.
+                                    </small>
+                                @else
+                                    <select name="feed_type" class="modern-form-control" disabled>
+                                        <option value="">Nenhum produto cadastrado</option>
+                                    </select>
+                                    <small class="form-text text-warning">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>
+                                        É necessário cadastrar produtos em <a href="{{ route('supply-expenses.create') }}">Gastos com Insumos</a> primeiro.
+                                    </small>
+                                @endif
                                 @error('feed_type')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -47,7 +68,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="modern-form-group">
                                 <label class="modern-form-label">Quantidade *</label>
                                 <input type="number" name="quantity" step="0.01" class="modern-form-control @error('quantity') is-invalid @enderror" value="{{ old('quantity') }}" required>
@@ -57,7 +78,28 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="modern-form-group">
+                                <label class="modern-form-label">Unidade de Medida</label>
+                                <select name="unit_of_measure" class="modern-form-control @error('unit_of_measure') is-invalid @enderror">
+                                    <option value="">Selecione a unidade</option>
+                                    <option value="kg" {{ old('unit_of_measure') == 'kg' ? 'selected' : '' }}>Quilograma (kg)</option>
+                                    <option value="g" {{ old('unit_of_measure') == 'g' ? 'selected' : '' }}>Grama (g)</option>
+                                    <option value="t" {{ old('unit_of_measure') == 't' ? 'selected' : '' }}>Tonelada (t)</option>
+                                    <option value="l" {{ old('unit_of_measure') == 'l' ? 'selected' : '' }}>Litro (l)</option>
+                                    <option value="ml" {{ old('unit_of_measure') == 'ml' ? 'selected' : '' }}>Mililitro (ml)</option>
+                                    <option value="balde" {{ old('unit_of_measure') == 'balde' ? 'selected' : '' }}>Balde</option>
+                                    <option value="saco" {{ old('unit_of_measure') == 'saco' ? 'selected' : '' }}>Saco</option>
+                                    <option value="fardo" {{ old('unit_of_measure') == 'fardo' ? 'selected' : '' }}>Fardo</option>
+                                    <option value="unidade" {{ old('unit_of_measure') == 'unidade' ? 'selected' : '' }}>Unidade</option>
+                                </select>
+                                @error('unit_of_measure')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
                             <div class="modern-form-group">
                                 <label class="modern-form-label">Data da Alimentação *</label>
                                 <input type="date" name="feeding_date" class="modern-form-control @error('feeding_date') is-invalid @enderror" value="{{ old('feeding_date', date('Y-m-d')) }}" required>

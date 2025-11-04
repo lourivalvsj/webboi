@@ -13,8 +13,9 @@
             <thead>
                 <tr>
                     <th>Animal</th>
-                    <th>Tipo</th>
+                    <th>Tipo de Alimento</th>
                     <th>Quantidade</th>
+                    <th>Unidade</th>
                     <th>Data</th>
                     <th>Ações</th>
                 </tr>
@@ -23,9 +24,16 @@
                 @foreach ($feedings as $feeding)
                     <tr>
                         <td>{{ $feeding->animal->tag }}</td>
-                        <td>{{ $feeding->feed_type }}</td>
-                        <td>{{ $feeding->quantity }}</td>
-                        <td>{{ $feeding->feeding_date }}</td>
+                        <td><strong>{{ $feeding->feed_type }}</strong></td>
+                        <td>{{ number_format($feeding->quantity, 2, ',', '.') }}</td>
+                        <td>
+                            @if ($feeding->unit_of_measure)
+                                <span class="text-primary fw-bold">{{ $feeding->unit_of_measure }}</span>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($feeding->feeding_date)->format('d/m/Y') }}</td>
                         <td>
                             <a href="{{ route('feedings.edit', $feeding) }}" class="btn btn-sm btn-warning">Editar</a>
                             <form action="{{ route('feedings.destroy', $feeding) }}" method="POST"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Feeding;
+use App\Models\SupplyExpense;
 use Illuminate\Http\Request;
 
 class FeedingController extends Controller
@@ -18,7 +19,14 @@ class FeedingController extends Controller
     {
         // Apenas animais que já têm uma compra registrada
         $animals = Animal::withPurchase()->get();
-        return view('feedings.create', compact('animals'));
+        
+        // Buscar produtos únicos dos insumos cadastrados
+        $feedTypes = SupplyExpense::select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+            
+        return view('feedings.create', compact('animals', 'feedTypes'));
     }
 
     public function store(Request $request)
@@ -27,6 +35,7 @@ class FeedingController extends Controller
             'animal_id' => 'required|exists:animals,id',
             'feed_type' => 'required|string|max:100',
             'quantity' => 'required|numeric',
+            'unit_of_measure' => 'nullable|string|max:50',
             'feeding_date' => 'required|date',
         ]);
 
@@ -52,7 +61,13 @@ class FeedingController extends Controller
             $animals->push($feeding->animal);
         }
         
-        return view('feedings.edit', compact('feeding', 'animals'));
+        // Buscar produtos únicos dos insumos cadastrados
+        $feedTypes = SupplyExpense::select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+        
+        return view('feedings.edit', compact('feeding', 'animals', 'feedTypes'));
     }
 
     public function update(Request $request, Feeding $feeding)
@@ -61,6 +76,7 @@ class FeedingController extends Controller
             'animal_id' => 'required|exists:animals,id',
             'feed_type' => 'required|string|max:100',
             'quantity' => 'required|numeric',
+            'unit_of_measure' => 'nullable|string|max:50',
             'feeding_date' => 'required|date',
         ]);
 
