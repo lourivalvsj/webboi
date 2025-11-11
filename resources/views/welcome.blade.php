@@ -412,11 +412,11 @@
                     </a>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-outline-light">
-                        <i class="fas fa-sign-in-alt me-2"></i>Log in
+                        <i class="fas fa-sign-in-alt me-2"></i>Entrar
                     </a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}" class="btn btn-light">
-                            <i class="fas fa-user-plus me-2"></i>Register
+                            <i class="fas fa-user-plus me-2"></i>Registrar
                         </a>
                     @endif
                 @endauth
