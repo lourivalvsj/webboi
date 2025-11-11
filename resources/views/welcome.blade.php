@@ -174,9 +174,13 @@
 
             .features-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(2, 1fr);
                 gap: 2rem;
                 margin: 3rem 0;
+                max-width: 1200px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .feature-card {
@@ -346,6 +350,14 @@
                 color: #EA4335;
             }
 
+            @media (max-width: 1024px) and (min-width: 769px) {
+                .features-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-rows: repeat(3, 1fr);
+                    gap: 1.8rem;
+                }
+            }
+
             @media (max-width: 768px) {
                 .logo {
                     font-size: 3rem;
@@ -357,6 +369,7 @@
 
                 .features-grid {
                     grid-template-columns: 1fr;
+                    grid-template-rows: auto;
                     gap: 1.5rem;
                 }
 
