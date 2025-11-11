@@ -32,6 +32,13 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
+        // Para desenvolvimento/produção sem configuração de e-mail
+        // Sempre retornar sucesso para não frustrar o usuário
+        if (config('mail.default') === 'log' || config('app.env') === 'local') {
+            \Log::info('Password reset requested for: ' . $request->email);
+            return back()->with('status', 'Solicitação registrada! Entre em contato conosco pelo WhatsApp ou e-mail para recuperar sua senha.');
+        }
+
         try {
             // We will send the password reset link to this user. Once we have attempted
             // to send the link, we will examine the response then see the message we
@@ -45,9 +52,11 @@ class PasswordResetLinkController extends Controller
                         : back()->withInput($request->only('email'))
                                 ->withErrors(['email' => __($status)]);
         } catch (\Exception $e) {
+            // Log do erro para debugging
+            \Log::error('Password reset error: ' . $e->getMessage());
+            
             // Em caso de erro de conexão de e-mail, retornar mensagem amigável
-            return back()->with('status', 'Solicitação registrada! Se o e-mail estiver cadastrado, você receberá as instruções em breve.')
-                        ->withInput($request->only('email'));
+            return back()->with('status', 'Sistema de e-mail temporariamente indisponível. Entre em contato conosco pelo WhatsApp ou e-mail para recuperar sua senha.');
         }
     }
 }

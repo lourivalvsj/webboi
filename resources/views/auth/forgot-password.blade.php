@@ -20,6 +20,20 @@
                         {{ __('Esqueceu sua senha? Sem problemas. Basta nos informar o seu endereço de e-mail e enviaremos um link de redefinição de senha que permitirá que você escolha uma nova.') }}
                     </div>
 
+                    <div class="alert alert-warning mb-4">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Sistema de E-mail Temporariamente Indisponível</strong><br>
+                        Se você não receber o e-mail de recuperação, entre em contato conosco:
+                        <div class="mt-2">
+                            <a href="https://wa.me/5564999671030" target="_blank" class="btn btn-success btn-sm me-2">
+                                <i class="fab fa-whatsapp me-1"></i> WhatsApp: (64) 9.9967-1030
+                            </a>
+                            <a href="mailto:lourivalvsj@gmail.com" class="btn btn-primary btn-sm">
+                                <i class="fas fa-envelope me-1"></i> E-mail: lourivalvsj@gmail.com
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Status da Sessão -->
                     @if (session('status'))
                         <div class="alert alert-success mb-4">
