@@ -6,7 +6,7 @@
                     <div class="d-flex align-items-center gap-3">
                         <small class="text-light opacity-75">
                             <i class="fas fa-phone me-1"></i>
-                            (64) 9.9967-1030
+                            (64) 9.9967-1030 <br>
                         </small>
                         <small class="text-light opacity-75">
                             <i class="fas fa-envelope me-1"></i>
