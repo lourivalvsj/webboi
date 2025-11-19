@@ -164,7 +164,7 @@
 @else
     <!-- DEBUG: User not authenticated -->
     <div style="background: red; color: white; padding: 10px;">
-        DEBUG: Usuário não autenticado
+        Atenção: Usuário não autenticado
     </div>
 @endauth
 <!-- DEBUG: Navigation End -->
