@@ -8,10 +8,48 @@ use Illuminate\Http\Request;
 
 class SupplyExpenseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = SupplyExpense::with('animal')->get();
-        return view('supply_expenses.index', compact('expenses'));
+        $query = SupplyExpense::with(['animal']);
+
+        // Filtros de busca
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->where('purchase_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('purchase_date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('min_value')) {
+            $query->where('value', '>=', $request->min_value);
+        }
+
+        if ($request->filled('max_value')) {
+            $query->where('value', '<=', $request->max_value);
+        }
+
+        $expenses = $query->orderBy('purchase_date', 'desc')->paginate(15)->withQueryString();
+        
+        // Buscar produtos únicos para o filtro
+        $products = SupplyExpense::select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+            
+        return view('supply_expenses.index', compact('expenses', 'products'));
     }
 
     public function create()
