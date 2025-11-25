@@ -8,10 +8,47 @@ use Illuminate\Http\Request;
 
 class OperationalExpenseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = OperationalExpense::with('local')->get();
-        return view('operational_expenses.index', compact('expenses'));
+        $query = OperationalExpense::with(['local']);
+
+        // Filtros de busca
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhereHas('local', function($q) use ($search) {
+                      $q->where('name', 'LIKE', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($request->filled('local_id')) {
+            $query->where('local_id', $request->local_id);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->where('date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('min_value')) {
+            $query->where('value', '>=', $request->min_value);
+        }
+
+        if ($request->filled('max_value')) {
+            $query->where('value', '<=', $request->max_value);
+        }
+
+        $expenses = $query->orderBy('date', 'desc')->paginate(15)->withQueryString();
+        
+        // Buscar locais para o filtro
+        $locals = Local::orderBy('name')->get();
+            
+        return view('operational_expenses.index', compact('expenses', 'locals'));
     }
 
     public function create()
