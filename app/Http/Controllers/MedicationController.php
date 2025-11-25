@@ -9,10 +9,43 @@ use Illuminate\Http\Request;
 
 class MedicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $medications = Medication::with('animal')->get();
-        return view('medications.index', compact('medications'));
+        $query = Medication::with(['animal']);
+
+        // Filtros de busca
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->whereHas('animal', function($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                      ->orWhere('tag', 'LIKE', "%{$search}%");
+                })
+                ->orWhere('medication_name', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('medication_name')) {
+            $query->where('medication_name', 'LIKE', "%{$request->medication_name}%");
+        }
+
+        if ($request->filled('date_from')) {
+            $query->where('administration_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('administration_date', '<=', $request->date_to);
+        }
+
+        $medications = $query->orderBy('administration_date', 'desc')->paginate(15)->withQueryString();
+        
+        // Buscar nomes de medicamentos únicos para o filtro
+        $medicationNames = Medication::select('medication_name')
+            ->distinct()
+            ->orderBy('medication_name')
+            ->pluck('medication_name');
+            
+        return view('medications.index', compact('medications', 'medicationNames'));
     }
 
     public function create()
