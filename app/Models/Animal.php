@@ -57,6 +57,11 @@ class Animal extends Model
         return $this->hasMany(AnimalWeight::class);
     }
 
+    public function animalWeights()
+    {
+        return $this->hasMany(AnimalWeight::class);
+    }
+
     public function feedings()
     {
         return $this->hasMany(Feeding::class);

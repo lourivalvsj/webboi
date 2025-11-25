@@ -10,7 +10,9 @@ class AnimalWeightController extends Controller
 {
     public function index()
     {
-        $weights = AnimalWeight::with('animal')->get();
+        $weights = AnimalWeight::with(['animal'])
+                        ->orderBy('recorded_at', 'desc')
+                        ->paginate(15);
         return view('animal_weights.index', compact('weights'));
     }
 

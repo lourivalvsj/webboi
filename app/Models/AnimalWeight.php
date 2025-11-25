@@ -15,6 +15,11 @@ class AnimalWeight extends Model
         'recorded_at',
     ];
 
+    protected $casts = [
+        'recorded_at' => 'date',
+        'weight' => 'decimal:2',
+    ];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class);
