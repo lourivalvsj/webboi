@@ -110,7 +110,7 @@
                                     @endif
                                 </td>
                                 <td data-label="Tipo de Alimento">
-                                    <span class="badge bg-primary fs-6">{{ $feeding->feed_type }}</span>
+                                    <strong class="text-dark">{{ $feeding->feed_type }}</strong>
                                 </td>
                                 <td data-label="Quantidade">
                                     <strong class="text-success fs-5">
@@ -119,7 +119,7 @@
                                 </td>
                                 <td data-label="Unidade">
                                     @if($feeding->unit_of_measure)
-                                        <span class="badge bg-secondary">{{ $feeding->unit_of_measure }}</span>
+                                        <span class="text-dark">{{ $feeding->unit_of_measure }}</span>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
