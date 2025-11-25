@@ -9,10 +9,55 @@ use Illuminate\Http\Request;
 
 class FreightController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $freights = Freight::with(['truckDriver', 'local'])->get();
-        return view('freights.index', compact('freights'));
+        $query = Freight::with(['truckDriver', 'local']);
+
+        // Filtros de busca
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->whereHas('truckDriver', function($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                      ->orWhere('phone', 'LIKE', "%{$search}%");
+                })
+                ->orWhereHas('local', function($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                });
+            });
+        }
+
+        if ($request->filled('truck_driver_id')) {
+            $query->where('truck_driver_id', $request->truck_driver_id);
+        }
+
+        if ($request->filled('local_id')) {
+            $query->where('local_id', $request->local_id);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->where('departure_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('departure_date', '<=', $request->date_to);
+        }
+
+        if ($request->filled('min_value')) {
+            $query->where('value', '>=', $request->min_value);
+        }
+
+        if ($request->filled('max_value')) {
+            $query->where('value', '<=', $request->max_value);
+        }
+
+        $freights = $query->orderBy('departure_date', 'desc')->paginate(15)->withQueryString();
+        
+        // Buscar caminhoneiros e locais para os filtros
+        $truckDrivers = TruckDriver::orderBy('name')->get();
+        $locals = Local::orderBy('name')->get();
+            
+        return view('freights.index', compact('freights', 'truckDrivers', 'locals'));
     }
 
     public function create()
