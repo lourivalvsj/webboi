@@ -87,6 +87,22 @@
 
     <div class="modern-table-container">
         @if($expenses->count() > 0)
+            <!-- Legenda de Status de Estoque -->
+            <div class="alert alert-info mb-3">
+                <h6 class="mb-2"><i class="fas fa-info-circle"></i> Legenda de Status de Estoque:</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="badge bg-success me-2">Normal</span> Estoque adequado
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-warning me-2">Baixo</span> Menos de 10% restante
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge bg-danger me-2">Esgotado</span> Sem estoque
+                    </div>
+                </div>
+            </div>
+            
             <div class="table-responsive">
                 <table class="table modern-table">
                     <thead>
@@ -103,7 +119,7 @@
                     </thead>
                     <tbody>
                         @foreach($expenses as $expense)
-                            <tr>
+                            <tr class="{{ $expense->remaining_quantity <= 0 ? 'table-danger' : ($expense->is_low_stock ? 'table-warning' : '') }}">
                                 <td data-label="ID">{{ $expense->id }}</td>
                                 <td data-label="Produto">
                                     <strong class="text-primary">{{ $expense->name }}</strong>
@@ -122,9 +138,32 @@
                                 </td>
                                 <td data-label="Quantidade">
                                     @if($expense->quantity)
+                                        <!-- Debug: Valor raw = {{ $expense->getRawOriginal('quantity') ?? 'NULL' }}, Valor formatado = {{ $expense->quantity }} -->
                                         <strong class="text-info">
                                             {{ is_numeric($expense->quantity) ? number_format($expense->quantity, 3, ',', '.') : $expense->quantity }}
                                         </strong>
+                                        <br>
+                                        <small class="d-block mt-1">
+                                            @php
+                                                $remaining = $expense->remaining_quantity;
+                                            @endphp
+                                            @if($expense->is_low_stock)
+                                                <span class="text-danger fw-bold">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    Restam: {{ number_format($remaining, 3, ',', '.') }}
+                                                </span>
+                                            @elseif($remaining <= 0)
+                                                <span class="text-danger fw-bold">
+                                                    <i class="fas fa-times-circle"></i>
+                                                    Esgotado
+                                                </span>
+                                            @else
+                                                <span class="text-success">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    Restam: {{ number_format($remaining, 3, ',', '.') }}
+                                                </span>
+                                            @endif
+                                        </small>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
@@ -137,6 +176,7 @@
                                     @endif
                                 </td>
                                 <td data-label="Valor">
+                                    <!-- Debug: Valor raw = {{ $expense->getRawOriginal('value') ?? 'NULL' }}, Valor formatado = {{ $expense->value }} -->
                                     <strong class="text-danger fs-5">
                                         R$ {{ number_format($expense->value, 2, ',', '.') }}
                                     </strong>

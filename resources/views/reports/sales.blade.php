@@ -143,7 +143,7 @@
                         <td>{{ $sale->sale_date->format('d/m/Y') }}</td>
                         <td class="fw-bold">#{{ $sale->animal->id ?? '-' }}</td>
                         <td>
-                            <span class="badge bg-secondary">{{ $sale->animal->category->name ?? 'N/A' }}</span>
+                            <span class="text-muted">{{ $sale->animal->category->name ?? 'N/A' }}</span>
                         </td>
                         <td>{{ $sale->buyer->name ?? 'N/A' }}</td>
                         <td>{{ number_format($sale->weight_at_sale, 1) }}kg</td>

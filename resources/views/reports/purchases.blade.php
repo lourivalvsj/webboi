@@ -142,7 +142,7 @@
                         <td>{{ $purchase->purchase_date->format('d/m/Y') }}</td>
                         <td class="fw-bold">#{{ $purchase->animal->id ?? '-' }}</td>
                         <td>
-                            <span class="badge bg-secondary">{{ $purchase->animal->category->name ?? 'N/A' }}</span>
+                            <span class="text-muted">{{ $purchase->animal->category->name ?? 'N/A' }}</span>
                         </td>
                         <td>{{ $purchase->vendor->name ?? 'N/A' }}</td>
                         <td>{{ $purchase->animal?->animalWeights?->first() ? number_format($purchase->animal->animalWeights->first()->weight, 1) . 'kg' : 'N/A' }}</td>
@@ -150,9 +150,9 @@
                         <td>R$ {{ number_format($pricePerKg, 2, ',', '.') }}/kg</td>
                         <td>
                             @if($isActive)
-                                <span class="badge bg-success">Ativo</span>
+                                <span class="text-success fw-bold">Ativo</span>
                             @else
-                                <span class="badge bg-info">Vendido</span>
+                                <span class="text-info fw-bold">Vendido</span>
                             @endif
                         </td>
                     </tr>

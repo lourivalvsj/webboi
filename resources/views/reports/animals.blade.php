@@ -135,13 +135,13 @@
                     <tr>
                         <td class="fw-bold">#{{ $animal->id }}</td>
                         <td>
-                            <span class="badge bg-secondary">{{ $animal->category->name ?? 'Sem categoria' }}</span>
+                            <span class="text-muted">{{ $animal->category->name ?? 'Sem categoria' }}</span>
                         </td>
                         <td>
                             @if($animal->sale)
-                                <span class="badge bg-info">Vendido</span>
+                                <span class="text-info fw-bold">Vendido</span>
                             @else
-                                <span class="badge bg-success">Ativo</span>
+                                <span class="text-success fw-bold">Ativo</span>
                             @endif
                         </td>
                         <td>{{ $animal->created_at->format('d/m/Y') }}</td>
@@ -156,10 +156,10 @@
                             @endif
                         </td>
                         <td>
-                            <span class="badge bg-primary">{{ $animal->medications->count() }}</span>
+                            <span class="text-dark fw-bold">{{ $animal->medications->count() }}</span>
                         </td>
                         <td>
-                            <span class="badge bg-warning">{{ $animal->feedings->count() }}</span>
+                            <span class="text-dark fw-bold">{{ $animal->feedings->count() }}</span>
                         </td>
                         <td>
                             @if($animal->purchase)

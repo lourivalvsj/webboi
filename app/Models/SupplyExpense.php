@@ -35,4 +35,43 @@ class SupplyExpense extends Model
     {
         return $this->belongsTo(Animal::class);
     }
+
+    /**
+     * Calcula a quantidade restante do insumo após uso em medicações e alimentações
+     */
+    public function getRemainingQuantityAttribute()
+    {
+        if (!$this->quantity || $this->quantity <= 0) {
+            return 0;
+        }
+
+        $totalUsed = 0;
+
+        // Calcular quantidade usada em medicações (quando o nome do medicamento coincide)
+        if ($this->category === self::CATEGORY_MEDICAMENTO) {
+            $totalUsed += Medication::where('medication_name', $this->name)
+                ->sum('dose');
+        }
+
+        // Calcular quantidade usada em alimentações (quando o tipo de ração coincide)
+        if ($this->category === self::CATEGORY_ALIMENTACAO) {
+            $totalUsed += Feeding::where('feed_type', $this->name)
+                ->sum('quantity');
+        }
+
+        $remaining = $this->quantity - $totalUsed;
+        return max(0, $remaining); // Não permite valores negativos
+    }
+
+    /**
+     * Verifica se o estoque está baixo (menos de 10% restante)
+     */
+    public function getIsLowStockAttribute()
+    {
+        if (!$this->quantity || $this->quantity <= 0) {
+            return false;
+        }
+        
+        return $this->remaining_quantity <= ($this->quantity * 0.1);
+    }
 }
