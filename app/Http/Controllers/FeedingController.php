@@ -9,10 +9,43 @@ use Illuminate\Http\Request;
 
 class FeedingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $feedings = Feeding::with('animal')->get();
-        return view('feedings.index', compact('feedings'));
+        $query = Feeding::with(['animal']);
+
+        // Filtros de busca
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->whereHas('animal', function($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                      ->orWhere('tag', 'LIKE', "%{$search}%");
+                })
+                ->orWhere('feed_type', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('feed_type')) {
+            $query->where('feed_type', 'LIKE', "%{$request->feed_type}%");
+        }
+
+        if ($request->filled('date_from')) {
+            $query->where('feeding_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('feeding_date', '<=', $request->date_to);
+        }
+
+        $feedings = $query->orderBy('feeding_date', 'desc')->paginate(15)->withQueryString();
+        
+        // Buscar tipos de alimento únicos para o filtro
+        $feedTypes = Feeding::select('feed_type')
+            ->distinct()
+            ->orderBy('feed_type')
+            ->pluck('feed_type');
+            
+        return view('feedings.index', compact('feedings', 'feedTypes'));
     }
 
     public function create()
