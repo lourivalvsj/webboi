@@ -8,6 +8,12 @@ class SupplyExpense extends Model
 {
     protected $fillable = ['animal_id', 'name', 'category', 'description', 'purchase_date', 'value', 'unit_of_measure', 'quantity'];
 
+    protected $casts = [
+        'purchase_date' => 'date',
+        'value' => 'decimal:2',
+        'quantity' => 'decimal:3'
+    ];
+
     const CATEGORY_MEDICAMENTO = 'medicamento';
     const CATEGORY_ALIMENTACAO = 'alimentacao';
 

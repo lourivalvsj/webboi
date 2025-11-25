@@ -10,6 +10,13 @@ class Freight extends Model
         'truck_driver_id', 'local_id', 'quantity_animals', 'value', 'departure_date', 'arrival_date'
     ];
 
+    protected $casts = [
+        'departure_date' => 'date',
+        'arrival_date' => 'date',
+        'value' => 'decimal:2',
+        'quantity_animals' => 'integer'
+    ];
+
     public function truckDriver()
     {
         return $this->belongsTo(TruckDriver::class);

@@ -11,6 +11,11 @@ class Feeding extends Model
 
     protected $fillable = ['animal_id', 'feed_type', 'quantity', 'unit_of_measure', 'feeding_date'];
 
+    protected $casts = [
+        'feeding_date' => 'date',
+        'quantity' => 'decimal:3'
+    ];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class);

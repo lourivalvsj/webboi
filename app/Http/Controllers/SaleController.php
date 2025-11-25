@@ -85,6 +85,12 @@ class SaleController extends Controller
         return redirect()->route('sales.index')->with('success', 'Venda registrada com sucesso.');
     }
 
+    public function show(Sale $sale)
+    {
+        $sale->load(['animal', 'buyer', 'animal.purchase']);
+        return view('sales.show', compact('sale'));
+    }
+
     public function edit(Sale $sale)
     {
         // Animais disponíveis para venda
@@ -130,6 +136,6 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         $sale->delete();
-        return redirect()->route('sales.index')->with('success', 'Sale deleted.');
+        return redirect()->route('sales.index')->with('success', 'Venda excluída com sucesso.');
     }
 }

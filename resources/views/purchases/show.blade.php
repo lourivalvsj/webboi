@@ -33,7 +33,7 @@
                 <div class="modern-form-group">
                     <label class="modern-form-label">Data da Compra</label>
                     <div class="form-control-static">
-                        {{ $purchase->purchase_date ? $purchase->purchase_date->format('d/m/Y') : 'Não informado' }}
+                        {{ $purchase->purchase_date ? \Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y') : 'Não informado' }}
                     </div>
                 </div>
             </div>

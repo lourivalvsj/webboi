@@ -20,6 +20,14 @@ class Purchase extends Model
         'commission_percent'
     ];
 
+    protected $casts = [
+        'purchase_date' => 'date',
+        'value' => 'decimal:2',
+        'freight_cost' => 'decimal:2',
+        'commission_value' => 'decimal:2',
+        'commission_percent' => 'decimal:2'
+    ];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class);

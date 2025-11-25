@@ -8,6 +8,11 @@ class Local extends Model
 {
     protected $fillable = ['name', 'entry_date', 'exit_date'];
 
+    protected $casts = [
+        'entry_date' => 'date',
+        'exit_date' => 'date'
+    ];
+
     public function freights()
     {
         return $this->hasMany(Freight::class);

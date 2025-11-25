@@ -13,6 +13,7 @@ class Medication extends Model
 
     protected $casts = [
         'dose' => 'decimal:3',
+        'administration_date' => 'date',
     ];
 
     public function animal()

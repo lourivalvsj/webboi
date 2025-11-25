@@ -17,6 +17,12 @@ class Sale extends Model
         'weight_at_sale'
     ];
 
+    protected $casts = [
+        'sale_date' => 'date',
+        'value' => 'decimal:2',
+        'weight_at_sale' => 'decimal:2'
+    ];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class);
