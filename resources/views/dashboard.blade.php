@@ -69,6 +69,24 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Segunda linha com card de Lucro/Prejuízo -->
+            <div class="row g-4 mt-2">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12 mx-auto">
+                    <div class="card dashboard-card {{ ($profitLoss ?? 0) >= 0 ? 'profit-card' : 'loss-card' }} h-100 border-0 shadow-lg">
+                        <div class="card-body text-center position-relative">
+                            <div class="icon-container mb-3">
+                                <i class="fas fa-{{ ($profitLoss ?? 0) >= 0 ? 'chart-line' : 'chart-line-down' }} fa-2x text-white"></i>
+                            </div>
+                            <h6 class="card-title text-white mb-2 fw-semibold">{{ ($profitLoss ?? 0) >= 0 ? 'Lucro' : 'Prejuízo' }}</h6>
+                            <h2 class="card-number text-white fw-bold mb-0">
+                                {{ ($profitLoss ?? 0) >= 0 ? 'R$ ' : '-R$ ' }}{{ number_format(abs($profitLoss ?? 0), 2, ',', '.') }}
+                            </h2>
+                            <div class="card-animation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -102,6 +120,14 @@
 
 .expenses-card {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.profit-card {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.loss-card {
+    background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
 }
 
 .icon-container {
@@ -171,6 +197,7 @@
 .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
 .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
 .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+.dashboard-card:nth-child(5) { animation-delay: 0.5s; }
 
 /* Responsive Design */
 @media (max-width: 768px) {

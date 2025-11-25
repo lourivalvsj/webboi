@@ -18,6 +18,7 @@ use App\Http\Controllers\LocalController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SupplyExpenseController;
 use App\Http\Controllers\OperationalExpenseController;
+use App\Http\Controllers\ProfitLossController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,6 +47,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('animal-weights', AnimalWeightController::class);
     Route::resource('feedings', FeedingController::class);
     Route::resource('medications', MedicationController::class);
+
+    // 💰 Dashboard Financeiro - Lucro/Prejuízo
+    Route::get('/profit-loss', [ProfitLossController::class, 'index'])->name('profit-loss.index');
+    Route::get('/profit-loss/period', [ProfitLossController::class, 'profitByPeriod'])->name('profit-loss.period');
+    Route::get('/profit-loss/expenses', [ProfitLossController::class, 'expensesSummary'])->name('profit-loss.expenses');
+    Route::get('/profit-loss/monthly', [ProfitLossController::class, 'monthlyComparison'])->name('profit-loss.monthly');
+    Route::get('/profit-loss/yearly', [ProfitLossController::class, 'yearlyComparison'])->name('profit-loss.yearly');
+    Route::get('/profit-loss/top-animals', [ProfitLossController::class, 'topProfitableAnimals'])->name('profit-loss.top-animals');
 
     // Rotas para gerenciamento de cidades
     Route::get('/cities/by-uf', [CityController::class, 'getCitiesByUf'])->name('cities.by-uf');
