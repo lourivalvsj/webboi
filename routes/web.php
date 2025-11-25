@@ -19,6 +19,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SupplyExpenseController;
 use App\Http\Controllers\OperationalExpenseController;
 use App\Http\Controllers\ProfitLossController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,6 +56,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profit-loss/monthly', [ProfitLossController::class, 'monthlyComparison'])->name('profit-loss.monthly');
     Route::get('/profit-loss/yearly', [ProfitLossController::class, 'yearlyComparison'])->name('profit-loss.yearly');
     Route::get('/profit-loss/top-animals', [ProfitLossController::class, 'topProfitableAnimals'])->name('profit-loss.top-animals');
+
+    // 📊 Relatórios
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/animals', [ReportController::class, 'animals'])->name('animals');
+        Route::get('/financial', [ReportController::class, 'financial'])->name('financial');
+        Route::get('/sales', [ReportController::class, 'sales'])->name('sales');
+        Route::get('/purchases', [ReportController::class, 'purchases'])->name('purchases');
+        Route::get('/transports', [ReportController::class, 'transports'])->name('transports');
+        Route::get('/expenses', [ReportController::class, 'expenses'])->name('expenses');
+    });
 
     // Rotas para gerenciamento de cidades
     Route::get('/cities/by-uf', [CityController::class, 'getCitiesByUf'])->name('cities.by-uf');
