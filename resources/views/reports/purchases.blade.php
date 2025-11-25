@@ -104,9 +104,9 @@
         <div class="col-lg-2 col-md-6 col-6 mb-3">
             <div class="card stats-card bg-secondary text-white">
                 <div class="card-body text-center">
-                    <i class="fas fa-weight fa-2x mb-2"></i>
-                    <h4>{{ number_format($stats['total_weight_purchased'], 0) }}kg</h4>
-                    <small>Peso Total</small>
+                    <i class="fas fa-cow fa-2x mb-2"></i>
+                    <h4>{{ number_format($stats['total_animals_purchased'], 0) }}</h4>
+                    <small>Animais Comprados</small>
                 </div>
             </div>
         </div>
@@ -134,7 +134,8 @@
                 <tbody>
                     @forelse($purchases as $purchase)
                     @php
-                        $pricePerKg = $purchase->weight > 0 ? $purchase->value / $purchase->weight : 0;
+                        $animalWeight = $purchase->animal?->animalWeights?->first()?->weight ?? 0;
+                        $pricePerKg = $animalWeight > 0 ? $purchase->value / $animalWeight : 0;
                         $isActive = $purchase->animal && !$purchase->animal->sale;
                     @endphp
                     <tr>
@@ -144,7 +145,7 @@
                             <span class="badge bg-secondary">{{ $purchase->animal->category->name ?? 'N/A' }}</span>
                         </td>
                         <td>{{ $purchase->vendor->name ?? 'N/A' }}</td>
-                        <td>{{ number_format($purchase->weight, 1) }}kg</td>
+                        <td>{{ $purchase->animal?->animalWeights?->first() ? number_format($purchase->animal->animalWeights->first()->weight, 1) . 'kg' : 'N/A' }}</td>
                         <td class="fw-bold text-danger">R$ {{ number_format($purchase->value, 2, ',', '.') }}</td>
                         <td>R$ {{ number_format($pricePerKg, 2, ',', '.') }}/kg</td>
                         <td>

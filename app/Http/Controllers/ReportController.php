@@ -155,7 +155,7 @@ class ReportController extends Controller
     // Relatório de Compras
     public function purchases(Request $request)
     {
-        $query = Purchase::with(['animal.category', 'vendor']);
+        $query = Purchase::with(['animal.category', 'animal.animalWeights', 'vendor']);
         
         // Filtros
         if ($request->filled('vendor_id')) {
@@ -182,7 +182,7 @@ class ReportController extends Controller
             'total_spent' => $query->sum('value'),
             'average_purchase_value' => $query->avg('value'),
             'highest_purchase' => $query->max('value'),
-            'total_weight_purchased' => $query->sum('weight'),
+            'total_animals_purchased' => $query->whereNotNull('animal_id')->count(),
         ];
         
         if ($request->input('export') === 'pdf') {

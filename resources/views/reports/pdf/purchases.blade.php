@@ -45,7 +45,7 @@
                 <td>#{{ $purchase->animal->id ?? '-' }}</td>
                 <td>{{ $purchase->animal->category->name ?? 'N/A' }}</td>
                 <td>{{ $purchase->vendor->name ?? 'N/A' }}</td>
-                <td>{{ number_format($purchase->weight, 1) }}kg</td>
+                <td>{{ $purchase->animal?->animalWeights?->first() ? number_format($purchase->animal->animalWeights->first()->weight, 1) . 'kg' : 'N/A' }}</td>
                 <td class="text-danger">R$ {{ number_format($purchase->value, 2, ',', '.') }}</td>
                 <td>{{ $purchase->animal && !$purchase->animal->sale ? 'Ativo' : 'Vendido' }}</td>
             </tr>
