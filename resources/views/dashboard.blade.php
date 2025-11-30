@@ -12,9 +12,9 @@
                 </div>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-3">
                 <!-- Card Total Animals -->
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="card dashboard-card animals-card h-100 border-0 shadow-lg">
                         <div class="card-body text-center position-relative">
                             <div class="icon-container mb-3">
@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- Card Total Purchases -->
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="card dashboard-card purchases-card h-100 border-0 shadow-lg">
                         <div class="card-body text-center position-relative">
                             <div class="icon-container mb-3">
@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- Card Total Sales -->
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="card dashboard-card sales-card h-100 border-0 shadow-lg">
                         <div class="card-body text-center position-relative">
                             <div class="icon-container mb-3">
@@ -56,32 +56,30 @@
                 </div>
 
                 <!-- Card Total Spent -->
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="card dashboard-card expenses-card h-100 border-0 shadow-lg">
                         <div class="card-body text-center position-relative">
                             <div class="icon-container mb-3">
                                 <i class="fas fa-money-bill-wave fa-2x text-white"></i>
                             </div>
                             <h6 class="card-title text-white mb-2 fw-semibold">Total Gasto</h6>
-                            <h2 class="card-number text-white fw-bold mb-0">R$ {{ number_format($totalSpent ?? 0, 2, ',', '.') }}</h2>
+                            <h3 class="card-number-small text-white fw-bold mb-0">R$ {{ number_format($totalSpent ?? 0, 2, ',', '.') }}</h3>
                             <div class="card-animation"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Segunda linha com card de Lucro/Prejuízo -->
-            <div class="row g-4 mt-2">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12 mx-auto">
+                
+                <!-- Card Lucro/Prejuízo na mesma linha -->
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                     <div class="card dashboard-card {{ ($profitLoss ?? 0) >= 0 ? 'profit-card' : 'loss-card' }} h-100 border-0 shadow-lg">
                         <div class="card-body text-center position-relative">
                             <div class="icon-container mb-3">
                                 <i class="fas fa-{{ ($profitLoss ?? 0) >= 0 ? 'chart-line' : 'chart-line-down' }} fa-2x text-white"></i>
                             </div>
                             <h6 class="card-title text-white mb-2 fw-semibold">{{ ($profitLoss ?? 0) >= 0 ? 'Lucro' : 'Prejuízo' }}</h6>
-                            <h2 class="card-number text-white fw-bold mb-0">
+                            <h3 class="card-number-small text-white fw-bold mb-0">
                                 {{ ($profitLoss ?? 0) >= 0 ? 'R$ ' : '-R$ ' }}{{ number_format(abs($profitLoss ?? 0), 2, ',', '.') }}
-                            </h2>
+                            </h3>
                             <div class="card-animation"></div>
                         </div>
                     </div>
@@ -154,6 +152,11 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+.card-number-small {
+    font-size: 1.8rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
 .card-title {
     font-size: 0.95rem;
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -205,6 +208,10 @@
         font-size: 2rem;
     }
     
+    .card-number-small {
+        font-size: 1.5rem;
+    }
+    
     .icon-container {
         width: 60px;
         height: 60px;
@@ -222,6 +229,10 @@
 @media (max-width: 576px) {
     .card-number {
         font-size: 1.5rem;
+    }
+    
+    .card-number-small {
+        font-size: 1.2rem;
     }
     
     .icon-container {
@@ -252,6 +263,10 @@
         font-size: 1.3rem;
     }
     
+    .card-number-small {
+        font-size: 1rem;
+    }
+    
     .icon-container {
         width: 45px;
         height: 45px;
@@ -274,6 +289,10 @@
 @media (max-width: 380px) {
     .card-number {
         font-size: 1.1rem;
+    }
+    
+    .card-number-small {
+        font-size: 0.9rem;
     }
     
     .card-title {
