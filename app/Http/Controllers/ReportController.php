@@ -370,22 +370,27 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
-        // Calcular gastos reais por animal
-        $feedingByAnimal = $feedingRecords->groupBy('animal_id')->map(function($records, $animalId) use ($startDate, $endDate) {
+        // Calcular gastos reais por animal baseado no consumo proporcional
+        $feedingByAnimal = $feedingRecords->groupBy('animal_id')->map(function($records, $animalId) use ($feedingSupplies) {
             $animal = $records->first()->animal;
             $totalQuantityConsumed = $records->sum('quantity');
             
-            // Buscar gastos reais do animal com alimentação
-            $animalFeedingCosts = SupplyExpense::where('category', SupplyExpense::CATEGORY_ALIMENTACAO)
-                                            ->where('animal_id', $animalId)
-                                            ->whereBetween('purchase_date', [$startDate, $endDate])
-                                            ->sum('value');
+            // Calcular custo real baseado na fórmula: (valor_total/quantidade_total) * quantidade_usada
+            $realCost = 0;
+            foreach($feedingSupplies as $supply) {
+                if($supply->quantity > 0) {
+                    $costPerUnit = $supply->value / $supply->quantity;
+                    // Para simplificação, assumimos que o animal consumiu proporcionalmente de cada compra
+                    $consumedFromThisSupply = ($totalQuantityConsumed / $feedingSupplies->sum('quantity')) * $supply->quantity;
+                    $realCost += $costPerUnit * $consumedFromThisSupply;
+                }
+            }
             
             return [
                 'animal' => $animal,
                 'records_count' => $records->count(),
                 'total_quantity' => $totalQuantityConsumed,
-                'real_cost' => $animalFeedingCosts,
+                'real_cost' => $realCost,
                 'average_per_feeding' => $records->count() > 0 ? $totalQuantityConsumed / $records->count() : 0
             ];
         })->sortByDesc('real_cost');
@@ -450,22 +455,27 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
-        // Calcular gastos reais por animal
-        $medicationByAnimal = $medicationRecords->groupBy('animal_id')->map(function($records, $animalId) use ($startDate, $endDate) {
+        // Calcular gastos reais por animal baseado no consumo proporcional
+        $medicationByAnimal = $medicationRecords->groupBy('animal_id')->map(function($records, $animalId) use ($medicationSupplies) {
             $animal = $records->first()->animal;
             $totalDoseUsed = $records->sum('dose');
             
-            // Buscar gastos reais do animal com medicamentos
-            $animalMedicationCosts = SupplyExpense::where('category', SupplyExpense::CATEGORY_MEDICAMENTO)
-                                                 ->where('animal_id', $animalId)
-                                                 ->whereBetween('purchase_date', [$startDate, $endDate])
-                                                 ->sum('value');
+            // Calcular custo real baseado na fórmula: (valor_total/quantidade_total) * dose_usada
+            $realCost = 0;
+            foreach($medicationSupplies as $supply) {
+                if($supply->quantity > 0) {
+                    $costPerUnit = $supply->value / $supply->quantity;
+                    // Para simplificação, assumimos que o animal consumiu proporcionalmente de cada compra
+                    $usedFromThisSupply = ($totalDoseUsed / $medicationSupplies->sum('quantity')) * $supply->quantity;
+                    $realCost += $costPerUnit * $usedFromThisSupply;
+                }
+            }
             
             return [
                 'animal' => $animal,
                 'records_count' => $records->count(),
                 'total_dose' => $totalDoseUsed,
-                'real_cost' => $animalMedicationCosts,
+                'real_cost' => $realCost,
                 'average_per_medication' => $records->count() > 0 ? $totalDoseUsed / $records->count() : 0
             ];
         })->sortByDesc('real_cost');
