@@ -8,12 +8,39 @@ use Illuminate\Http\Request;
 
 class AnimalWeightController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $weights = AnimalWeight::with(['animal'])
-                        ->orderBy('recorded_at', 'desc')
-                        ->paginate(15);
-        return view('animal_weights.index', compact('weights'));
+        $query = AnimalWeight::with(['animal']);
+        
+        // Filtro por animal
+        if ($request->filled('animal_id')) {
+            $query->where('animal_id', $request->animal_id);
+        }
+        
+        // Filtro por peso (faixa)
+        if ($request->filled('weight_min')) {
+            $query->where('weight', '>=', $request->weight_min);
+        }
+        
+        if ($request->filled('weight_max')) {
+            $query->where('weight', '<=', $request->weight_max);
+        }
+        
+        // Filtro por data
+        if ($request->filled('date_from')) {
+            $query->whereDate('recorded_at', '>=', $request->date_from);
+        }
+        
+        if ($request->filled('date_to')) {
+            $query->whereDate('recorded_at', '<=', $request->date_to);
+        }
+        
+        $weights = $query->orderBy('recorded_at', 'desc')->paginate(15);
+        
+        // Buscar todos os animais para o filtro
+        $animals = Animal::select('id', 'tag')->orderBy('tag')->get();
+        
+        return view('animal_weights.index', compact('weights', 'animals'));
     }
 
     public function create()

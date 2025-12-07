@@ -29,6 +29,88 @@
         </div>
     @endif
 
+    <!-- Filtros de Pesquisa -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtros de Pesquisa</h5>
+        </div>
+        <div class="card-body">
+            <form method="GET" action="{{ route('animal-weights.index') }}" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label"><i class="fas fa-cow me-1"></i>Animal</label>
+                    <select name="animal_id" class="form-select">
+                        <option value="">Todos os Animais</option>
+                        @foreach($animals as $animal)
+                            <option value="{{ $animal->id }}" {{ request('animal_id') == $animal->id ? 'selected' : '' }}>
+                                {{ $animal->tag }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label"><i class="fas fa-weight me-1"></i>Peso Mín. (kg)</label>
+                    <input type="number" name="weight_min" class="form-control" step="0.01" 
+                           value="{{ request('weight_min') }}" placeholder="Ex: 50.00">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label"><i class="fas fa-weight me-1"></i>Peso Máx. (kg)</label>
+                    <input type="number" name="weight_max" class="form-control" step="0.01" 
+                           value="{{ request('weight_max') }}" placeholder="Ex: 200.00">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label"><i class="fas fa-calendar me-1"></i>Data De</label>
+                    <input type="date" name="date_from" class="form-control" 
+                           value="{{ request('date_from') }}">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label"><i class="fas fa-calendar me-1"></i>Data Até</label>
+                    <input type="date" name="date_to" class="form-control" 
+                           value="{{ request('date_to') }}">
+                </div>
+                
+                <div class="col-md-1 d-flex align-items-end">
+                    <div class="btn-group w-100" role="group">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a href="{{ route('animal-weights.index') }}" class="btn btn-outline-secondary btn-sm" title="Limpar Filtros">
+                            <i class="fas fa-undo"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Informações dos Resultados -->
+    @if(request()->hasAny(['animal_id', 'weight_min', 'weight_max', 'date_from', 'date_to']))
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Filtros Ativos:</strong>
+            @if(request('animal_id'))
+                Animal: <strong>{{ $animals->firstWhere('id', request('animal_id'))->tag ?? 'N/A' }}</strong>
+            @endif
+            @if(request('weight_min'))
+                | Peso mín: <strong>{{ request('weight_min') }}kg</strong>
+            @endif
+            @if(request('weight_max'))
+                | Peso máx: <strong>{{ request('weight_max') }}kg</strong>
+            @endif
+            @if(request('date_from'))
+                | De: <strong>{{ \Carbon\Carbon::parse(request('date_from'))->format('d/m/Y') }}</strong>
+            @endif
+            @if(request('date_to'))
+                | Até: <strong>{{ \Carbon\Carbon::parse(request('date_to'))->format('d/m/Y') }}</strong>
+            @endif
+            <br>
+            <small>{{ $weights->total() }} pesagem(ns) encontrada(s)</small>
+        </div>
+    @endif
+
     <div class="modern-table-container">
         @if($weights->count() > 0)
             <div class="table-responsive">
@@ -50,9 +132,6 @@
                                 <td data-label="Animal">
                                     @if($weight->animal)
                                         <strong class="text-primary">{{ $weight->animal->tag }}</strong>
-                                        @if($weight->animal->name)
-                                            <br><small class="text-muted">{{ $weight->animal->name }}</small>
-                                        @endif
                                         @if($weight->animal->breed)
                                             <br><small class="text-info">{{ $weight->animal->breed }}</small>
                                         @endif
@@ -209,7 +288,7 @@
                     Mostrando {{ $weights->firstItem() }} a {{ $weights->lastItem() }} 
                     de {{ $weights->total() }} resultados
                 </div>
-                {{ $weights->links() }}
+                {{ $weights->appends(request()->query())->links() }}
             </div>
         </div>
     @endif
