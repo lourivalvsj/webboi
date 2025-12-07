@@ -370,26 +370,25 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
-        // Calcular gastos por animal baseado no consumo
-        $feedingByAnimal = $feedingRecords->groupBy('animal_id')->map(function($records, $animalId) use ($feedingSupplies) {
+        // Calcular gastos reais por animal
+        $feedingByAnimal = $feedingRecords->groupBy('animal_id')->map(function($records, $animalId) use ($startDate, $endDate) {
             $animal = $records->first()->animal;
             $totalQuantityConsumed = $records->sum('quantity');
             
-            // Estimar custo baseado na proporção de consumo
-            $totalSupplyValue = $feedingSupplies->sum('value');
-            $totalSupplyQuantity = $feedingSupplies->sum('quantity');
-            
-            $estimatedCost = $totalSupplyQuantity > 0 ? 
-                ($totalQuantityConsumed / $totalSupplyQuantity) * $totalSupplyValue : 0;
+            // Buscar gastos reais do animal com alimentação
+            $animalFeedingCosts = SupplyExpense::where('category', SupplyExpense::CATEGORY_ALIMENTACAO)
+                                            ->where('animal_id', $animalId)
+                                            ->whereBetween('purchase_date', [$startDate, $endDate])
+                                            ->sum('value');
             
             return [
                 'animal' => $animal,
                 'records_count' => $records->count(),
                 'total_quantity' => $totalQuantityConsumed,
-                'estimated_cost' => $estimatedCost,
+                'real_cost' => $animalFeedingCosts,
                 'average_per_feeding' => $records->count() > 0 ? $totalQuantityConsumed / $records->count() : 0
             ];
-        })->sortByDesc('estimated_cost');
+        })->sortByDesc('real_cost');
         
         // Buscar todos os animais para o filtro
         $animals = Animal::select('id', 'tag')->orderBy('tag')->get();
@@ -451,26 +450,25 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
-        // Calcular gastos por animal baseado no uso de medicamentos
-        $medicationByAnimal = $medicationRecords->groupBy('animal_id')->map(function($records, $animalId) use ($medicationSupplies) {
+        // Calcular gastos reais por animal
+        $medicationByAnimal = $medicationRecords->groupBy('animal_id')->map(function($records, $animalId) use ($startDate, $endDate) {
             $animal = $records->first()->animal;
             $totalDoseUsed = $records->sum('dose');
             
-            // Estimar custo baseado na proporção de uso
-            $totalSupplyValue = $medicationSupplies->sum('value');
-            $totalSupplyQuantity = $medicationSupplies->sum('quantity');
-            
-            $estimatedCost = $totalSupplyQuantity > 0 ? 
-                ($totalDoseUsed / $totalSupplyQuantity) * $totalSupplyValue : 0;
+            // Buscar gastos reais do animal com medicamentos
+            $animalMedicationCosts = SupplyExpense::where('category', SupplyExpense::CATEGORY_MEDICAMENTO)
+                                                 ->where('animal_id', $animalId)
+                                                 ->whereBetween('purchase_date', [$startDate, $endDate])
+                                                 ->sum('value');
             
             return [
                 'animal' => $animal,
                 'records_count' => $records->count(),
                 'total_dose' => $totalDoseUsed,
-                'estimated_cost' => $estimatedCost,
+                'real_cost' => $animalMedicationCosts,
                 'average_per_medication' => $records->count() > 0 ? $totalDoseUsed / $records->count() : 0
             ];
-        })->sortByDesc('estimated_cost');
+        })->sortByDesc('real_cost');
         
         // Buscar todos os animais para o filtro
         $animals = Animal::select('id', 'tag')->orderBy('tag')->get();

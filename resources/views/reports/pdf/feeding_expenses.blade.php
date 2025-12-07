@@ -196,12 +196,12 @@
     <!-- Gastos por Animal -->
     @if(isset($feedingByAnimal) && $feedingByAnimal->count() > 0)
     <div class="section">
-        <div class="section-title">🐄 Gastos Estimados por Animal</div>
+        <div class="section-title">🐄 Gastos Reais por Animal</div>
         <table>
             <thead>
                 <tr>
                     <th>Animal (Brinco)</th>
-                    <th>Custo Estimado</th>
+                    <th>Custo Real</th>
                     <th>Quantidade</th>
                     <th>Alimentações</th>
                     <th>Média</th>
@@ -211,7 +211,7 @@
                 @foreach($feedingByAnimal as $animalData)
                 <tr>
                     <td><strong>{{ $animalData['animal']->tag }}</strong></td>
-                    <td class="text-end text-success">R$ {{ number_format($animalData['estimated_cost'], 2, ',', '.') }}</td>
+                    <td class="text-end text-success">R$ {{ number_format($animalData['real_cost'], 2, ',', '.') }}</td>
                     <td class="text-end">{{ number_format($animalData['total_quantity'], 2, ',', '.') }}</td>
                     <td class="text-center">{{ $animalData['records_count'] }}</td>
                     <td class="text-end">{{ number_format($animalData['average_per_feeding'], 2, ',', '.') }}</td>

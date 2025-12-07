@@ -111,13 +111,13 @@
                     @if(isset($feedingByAnimal) && $feedingByAnimal->count() > 0)
                     <div class="row mb-4">
                         <div class="col-12">
-                            <h5 class="mb-3"><i class="fas fa-cow me-2"></i>Gastos Estimados por Animal</h5>
+                            <h5 class="mb-3"><i class="fas fa-cow me-2"></i>Gastos Reais por Animal</h5>
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead class="table-success">
                                         <tr>
                                             <th>Animal (Brinco)</th>
-                                            <th class="text-end">Custo Estimado</th>
+                                            <th class="text-end">Custo Real</th>
                                             <th class="text-end">Quantidade Consumida</th>
                                             <th class="text-end">Alimentações</th>
                                             <th class="text-end">Média por Alimentação</th>
@@ -127,7 +127,7 @@
                                         @foreach($feedingByAnimal as $animalData)
                                         <tr>
                                             <td><strong>{{ $animalData['animal']->tag }}</strong></td>
-                                            <td class="text-end"><strong class="text-success">R$ {{ number_format($animalData['estimated_cost'], 2, ',', '.') }}</strong></td>
+                                            <td class="text-end"><strong class="text-success">R$ {{ number_format($animalData['real_cost'], 2, ',', '.') }}</strong></td>
                                             <td class="text-end">{{ number_format($animalData['total_quantity'], 2, ',', '.') }}</td>
                                             <td class="text-end">{{ $animalData['records_count'] }}</td>
                                             <td class="text-end">{{ number_format($animalData['average_per_feeding'], 2, ',', '.') }}</td>
