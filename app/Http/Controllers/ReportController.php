@@ -370,14 +370,35 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
+        // Calcular gastos por animal baseado no consumo
+        $feedingByAnimal = $feedingRecords->groupBy('animal_id')->map(function($records, $animalId) use ($feedingSupplies) {
+            $animal = $records->first()->animal;
+            $totalQuantityConsumed = $records->sum('quantity');
+            
+            // Estimar custo baseado na proporção de consumo
+            $totalSupplyValue = $feedingSupplies->sum('value');
+            $totalSupplyQuantity = $feedingSupplies->sum('quantity');
+            
+            $estimatedCost = $totalSupplyQuantity > 0 ? 
+                ($totalQuantityConsumed / $totalSupplyQuantity) * $totalSupplyValue : 0;
+            
+            return [
+                'animal' => $animal,
+                'records_count' => $records->count(),
+                'total_quantity' => $totalQuantityConsumed,
+                'estimated_cost' => $estimatedCost,
+                'average_per_feeding' => $records->count() > 0 ? $totalQuantityConsumed / $records->count() : 0
+            ];
+        })->sortByDesc('estimated_cost');
+        
         // Buscar todos os animais para o filtro
         $animals = Animal::select('id', 'tag')->orderBy('tag')->get();
         
         if ($request->input('export') === 'pdf') {
-            return $this->exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $stats);
+            return $this->exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $feedingByAnimal, $stats);
         }
         
-        return view('reports.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'stats', 'animals'));
+        return view('reports.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'feedingByAnimal', 'stats', 'animals'));
     }
     
     // Relatório de Gastos com Medicamentos
@@ -430,26 +451,47 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
+        // Calcular gastos por animal baseado no uso de medicamentos
+        $medicationByAnimal = $medicationRecords->groupBy('animal_id')->map(function($records, $animalId) use ($medicationSupplies) {
+            $animal = $records->first()->animal;
+            $totalDoseUsed = $records->sum('dose');
+            
+            // Estimar custo baseado na proporção de uso
+            $totalSupplyValue = $medicationSupplies->sum('value');
+            $totalSupplyQuantity = $medicationSupplies->sum('quantity');
+            
+            $estimatedCost = $totalSupplyQuantity > 0 ? 
+                ($totalDoseUsed / $totalSupplyQuantity) * $totalSupplyValue : 0;
+            
+            return [
+                'animal' => $animal,
+                'records_count' => $records->count(),
+                'total_dose' => $totalDoseUsed,
+                'estimated_cost' => $estimatedCost,
+                'average_per_medication' => $records->count() > 0 ? $totalDoseUsed / $records->count() : 0
+            ];
+        })->sortByDesc('estimated_cost');
+        
         // Buscar todos os animais para o filtro
         $animals = Animal::select('id', 'tag')->orderBy('tag')->get();
         
         if ($request->input('export') === 'pdf') {
-            return $this->exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $stats);
+            return $this->exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $medicationByAnimal, $stats);
         }
         
-        return view('reports.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'stats', 'animals'));
+        return view('reports.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'medicationByAnimal', 'stats', 'animals'));
     }
     
-    private function exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $stats)
+    private function exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $feedingByAnimal, $stats)
     {
-        return view('reports.pdf.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'stats'))
+        return view('reports.pdf.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'feedingByAnimal', 'stats'))
                   ->with('title', 'Relatório de Gastos com Alimentação - ' . now()->format('d/m/Y'))
                   ->with('printable', true);
     }
     
-    private function exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $stats)
+    private function exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $medicationByAnimal, $stats)
     {
-        return view('reports.pdf.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'stats'))
+        return view('reports.pdf.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'medicationByAnimal', 'stats'))
                   ->with('title', 'Relatório de Gastos com Medicamentos - ' . now()->format('d/m/Y'))
                   ->with('printable', true);
     }
