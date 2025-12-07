@@ -327,17 +327,27 @@ class ReportController extends Controller
         $endDate = $request->input('end_date', now());
         
         // Buscar gastos com alimentação
-        $feedingSupplies = SupplyExpense::where('category', SupplyExpense::CATEGORY_ALIMENTACAO)
-                                      ->whereBetween('purchase_date', [$startDate, $endDate])
-                                      ->with('animal')
-                                      ->orderBy('purchase_date', 'desc')
-                                      ->get();
+        $query = SupplyExpense::where('category', SupplyExpense::CATEGORY_ALIMENTACAO)
+                             ->whereBetween('purchase_date', [$startDate, $endDate])
+                             ->with('animal');
+        
+        // Filtro por animal específico
+        if ($request->filled('animal_id')) {
+            $query->where('animal_id', $request->animal_id);
+        }
+        
+        $feedingSupplies = $query->orderBy('purchase_date', 'desc')->get();
         
         // Buscar registros de alimentação para análise de consumo
-        $feedingRecords = Feeding::whereBetween('feeding_date', [$startDate, $endDate])
-                                ->with('animal')
-                                ->orderBy('feeding_date', 'desc')
-                                ->get();
+        $feedingQuery = Feeding::whereBetween('feeding_date', [$startDate, $endDate])
+                              ->with('animal');
+        
+        // Filtro por animal específico nos registros de alimentação
+        if ($request->filled('animal_id')) {
+            $feedingQuery->where('animal_id', $request->animal_id);
+        }
+        
+        $feedingRecords = $feedingQuery->orderBy('feeding_date', 'desc')->get();
         
         // Calcular estatísticas
         $stats = [
@@ -360,11 +370,14 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
+        // Buscar todos os animais para o filtro
+        $animals = Animal::select('id', 'tag')->orderBy('tag')->get();
+        
         if ($request->input('export') === 'pdf') {
             return $this->exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $stats);
         }
         
-        return view('reports.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'stats'));
+        return view('reports.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'stats', 'animals'));
     }
     
     // Relatório de Gastos com Medicamentos
@@ -374,17 +387,27 @@ class ReportController extends Controller
         $endDate = $request->input('end_date', now());
         
         // Buscar gastos com medicamentos
-        $medicationSupplies = SupplyExpense::where('category', SupplyExpense::CATEGORY_MEDICAMENTO)
-                                         ->whereBetween('purchase_date', [$startDate, $endDate])
-                                         ->with('animal')
-                                         ->orderBy('purchase_date', 'desc')
-                                         ->get();
+        $query = SupplyExpense::where('category', SupplyExpense::CATEGORY_MEDICAMENTO)
+                             ->whereBetween('purchase_date', [$startDate, $endDate])
+                             ->with('animal');
+        
+        // Filtro por animal específico
+        if ($request->filled('animal_id')) {
+            $query->where('animal_id', $request->animal_id);
+        }
+        
+        $medicationSupplies = $query->orderBy('purchase_date', 'desc')->get();
         
         // Buscar registros de medicação para análise de consumo
-        $medicationRecords = Medication::whereBetween('administration_date', [$startDate, $endDate])
-                                     ->with('animal')
-                                     ->orderBy('administration_date', 'desc')
-                                     ->get();
+        $medicationQuery = Medication::whereBetween('administration_date', [$startDate, $endDate])
+                                   ->with('animal');
+        
+        // Filtro por animal específico nos registros de medicação
+        if ($request->filled('animal_id')) {
+            $medicationQuery->where('animal_id', $request->animal_id);
+        }
+        
+        $medicationRecords = $medicationQuery->orderBy('administration_date', 'desc')->get();
         
         // Calcular estatísticas
         $stats = [
@@ -407,11 +430,14 @@ class ReportController extends Controller
             ];
         })->sortByDesc('total_value');
         
+        // Buscar todos os animais para o filtro
+        $animals = Animal::select('id', 'tag')->orderBy('tag')->get();
+        
         if ($request->input('export') === 'pdf') {
             return $this->exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $stats);
         }
         
-        return view('reports.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'stats'));
+        return view('reports.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'stats', 'animals'));
     }
     
     private function exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $stats)

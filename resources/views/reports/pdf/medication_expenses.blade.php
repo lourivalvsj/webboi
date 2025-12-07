@@ -243,9 +243,9 @@
                     <td><strong>{{ $supply->name }}</strong></td>
                     <td>
                         @if($supply->animal)
-                            <span class="badge">{{ $supply->animal->name }}</span>
+                            <span class="badge">{{ $supply->animal->tag }}</span>
                         @else
-                            <span class="text-muted">Geral</span>
+                            <span class="text-muted">Compra Geral</span>
                         @endif
                     </td>
                     <td class="text-end">
@@ -282,7 +282,7 @@
                 @foreach($medicationRecords->take(50) as $medication)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($medication->administration_date)->format('d/m/Y') }}</td>
-                    <td><span class="badge">{{ $medication->animal->name }}</span></td>
+                    <td><span class="badge">{{ $medication->animal->tag }}</span></td>
                     <td>{{ $medication->medication_name }}</td>
                     <td class="text-end">
                         {{ number_format($medication->dose, 2, ',', '.') }} {{ $medication->unit_of_measure }}

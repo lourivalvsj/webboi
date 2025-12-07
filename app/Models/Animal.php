@@ -82,6 +82,11 @@ class Animal extends Model
         return $this->hasMany(Medication::class);
     }
 
+    public function supplyExpenses()
+    {
+        return $this->hasMany(SupplyExpense::class);
+    }
+
     /**
      * Verifica se o animal está disponível para venda
      * (tem compra registrada e ainda não foi vendido)

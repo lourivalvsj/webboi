@@ -11,6 +11,9 @@
                             <h4 class="mb-0"><i class="fas fa-seedling me-2"></i>Relatório de Gastos com Alimentação</h4>
                             <small class="opacity-75">
                                 Período: {{ \Carbon\Carbon::parse($stats['period']['start'])->format('d/m/Y') }} até {{ \Carbon\Carbon::parse($stats['period']['end'])->format('d/m/Y') }}
+                                @if(request('animal_id'))
+                                    <br>Animal: {{ $animals->firstWhere('id', request('animal_id'))->tag ?? 'N/A' }}
+                                @endif
                             </small>
                         </div>
                         <div class="d-flex gap-2">
@@ -35,17 +38,28 @@
                     <div class="row mb-4">
                         <div class="col-12">
                             <form action="{{ route('reports.feeding_expenses') }}" method="GET" class="row g-3">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label"><i class="fas fa-calendar me-1"></i>Data Inicial</label>
                                     <input type="date" name="start_date" class="form-control" 
                                            value="{{ request('start_date', now()->startOfMonth()->format('Y-m-d')) }}">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label"><i class="fas fa-calendar me-1"></i>Data Final</label>
                                     <input type="date" name="end_date" class="form-control" 
                                            value="{{ request('end_date', now()->format('Y-m-d')) }}">
                                 </div>
-                                <div class="col-md-4 d-flex align-items-end">
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="fas fa-cow me-1"></i>Animal</label>
+                                    <select name="animal_id" class="form-select">
+                                        <option value="">Todos os Animais</option>
+                                        @foreach($animals as $animal)
+                                            <option value="{{ $animal->id }}" {{ request('animal_id') == $animal->id ? 'selected' : '' }}>
+                                                {{ $animal->tag }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
                                     <button type="submit" class="btn btn-primary me-2">
                                         <i class="fas fa-filter me-1"></i>Filtrar
                                     </button>
@@ -150,9 +164,9 @@
                                             <td><strong>{{ $supply->name }}</strong></td>
                                             <td>
                                                 @if($supply->animal)
-                                                    <span class="badge bg-primary">{{ $supply->animal->name }}</span>
+                                                    <span class="badge bg-primary">{{ $supply->animal->tag }}</span>
                                                 @else
-                                                    <span class="text-muted">Geral</span>
+                                                    <span class="badge bg-secondary">Compra Geral</span>
                                                 @endif
                                             </td>
                                             <td>{{ $supply->description ?? '-' }}</td>
@@ -169,7 +183,12 @@
                             </div>
                             @else
                             <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>Nenhuma compra de alimentação encontrada no período selecionado.
+                                <i class="fas fa-info-circle me-2"></i>
+                                @if(request('animal_id'))
+                                    Nenhuma compra de alimentação encontrada para o animal <strong>{{ $animals->firstWhere('id', request('animal_id'))->tag ?? 'selecionado' }}</strong> no período.
+                                @else
+                                    Nenhuma compra de alimentação encontrada no período selecionado.
+                                @endif
                             </div>
                             @endif
                         </div>
@@ -195,7 +214,7 @@
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($feeding->feeding_date)->format('d/m/Y') }}</td>
                                             <td>
-                                                <span class="badge bg-primary">{{ $feeding->animal->name }}</span>
+                                                <span class="badge bg-primary">{{ $feeding->animal->tag }}</span>
                                             </td>
                                             <td>{{ $feeding->feed_type }}</td>
                                             <td class="text-end">
@@ -208,7 +227,12 @@
                             </div>
                             @else
                             <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>Nenhum registro de alimentação encontrado no período selecionado.
+                                <i class="fas fa-info-circle me-2"></i>
+                                @if(request('animal_id'))
+                                    Nenhum registro de alimentação encontrado para o animal <strong>{{ $animals->firstWhere('id', request('animal_id'))->tag ?? 'selecionado' }}</strong> no período.
+                                @else
+                                    Nenhum registro de alimentação encontrado no período selecionado.
+                                @endif
                             </div>
                             @endif
                         </div>
