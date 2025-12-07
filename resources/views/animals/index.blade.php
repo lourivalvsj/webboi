@@ -99,9 +99,9 @@
                                 </td>
                                 <td data-label="Categoria">
                                     @if($animal->category)
-                                        <span class="status-badge active">{{ $animal->category->name }}</span>
+                                        {{ $animal->category->name }}
                                     @else
-                                        <span class="status-badge inactive">N/A</span>
+                                        <span class="text-muted">N/A</span>
                                     @endif
                                 </td>
                                 <td data-label="Ações">
