@@ -199,7 +199,7 @@
                                                 @if($supply->animal)
                                                     <strong>{{ $supply->animal->tag }}</strong>
                                                 @else
-                                                    <span class="badge bg-secondary">Compra Geral</span>
+                                                    <span class="text-muted">Compra Geral</span>
                                                 @endif
                                             </td>
                                             <td>{{ $supply->description ?? '-' }}</td>
