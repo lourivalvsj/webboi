@@ -3,6 +3,14 @@
 @section('content')
     <div class="container">
         <h2>Editar Alimentação</h2>
+        
+        @if($feeding->animal && $feeding->animal->isSold())
+            <div class="alert alert-warning mb-4" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Aviso:</strong> Este animal já foi vendido. Você pode visualizar e editar este registro histórico, mas não poderá alterar o animal para outro que também já foi vendido.
+            </div>
+        @endif
+        
         <form action="{{ route('feedings.update', $feeding) }}" method="POST">
             @csrf @method('PUT')
             <div class="mb-3">

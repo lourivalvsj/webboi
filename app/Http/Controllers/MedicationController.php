@@ -50,8 +50,8 @@ class MedicationController extends Controller
 
     public function create()
     {
-        // Apenas animais que já têm uma compra registrada
-        $animals = Animal::withPurchase()->get();
+        // Apenas animais que já têm uma compra registrada e não foram vendidos
+        $animals = Animal::withPurchase()->whereDoesntHave('sale')->get();
         
         // Buscar produtos únicos dos insumos cadastrados de medicamento
         $medicationNames = SupplyExpense::where('category', 'medicamento')
@@ -81,16 +81,23 @@ class MedicationController extends Controller
                 ->withErrors(['animal_id' => 'Este animal não pode ter medicação registrada pois não possui uma compra registrada.']);
         }
 
+        // Verificar se o animal já foi vendido
+        if ($animal->isSold()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Não é possível registrar medicação para este animal pois ele já foi vendido.']);
+        }
+
         Medication::create($request->all());
         return redirect()->route('medications.index')->with('success', 'Medicação registrada com sucesso.');
     }
 
     public function edit(Medication $medication)
     {
-        // Animais com compra + o animal atual da medicação (para permitir edição)
-        $animals = Animal::withPurchase()->get();
+        // Animais com compra e não vendidos + o animal atual da medicação (para permitir edição)
+        $animals = Animal::withPurchase()->whereDoesntHave('sale')->get();
         
-        // Adicionar o animal atual se não estiver na lista
+        // Adicionar o animal atual se não estiver na lista (permitir edição mesmo se vendido)
         if ($medication->animal && !$animals->contains('id', $medication->animal->id)) {
             $animals->push($medication->animal);
         }
@@ -121,6 +128,13 @@ class MedicationController extends Controller
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['animal_id' => 'Este animal não pode ter medicação registrada pois não possui uma compra registrada.']);
+        }
+
+        // Verificar se o animal já foi vendido
+        if ($animal->isSold()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Não é possível atualizar medicação para este animal pois ele já foi vendido.']);
         }
 
         $medication->update($request->all());

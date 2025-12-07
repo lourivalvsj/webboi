@@ -137,6 +137,11 @@
                                         <i class="fas fa-truck me-2"></i>Relatório de Transportes</a></li>
                                     <li><a class="dropdown-item" href="{{ route('reports.expenses') }}">
                                         <i class="fas fa-receipt me-2"></i>Relatório de Despesas</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ route('reports.feeding_expenses') }}">
+                                        <i class="fas fa-seedling me-2"></i>Gastos com Alimentação</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('reports.medication_expenses') }}">
+                                        <i class="fas fa-pills me-2"></i>Gastos com Medicamentos</a></li>
                                 </ul>
                             </li>
 

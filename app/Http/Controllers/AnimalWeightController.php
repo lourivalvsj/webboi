@@ -18,8 +18,8 @@ class AnimalWeightController extends Controller
 
     public function create()
     {
-        // Apenas animais que já têm uma compra registrada
-        $animals = Animal::withPurchase()->get();
+        // Apenas animais disponíveis para registros
+        $animals = Animal::availableForRecords()->get();
         return view('animal_weights.create', compact('animals'));
     }
 
@@ -39,16 +39,23 @@ class AnimalWeightController extends Controller
                 ->withErrors(['animal_id' => 'Este animal não pode ter pesagem registrada pois não possui uma compra registrada.']);
         }
 
+        // Verificar se o animal já foi vendido
+        if ($animal->isSold()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Não é possível registrar pesagem para este animal pois ele já foi vendido.']);
+        }
+
         AnimalWeight::create($request->all());
         return redirect()->route('animal-weights.index')->with('success', 'Pesagem registrada com sucesso.');
     }
 
     public function edit(AnimalWeight $animalWeight)
     {
-        // Animais com compra + o animal atual da pesagem (para permitir edição)
-        $animals = Animal::withPurchase()->get();
+        // Animais com compra e não vendidos + o animal atual da pesagem (para permitir edição)
+        $animals = Animal::withPurchase()->whereDoesntHave('sale')->get();
         
-        // Adicionar o animal atual se não estiver na lista
+        // Adicionar o animal atual se não estiver na lista (permitir edição mesmo se vendido)
         if ($animalWeight->animal && !$animals->contains('id', $animalWeight->animal->id)) {
             $animals->push($animalWeight->animal);
         }
@@ -70,6 +77,13 @@ class AnimalWeightController extends Controller
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['animal_id' => 'Este animal não pode ter pesagem registrada pois não possui uma compra registrada.']);
+        }
+
+        // Verificar se o animal já foi vendido
+        if ($animal->isSold()) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['animal_id' => 'Não é possível atualizar pesagem para este animal pois ele já foi vendido.']);
         }
 
         $animalWeight->update($request->all());

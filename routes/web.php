@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/purchases', [ReportController::class, 'purchases'])->name('purchases');
         Route::get('/transports', [ReportController::class, 'transports'])->name('transports');
         Route::get('/expenses', [ReportController::class, 'expenses'])->name('expenses');
+        Route::get('/feeding-expenses', [ReportController::class, 'feedingExpenses'])->name('feeding_expenses');
+        Route::get('/medication-expenses', [ReportController::class, 'medicationExpenses'])->name('medication_expenses');
     });
 
     // Rotas para gerenciamento de cidades

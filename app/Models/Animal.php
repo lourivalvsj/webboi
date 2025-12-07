@@ -29,6 +29,16 @@ class Animal extends Model
         return $query->whereHas('purchase')
                     ->whereDoesntHave('sale');
     }
+    
+    /**
+     * Scope para animais disponíveis para registros (pesagem, alimentação, medicação)
+     * São animais com compra registrada que ainda não foram vendidos
+     */
+    public function scopeAvailableForRecords($query)
+    {
+        return $query->whereHas('purchase')
+                    ->whereDoesntHave('sale');
+    }
 
     /**
      * Scope para animais com compra registrada

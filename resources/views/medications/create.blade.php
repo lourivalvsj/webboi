@@ -7,6 +7,12 @@
         </div>
 
         @if($animals->count() > 0)
+            <!-- Alerta informativo -->
+            <div class="alert alert-info mb-4" role="alert">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Atenção:</strong> Apenas animais com compra registrada e que <strong>não foram vendidos</strong> podem ter medicações registradas.
+            </div>
+            
             <div class="modern-form-container">
                 <form action="{{ route('medications.store') }}" method="POST">
                     @csrf
@@ -30,7 +36,7 @@
                                 @enderror
                                 <small class="form-text text-muted">
                                     <i class="fas fa-info-circle me-1"></i>
-                                    Apenas animais com compra registrada podem ter medicações.
+                                    Apenas animais com compra registrada e não vendidos podem ter medicações.
                                 </small>
                             </div>
                         </div>
@@ -131,7 +137,7 @@
                     <div>
                         <h5 class="alert-heading mb-2">Nenhum animal disponível para medicação</h5>
                         <p class="mb-0">
-                            Para registrar uma medicação, é necessário que o animal tenha uma <strong>compra registrada</strong> primeiro.
+                            Para registrar uma medicação, é necessário que o animal tenha uma <strong>compra registrada</strong> e <strong>não tenha sido vendido</strong>.
                             <br>
                             Acesse <a href="{{ route('purchases.create') }}" class="alert-link">Registrar Compra</a> para adicionar animais ao estoque.
                         </p>

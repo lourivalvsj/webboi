@@ -319,4 +319,112 @@ class ReportController extends Controller
                   ->with('title', 'Relatório de Despesas - ' . now()->format('d/m/Y'))
                   ->with('printable', true);
     }
+    
+    // Relatório de Gastos com Alimentação
+    public function feedingExpenses(Request $request)
+    {
+        $startDate = $request->input('start_date', now()->startOfMonth());
+        $endDate = $request->input('end_date', now());
+        
+        // Buscar gastos com alimentação
+        $feedingSupplies = SupplyExpense::where('category', SupplyExpense::CATEGORY_ALIMENTACAO)
+                                      ->whereBetween('purchase_date', [$startDate, $endDate])
+                                      ->with('animal')
+                                      ->orderBy('purchase_date', 'desc')
+                                      ->get();
+        
+        // Buscar registros de alimentação para análise de consumo
+        $feedingRecords = Feeding::whereBetween('feeding_date', [$startDate, $endDate])
+                                ->with('animal')
+                                ->orderBy('feeding_date', 'desc')
+                                ->get();
+        
+        // Calcular estatísticas
+        $stats = [
+            'total_value' => $feedingSupplies->sum('value'),
+            'total_quantity' => $feedingSupplies->sum('quantity'),
+            'total_records' => $feedingRecords->count(),
+            'average_cost_per_record' => $feedingRecords->count() > 0 ? 
+                                       $feedingSupplies->sum('value') / $feedingRecords->count() : 0,
+            'period' => ['start' => $startDate, 'end' => $endDate]
+        ];
+        
+        // Agrupar por tipo de alimento
+        $feedingByType = $feedingSupplies->groupBy('name')->map(function($items, $name) {
+            return [
+                'name' => $name,
+                'total_value' => $items->sum('value'),
+                'total_quantity' => $items->sum('quantity'),
+                'records_count' => $items->count(),
+                'average_value' => $items->avg('value'),
+            ];
+        })->sortByDesc('total_value');
+        
+        if ($request->input('export') === 'pdf') {
+            return $this->exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $stats);
+        }
+        
+        return view('reports.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'stats'));
+    }
+    
+    // Relatório de Gastos com Medicamentos
+    public function medicationExpenses(Request $request)
+    {
+        $startDate = $request->input('start_date', now()->startOfMonth());
+        $endDate = $request->input('end_date', now());
+        
+        // Buscar gastos com medicamentos
+        $medicationSupplies = SupplyExpense::where('category', SupplyExpense::CATEGORY_MEDICAMENTO)
+                                         ->whereBetween('purchase_date', [$startDate, $endDate])
+                                         ->with('animal')
+                                         ->orderBy('purchase_date', 'desc')
+                                         ->get();
+        
+        // Buscar registros de medicação para análise de consumo
+        $medicationRecords = Medication::whereBetween('administration_date', [$startDate, $endDate])
+                                     ->with('animal')
+                                     ->orderBy('administration_date', 'desc')
+                                     ->get();
+        
+        // Calcular estatísticas
+        $stats = [
+            'total_value' => $medicationSupplies->sum('value'),
+            'total_quantity' => $medicationSupplies->sum('quantity'),
+            'total_records' => $medicationRecords->count(),
+            'average_cost_per_record' => $medicationRecords->count() > 0 ? 
+                                       $medicationSupplies->sum('value') / $medicationRecords->count() : 0,
+            'period' => ['start' => $startDate, 'end' => $endDate]
+        ];
+        
+        // Agrupar por tipo de medicamento
+        $medicationByType = $medicationSupplies->groupBy('name')->map(function($items, $name) {
+            return [
+                'name' => $name,
+                'total_value' => $items->sum('value'),
+                'total_quantity' => $items->sum('quantity'),
+                'records_count' => $items->count(),
+                'average_value' => $items->avg('value'),
+            ];
+        })->sortByDesc('total_value');
+        
+        if ($request->input('export') === 'pdf') {
+            return $this->exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $stats);
+        }
+        
+        return view('reports.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'stats'));
+    }
+    
+    private function exportFeedingExpensesPDF($feedingSupplies, $feedingRecords, $feedingByType, $stats)
+    {
+        return view('reports.pdf.feeding_expenses', compact('feedingSupplies', 'feedingRecords', 'feedingByType', 'stats'))
+                  ->with('title', 'Relatório de Gastos com Alimentação - ' . now()->format('d/m/Y'))
+                  ->with('printable', true);
+    }
+    
+    private function exportMedicationExpensesPDF($medicationSupplies, $medicationRecords, $medicationByType, $stats)
+    {
+        return view('reports.pdf.medication_expenses', compact('medicationSupplies', 'medicationRecords', 'medicationByType', 'stats'))
+                  ->with('title', 'Relatório de Gastos com Medicamentos - ' . now()->format('d/m/Y'))
+                  ->with('printable', true);
+    }
 }
