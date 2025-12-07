@@ -210,7 +210,7 @@
             <tbody>
                 @foreach($feedingByAnimal as $animalData)
                 <tr>
-                    <td><span class="badge">{{ $animalData['animal']->tag }}</span></td>
+                    <td><strong>{{ $animalData['animal']->tag }}</strong></td>
                     <td class="text-end text-success">R$ {{ number_format($animalData['estimated_cost'], 2, ',', '.') }}</td>
                     <td class="text-end">{{ number_format($animalData['total_quantity'], 2, ',', '.') }}</td>
                     <td class="text-center">{{ $animalData['records_count'] }}</td>
@@ -272,7 +272,7 @@
                     <td><strong>{{ $supply->name }}</strong></td>
                     <td>
                         @if($supply->animal)
-                            <span class="badge">{{ $supply->animal->tag }}</span>
+                            <strong>{{ $supply->animal->tag }}</strong>
                         @else
                             <span class="text-muted">Compra Geral</span>
                         @endif
@@ -311,7 +311,7 @@
                 @foreach($feedingRecords->take(50) as $feeding)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($feeding->feeding_date)->format('d/m/Y') }}</td>
-                    <td><span class="badge">{{ $feeding->animal->tag }}</span></td>
+                    <td><strong>{{ $feeding->animal->tag }}</strong></td>
                     <td>{{ $feeding->feed_type }}</td>
                     <td class="text-end">
                         {{ number_format($feeding->quantity, 2, ',', '.') }} {{ $feeding->unit_of_measure }}

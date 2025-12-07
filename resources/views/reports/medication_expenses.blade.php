@@ -126,7 +126,7 @@
                                     <tbody>
                                         @foreach($medicationByAnimal as $animalData)
                                         <tr>
-                                            <td><span class="badge bg-primary">{{ $animalData['animal']->tag }}</span></td>
+                                            <td><strong>{{ $animalData['animal']->tag }}</strong></td>
                                             <td class="text-end"><strong class="text-danger">R$ {{ number_format($animalData['estimated_cost'], 2, ',', '.') }}</strong></td>
                                             <td class="text-end">{{ number_format($animalData['total_dose'], 2, ',', '.') }}</td>
                                             <td class="text-end">{{ $animalData['records_count'] }}</td>
@@ -197,7 +197,7 @@
                                             <td><strong>{{ $supply->name }}</strong></td>
                                             <td>
                                                 @if($supply->animal)
-                                                    <span class="badge bg-primary">{{ $supply->animal->tag }}</span>
+                                                    <strong>{{ $supply->animal->tag }}</strong>
                                                 @else
                                                     <span class="badge bg-secondary">Compra Geral</span>
                                                 @endif
@@ -247,7 +247,7 @@
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($medication->administration_date)->format('d/m/Y') }}</td>
                                             <td>
-                                                <span class="badge bg-primary">{{ $medication->animal->tag }}</span>
+                                                <strong>{{ $medication->animal->tag }}</strong>
                                             </td>
                                             <td>{{ $medication->medication_name }}</td>
                                             <td class="text-end">

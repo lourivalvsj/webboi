@@ -210,7 +210,7 @@
             <tbody>
                 @foreach($medicationByAnimal as $animalData)
                 <tr>
-                    <td><span class="badge">{{ $animalData['animal']->tag }}</span></td>
+                    <td><strong>{{ $animalData['animal']->tag }}</strong></td>
                     <td class="text-end text-danger">R$ {{ number_format($animalData['estimated_cost'], 2, ',', '.') }}</td>
                     <td class="text-end">{{ number_format($animalData['total_dose'], 2, ',', '.') }}</td>
                     <td class="text-center">{{ $animalData['records_count'] }}</td>
@@ -272,7 +272,7 @@
                     <td><strong>{{ $supply->name }}</strong></td>
                     <td>
                         @if($supply->animal)
-                            <span class="badge">{{ $supply->animal->tag }}</span>
+                            <strong>{{ $supply->animal->tag }}</strong>
                         @else
                             <span class="text-muted">Compra Geral</span>
                         @endif
@@ -311,7 +311,7 @@
                 @foreach($medicationRecords->take(50) as $medication)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($medication->administration_date)->format('d/m/Y') }}</td>
-                    <td><span class="badge">{{ $medication->animal->tag }}</span></td>
+                    <td><strong>{{ $medication->animal->tag }}</strong></td>
                     <td>{{ $medication->medication_name }}</td>
                     <td class="text-end">
                         {{ number_format($medication->dose, 2, ',', '.') }} {{ $medication->unit_of_measure }}

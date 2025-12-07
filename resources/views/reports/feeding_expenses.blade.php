@@ -126,7 +126,7 @@
                                     <tbody>
                                         @foreach($feedingByAnimal as $animalData)
                                         <tr>
-                                            <td><span class="badge bg-primary">{{ $animalData['animal']->tag }}</span></td>
+                                            <td><strong>{{ $animalData['animal']->tag }}</strong></td>
                                             <td class="text-end"><strong class="text-success">R$ {{ number_format($animalData['estimated_cost'], 2, ',', '.') }}</strong></td>
                                             <td class="text-end">{{ number_format($animalData['total_quantity'], 2, ',', '.') }}</td>
                                             <td class="text-end">{{ $animalData['records_count'] }}</td>
@@ -197,7 +197,7 @@
                                             <td><strong>{{ $supply->name }}</strong></td>
                                             <td>
                                                 @if($supply->animal)
-                                                    <span class="badge bg-primary">{{ $supply->animal->tag }}</span>
+                                                    <strong>{{ $supply->animal->tag }}</strong>
                                                 @else
                                                     <span class="badge bg-secondary">Compra Geral</span>
                                                 @endif
@@ -247,7 +247,7 @@
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($feeding->feeding_date)->format('d/m/Y') }}</td>
                                             <td>
-                                                <span class="badge bg-primary">{{ $feeding->animal->tag }}</span>
+                                                <strong>{{ $feeding->animal->tag }}</strong>
                                             </td>
                                             <td>{{ $feeding->feed_type }}</td>
                                             <td class="text-end">
