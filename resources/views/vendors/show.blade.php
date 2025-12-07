@@ -139,7 +139,7 @@
                                             <td>{{ $purchase->purchase_date ? \Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y') : '-' }}</td>
                                             <td>{{ $purchase->animal->tag ?? '-' }}</td>
                                             <td>R$ {{ number_format($purchase->value, 2, ',', '.') }}</td>
-                                            <td><span class="status-badge active">Finalizada</span></td>
+                                            <td>Finalizada</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

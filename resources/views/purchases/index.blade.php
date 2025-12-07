@@ -117,7 +117,7 @@
                                     </strong>
                                 </td>
                                 <td data-label="Status">
-                                    <span class="status-badge active">Finalizada</span>
+                                    Finalizada
                                 </td>
                                 <td data-label="Ações">
                                     <div class="d-flex gap-1 flex-wrap">
