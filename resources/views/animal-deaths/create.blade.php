@@ -153,7 +153,7 @@
             <!-- Avisos Importantes -->
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h6 class="mb-0 text-warning">
+                    <h6 class="mb-0 text-danger">
                         <i class="fas fa-exclamation-triangle me-2"></i>Avisos Importantes
                     </h6>
                 </div>

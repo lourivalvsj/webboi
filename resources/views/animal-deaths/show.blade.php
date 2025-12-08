@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('animal-deaths.edit', $animal) }}" class="btn btn-warning">
+            <a href="{{ route('animal-deaths.edit', $animal) }}" class="btn btn-secondary">
                 <i class="fas fa-edit me-2"></i>Editar
             </a>
             <button type="button" class="btn btn-success"
@@ -250,7 +250,7 @@
 
                     @if($recentMedications->count() > 0)
                     <div class="mb-0">
-                        <h6 class="text-warning mb-2">
+                        <h6 class="text-orange mb-2">
                             <i class="fas fa-pills me-1"></i> Medicações
                         </h6>
                         @foreach($recentMedications as $medication)

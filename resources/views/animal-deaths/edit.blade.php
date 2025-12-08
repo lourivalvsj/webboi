@@ -5,7 +5,7 @@
     <!-- Cabeçalho -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex align-items-center">
-            <i class="fas fa-edit text-warning me-3" style="font-size: 2rem;"></i>
+            <i class="fas fa-edit text-secondary me-3" style="font-size: 2rem;"></i>
             <div>
                 <h1 class="h3 mb-0 text-gray-800">Editar Óbito</h1>
                 <p class="text-muted mb-0">Alterar informações do registro de óbito de {{ $animal->tag ?: 'Sem tag' }}</p>
@@ -126,7 +126,7 @@
                             <a href="{{ route('animal-deaths.show', $animal) }}" class="btn btn-secondary">
                                 <i class="fas fa-times me-2"></i>Cancelar
                             </a>
-                            <button type="submit" class="btn btn-warning">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Salvar Alterações
                             </button>
                         </div>
@@ -190,7 +190,7 @@
             <!-- Avisos -->
             <div class="card shadow">
                 <div class="card-header">
-                    <h6 class="mb-0 text-warning">
+                    <h6 class="mb-0 text-danger">
                         <i class="fas fa-exclamation-triangle me-2"></i>Avisos
                     </h6>
                 </div>

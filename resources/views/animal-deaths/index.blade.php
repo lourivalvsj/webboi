@@ -87,11 +87,11 @@
         </div>
 
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Este Mês
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
@@ -225,7 +225,7 @@
                                 </td>
                                 <td>
                                     @if($animal->death_cause)
-                                        <span class="text-dark">{{ Str::limit($animal->death_cause, 30) }}</span>
+                                        <span class="text-dark">{{ Str::limit($animal->death_cause, 80) }}</span>
                                     @else
                                         <span class="text-muted">Não informada</span>
                                     @endif
@@ -240,7 +240,7 @@
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="{{ route('animal-deaths.edit', $animal) }}" 
-                                           class="btn btn-sm btn-outline-warning">
+                                           class="btn btn-sm btn-outline-secondary">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button type="button" class="btn btn-sm btn-outline-success"
