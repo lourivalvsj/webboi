@@ -91,7 +91,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-6 mb-3">
-            <div class="card stats-card bg-warning text-white">
+            <div class="card stats-card bg-info text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-weight fa-2x mb-2"></i>
                     <h4>{{ number_format($stats['average_weight'] ?? 0, 1) }}kg</h4>

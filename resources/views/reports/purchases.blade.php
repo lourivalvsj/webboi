@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-6 mb-3">
-            <div class="card stats-card bg-warning text-white">
+            <div class="card stats-card bg-success text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-star fa-2x mb-2"></i>
                     <h4>R$ {{ number_format($stats['highest_purchase'], 2, ',', '.') }}</h4>
