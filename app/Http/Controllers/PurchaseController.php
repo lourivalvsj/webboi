@@ -56,6 +56,13 @@ class PurchaseController extends Controller
         return view('purchases.create', compact('animals', 'vendors'));
     }
 
+    public function createBulk()
+    {
+        $animals = Animal::all();
+        $vendors = Vendor::all();
+        return view('purchases.create-bulk', compact('animals', 'vendors'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -82,6 +89,32 @@ class PurchaseController extends Controller
 
         Purchase::create($data);
         return redirect()->route('purchases.index')->with('success', 'Compra registrada com sucesso.');
+    }
+
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'purchases' => 'required|array|min:1',
+            'purchases.*.animal_id' => 'required|exists:animals,id',
+            'purchases.*.vendor_id' => 'nullable|exists:vendors,id',
+            'purchases.*.purchase_date' => 'nullable|date',
+            'purchases.*.value' => 'required|numeric|min:0',
+            'purchases.*.freight_cost' => 'nullable|numeric|min:0',
+            'purchases.*.transporter' => 'nullable|string|max:255',
+            'purchases.*.commission_value' => 'nullable|numeric|min:0',
+            'purchases.*.commission_percent' => 'nullable|numeric|min:0|max:100',
+        ]);
+
+        $createdCount = 0;
+        foreach ($request->purchases as $purchaseData) {
+            if (!empty($purchaseData['animal_id']) && !empty($purchaseData['value'])) {
+                Purchase::create($purchaseData);
+                $createdCount++;
+            }
+        }
+
+        return redirect()->route('purchases.index')
+            ->with('success', "$createdCount compras registradas com sucesso.");
     }
 
     public function show(Purchase $purchase)

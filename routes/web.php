@@ -32,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('animals-bulk/create', [AnimalController::class, 'createBulk'])->name('animals.create-bulk');
     Route::post('animals-bulk', [AnimalController::class, 'storeBulk'])->name('animals.store-bulk');
     Route::resource('purchases', PurchaseController::class);
+    Route::get('purchases-bulk/create', [PurchaseController::class, 'createBulk'])->name('purchases.create-bulk');
+    Route::post('purchases-bulk', [PurchaseController::class, 'storeBulk'])->name('purchases.store-bulk');
     Route::resource('sales', SaleController::class);
     Route::resource('vendors', VendorController::class);
     Route::resource('buyers', BuyerController::class);
