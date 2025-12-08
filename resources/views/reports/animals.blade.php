@@ -120,6 +120,7 @@
                 <thead>
                     <tr>
                         <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                        <th><i class="fas fa-tag me-2"></i>Brinco</th>
                         <th><i class="fas fa-tags me-2"></i>Categoria</th>
                         <th><i class="fas fa-info-circle me-2"></i>Status</th>
                         <th><i class="fas fa-calendar me-2"></i>Cadastrado</th>
@@ -134,6 +135,9 @@
                     @forelse($animals as $animal)
                     <tr>
                         <td class="fw-bold">#{{ $animal->id }}</td>
+                        <td>
+                            <span class="text-dark fw-bold">{{ $animal->tag ?: 'Sem brinco' }}</span>
+                        </td>
                         <td>
                             <span class="text-muted">{{ $animal->category->name ?? 'Sem categoria' }}</span>
                         </td>
@@ -178,7 +182,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="text-center text-muted py-5">
+                        <td colspan="10" class="text-center text-muted py-5">
                             <i class="fas fa-search fa-3x mb-3"></i>
                             <br>Nenhum animal encontrado com os filtros aplicados.
                         </td>

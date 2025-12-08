@@ -96,7 +96,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>Data</th>
-                                <th>Animal</th>
+                                <th>Animal (ID - Brinco)</th>
                                 <th>Comprador</th>
                                 <th class="text-end">Valor</th>
                             </tr>
@@ -105,7 +105,13 @@
                             @forelse($revenue['sales']->take(10) as $sale)
                             <tr>
                                 <td>{{ $sale->sale_date->format('d/m/Y') }}</td>
-                                <td>#{{ $sale->animal->id ?? '-' }}</td>
+                                <td>
+                                    @if($sale->animal)
+                                        #{{ $sale->animal->id }} - {{ $sale->animal->tag ?: 'Sem brinco' }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>{{ $sale->buyer->name ?? '-' }}</td>
                                 <td class="text-end fw-bold">R$ {{ number_format($sale->value, 2, ',', '.') }}</td>
                             </tr>

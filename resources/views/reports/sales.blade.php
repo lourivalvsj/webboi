@@ -122,7 +122,7 @@
                 <thead>
                     <tr>
                         <th><i class="fas fa-calendar me-2"></i>Data</th>
-                        <th><i class="fas fa-cow me-2"></i>Animal</th>
+                        <th><i class="fas fa-cow me-2"></i>Animal (ID - Brinco)</th>
                         <th><i class="fas fa-tags me-2"></i>Categoria</th>
                         <th><i class="fas fa-user me-2"></i>Comprador</th>
                         <th><i class="fas fa-weight me-2"></i>Peso</th>
@@ -141,7 +141,13 @@
                     @endphp
                     <tr>
                         <td>{{ $sale->sale_date->format('d/m/Y') }}</td>
-                        <td class="fw-bold">#{{ $sale->animal->id ?? '-' }}</td>
+                        <td class="fw-bold">
+                            @if($sale->animal)
+                                #{{ $sale->animal->id }} - {{ $sale->animal->tag ?: 'Sem brinco' }}
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>
                             <span class="text-muted">{{ $sale->animal->category->name ?? 'N/A' }}</span>
                         </td>
