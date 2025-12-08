@@ -83,6 +83,8 @@
                             <th>ID</th>
                             <th>Brinco</th>
                             <th>Raça</th>
+                            <th>Gênero</th>
+                            <th>Tipo</th>
                             <th>Data Nascimento</th>
                             <th>Peso Inicial (kg)</th>
                             <th>Categoria</th>
@@ -97,6 +99,21 @@
                                     <strong class="text-primary">{{ $animal->tag }}</strong>
                                 </td>
                                 <td data-label="Raça">{{ $animal->breed }}</td>
+                                <td data-label="Gênero">
+                                    <span class="badge badge-{{ $animal->gender === 'macho' ? 'primary' : 'pink' }}">
+                                        {{ ucfirst($animal->gender ?? 'N/A') }}
+                                    </span>
+                                </td>
+                                <td data-label="Tipo">
+                                    @if($animal->is_breeder)
+                                        <span class="badge badge-success">
+                                            <i class="fas fa-star"></i>
+                                            {{ $animal->gender === 'macho' ? 'Reprodutor' : 'Matriz' }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
                                 <td data-label="Data Nascimento">
                                     {{ $animal->birth_date ? \Carbon\Carbon::parse($animal->birth_date)->format('d/m/Y') : 'N/A' }}
                                 </td>

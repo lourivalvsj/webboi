@@ -49,30 +49,45 @@
                         <table class="table table-bordered">
                             <thead class="table-dark">
                                 <tr>
-                                    <th style="width: 20%">Brinco <span class="text-danger">*</span></th>
-                                    <th style="width: 20%">Raça</th>
-                                    <th style="width: 20%">Data Nascimento</th>
-                                    <th style="width: 15%">Peso Inicial (kg)</th>
-                                    <th style="width: 20%">Categoria</th>
-                                    <th style="width: 5%">Ação</th>
+                                    <th style="width: 15%">Brinco <span class="text-danger">*</span></th>
+                                    <th style="width: 15%">Raça</th>
+                                    <th style="width: 10%">Gênero <span class="text-danger">*</span></th>
+                                    <th style="width: 10%">Reprodutor</th>
+                                    <th style="width: 15%">Data Nascimento</th>
+                                    <th style="width: 10%">Peso Inicial (kg)</th>
+                                    <th style="width: 15%">Categoria</th>
+                                    <th style="width: 10%">Ação</th>
                                 </tr>
                             </thead>
                             <tbody id="animalRows">
                                 <tr class="animal-row">
                                     <td>
-                                        <input type="text" name="animals[0][tag]" class="form-control" placeholder="Ex: 001" required>
+                                        <input type="text" name="animals[0][tag]" class="form-control form-control-sm" placeholder="Ex: 001" required>
                                     </td>
                                     <td>
-                                        <input type="text" name="animals[0][breed]" class="form-control" placeholder="Ex: Nelore">
+                                        <input type="text" name="animals[0][breed]" class="form-control form-control-sm" placeholder="Ex: Nelore">
                                     </td>
                                     <td>
-                                        <input type="date" name="animals[0][birth_date]" class="form-control">
+                                        <select name="animals[0][gender]" class="form-select form-select-sm" required>
+                                            <option value="">Selecione</option>
+                                            <option value="macho">Macho</option>
+                                            <option value="femea">Fêmea</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <input type="number" step="0.01" name="animals[0][initial_weight]" class="form-control" placeholder="0.00">
+                                        <div class="form-check">
+                                            <input type="hidden" name="animals[0][is_breeder]" value="0">
+                                            <input type="checkbox" name="animals[0][is_breeder]" value="1" class="form-check-input">
+                                        </div>
                                     </td>
                                     <td>
-                                        <select name="animals[0][category_id]" class="form-select">
+                                        <input type="date" name="animals[0][birth_date]" class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="number" step="0.01" name="animals[0][initial_weight]" class="form-control form-control-sm" placeholder="0.00">
+                                    </td>
+                                    <td>
+                                        <select name="animals[0][category_id]" class="form-select form-select-sm">
                                             <option value="">Selecione...</option>
                                             @foreach($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -117,19 +132,32 @@
             
             newRow.innerHTML = `
                 <td>
-                    <input type="text" name="animals[${animalRowCount}][tag]" class="form-control" placeholder="Ex: ${String(animalRowCount + 1).padStart(3, '0')}" required>
+                    <input type="text" name="animals[${animalRowCount}][tag]" class="form-control form-control-sm" placeholder="Ex: ${String(animalRowCount + 1).padStart(3, '0')}" required>
                 </td>
                 <td>
-                    <input type="text" name="animals[${animalRowCount}][breed]" class="form-control" placeholder="Ex: Nelore">
+                    <input type="text" name="animals[${animalRowCount}][breed]" class="form-control form-control-sm" placeholder="Ex: Nelore">
                 </td>
                 <td>
-                    <input type="date" name="animals[${animalRowCount}][birth_date]" class="form-control">
+                    <select name="animals[${animalRowCount}][gender]" class="form-select form-select-sm" required>
+                        <option value="">Selecione</option>
+                        <option value="macho">Macho</option>
+                        <option value="femea">Fêmea</option>
+                    </select>
                 </td>
                 <td>
-                    <input type="number" step="0.01" name="animals[${animalRowCount}][initial_weight]" class="form-control" placeholder="0.00">
+                    <div class="form-check">
+                        <input type="hidden" name="animals[${animalRowCount}][is_breeder]" value="0">
+                        <input type="checkbox" name="animals[${animalRowCount}][is_breeder]" value="1" class="form-check-input">
+                    </div>
                 </td>
                 <td>
-                    <select name="animals[${animalRowCount}][category_id]" class="form-select">
+                    <input type="date" name="animals[${animalRowCount}][birth_date]" class="form-control form-control-sm">
+                </td>
+                <td>
+                    <input type="number" step="0.01" name="animals[${animalRowCount}][initial_weight]" class="form-control form-control-sm" placeholder="0.00">
+                </td>
+                <td>
+                    <select name="animals[${animalRowCount}][category_id]" class="form-select form-select-sm">
                         <option value="">Selecione...</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>

@@ -19,6 +19,31 @@
                 <input type="text" name="breed" value="{{ $animal->breed }}" class="form-control">
             </div>
 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Gênero *</label>
+                        <select name="gender" class="form-control" required>
+                            <option value="">Selecione o gênero</option>
+                            <option value="macho" {{ $animal->gender === 'macho' ? 'selected' : '' }}>Macho</option>
+                            <option value="femea" {{ $animal->gender === 'femea' ? 'selected' : '' }}>Fêmea</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <div class="form-check mt-4">
+                            <input type="hidden" name="is_breeder" value="0">
+                            <input type="checkbox" name="is_breeder" value="1" class="form-check-input" id="is_breeder" {{ $animal->is_breeder ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_breeder">
+                                <strong>Reprodutor/Matriz</strong>
+                                <small class="text-muted d-block">Animal destinado à reprodução</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label class="form-label">Data de Nascimento</label>
                 <input type="date" name="birth_date" value="{{ $animal->birth_date }}" class="form-control">

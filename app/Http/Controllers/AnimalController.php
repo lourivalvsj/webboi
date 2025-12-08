@@ -54,6 +54,8 @@ class AnimalController extends Controller
         $request->validate([
             'tag' => 'required|unique:animals,tag',
             'breed' => 'nullable|string|max:50',
+            'gender' => 'required|in:macho,femea',
+            'is_breeder' => 'boolean',
             'birth_date' => 'nullable|date',
             'initial_weight' => 'nullable|numeric',
             'category_id' => 'nullable|exists:categories,id',
@@ -69,6 +71,8 @@ class AnimalController extends Controller
             'animals' => 'required|array|min:1',
             'animals.*.tag' => 'required|string|unique:animals,tag',
             'animals.*.breed' => 'nullable|string|max:50',
+            'animals.*.gender' => 'required|in:macho,femea',
+            'animals.*.is_breeder' => 'boolean',
             'animals.*.birth_date' => 'nullable|date',
             'animals.*.initial_weight' => 'nullable|numeric',
             'animals.*.category_id' => 'nullable|exists:categories,id',
@@ -103,6 +107,8 @@ class AnimalController extends Controller
         $request->validate([
             'tag' => 'required|unique:animals,tag,' . $animal->id,
             'breed' => 'nullable|string|max:50',
+            'gender' => 'required|in:macho,femea',
+            'is_breeder' => 'boolean',
             'birth_date' => 'nullable|date',
             'initial_weight' => 'nullable|numeric',
             'category_id' => 'nullable|exists:categories,id',

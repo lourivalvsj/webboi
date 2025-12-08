@@ -12,6 +12,8 @@ class Animal extends Model
     protected $fillable = [
         'tag',
         'breed',
+        'gender',
+        'is_breeder',
         'birth_date',
         'initial_weight',
         'category_id'
@@ -19,6 +21,7 @@ class Animal extends Model
 
     protected $casts = [
         'birth_date' => 'date',
+        'is_breeder' => 'boolean',
     ];
 
     /**
@@ -110,5 +113,49 @@ class Animal extends Model
     public function hasPurchase()
     {
         return $this->purchase !== null;
+    }
+
+    /**
+     * Verifica se é macho reprodutor
+     */
+    public function isMaleBreeder()
+    {
+        return $this->gender === 'macho' && $this->is_breeder === true;
+    }
+
+    /**
+     * Verifica se é fêmea reprodutora (matriz)
+     */
+    public function isFemaleBreeder()
+    {
+        return $this->gender === 'femea' && $this->is_breeder === true;
+    }
+
+    /**
+     * Retorna descrição do tipo reprodutivo
+     */
+    public function getReproductiveTypeAttribute()
+    {
+        if (!$this->is_breeder) {
+            return $this->gender === 'macho' ? 'Macho' : 'Fêmea';
+        }
+        
+        return $this->gender === 'macho' ? 'Reprodutor' : 'Matriz';
+    }
+
+    /**
+     * Scope para buscar reprodutores machos
+     */
+    public function scopeMaleBreeders($query)
+    {
+        return $query->where('gender', 'macho')->where('is_breeder', true);
+    }
+
+    /**
+     * Scope para buscar matrizes (fêmeas reprodutoras)
+     */
+    public function scopeFemaleBreeders($query)
+    {
+        return $query->where('gender', 'femea')->where('is_breeder', true);
     }
 }
