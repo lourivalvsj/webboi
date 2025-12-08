@@ -43,6 +43,12 @@ class AnimalController extends Controller
         return view('animals.create', compact('categories'));
     }
 
+    public function createBulk()
+    {
+        $categories = Category::orderBy('name')->get();
+        return view('animals.create-bulk', compact('categories'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -55,6 +61,29 @@ class AnimalController extends Controller
 
         Animal::create($request->all());
         return redirect()->route('animals.index')->with('success', 'Animal criado com sucesso.');
+    }
+
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'animals' => 'required|array|min:1',
+            'animals.*.tag' => 'required|string|unique:animals,tag',
+            'animals.*.breed' => 'nullable|string|max:50',
+            'animals.*.birth_date' => 'nullable|date',
+            'animals.*.initial_weight' => 'nullable|numeric',
+            'animals.*.category_id' => 'nullable|exists:categories,id',
+        ]);
+
+        $createdCount = 0;
+        foreach ($request->animals as $animalData) {
+            if (!empty($animalData['tag'])) {
+                Animal::create($animalData);
+                $createdCount++;
+            }
+        }
+
+        return redirect()->route('animals.index')
+            ->with('success', "$createdCount animais criados com sucesso.");
     }
 
     public function show(Animal $animal)

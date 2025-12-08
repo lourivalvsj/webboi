@@ -6,10 +6,16 @@
     <div class="page-header-modern">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="fas fa-paw me-2"></i>Gerenciar Animais</h2>
-            <a href="{{ route('animals.create') }}" class="modern-btn modern-btn-success">
-                <i class="fas fa-plus"></i>
-                Novo Animal
-            </a>
+            <div>
+                <a href="{{ route('animals.create-bulk') }}" class="modern-btn modern-btn-primary me-2">
+                    <i class="fas fa-plus-circle"></i>
+                    Múltiplos Animais
+                </a>
+                <a href="{{ route('animals.create') }}" class="modern-btn modern-btn-success">
+                    <i class="fas fa-plus"></i>
+                    Novo Animal
+                </a>
+            </div>
         </div>
     </div>
 
