@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card bg-warning text-white border-0">
+                            <div class="card bg-success text-white border-0">
                                 <div class="card-body text-center">
                                     <h3 class="mb-1">{{ $stats['total_records'] }}</h3>
                                     <small>Total de Alimentações</small>
