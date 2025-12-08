@@ -5,11 +5,11 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-gradient-success text-white">
+                <div class="card-header bg-success text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h4 class="mb-0"><i class="fas fa-seedling me-2"></i>Relatório de Gastos com Alimentação</h4>
-                            <small class="opacity-75">
+                            <small class="opacity-90">
                                 Período: {{ \Carbon\Carbon::parse($stats['period']['start'])->format('d/m/Y') }} até {{ \Carbon\Carbon::parse($stats['period']['end'])->format('d/m/Y') }}
                                 @if(request('animal_id'))
                                     <br>Animal: {{ $animals->firstWhere('id', request('animal_id'))->tag ?? 'N/A' }}
