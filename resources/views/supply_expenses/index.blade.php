@@ -124,7 +124,7 @@
                                 <td data-label="Produto">
                                     <strong class="text-primary">{{ $expense->name }}</strong>
                                     @if($expense->description)
-                                        <br><small class="text-muted">{{ $expense->description }}</small>
+                                        <br><small class="text-muted">{{ Str::limit($expense->description, 120) }}</small>
                                     @endif
                                 </td>
                                 <td data-label="Categoria">
