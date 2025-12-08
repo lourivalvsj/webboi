@@ -6,10 +6,16 @@
     <div class="page-header-modern">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="fas fa-pills me-2"></i>Gerenciar Medicações</h2>
-            <a href="{{ route('medications.create') }}" class="modern-btn modern-btn-success">
-                <i class="fas fa-plus"></i>
-                Nova Medicação
-            </a>
+            <div>
+                <a href="{{ route('medications.create-bulk') }}" class="modern-btn modern-btn-primary me-2">
+                    <i class="fas fa-plus-circle"></i>
+                    Múltiplas Medicações
+                </a>
+                <a href="{{ route('medications.create') }}" class="modern-btn modern-btn-success">
+                    <i class="fas fa-plus"></i>
+                    Nova Medicação
+                </a>
+            </div>
         </div>
     </div>
 

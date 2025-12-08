@@ -6,10 +6,16 @@
     <div class="page-header-modern">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="fas fa-hand-holding-usd me-2"></i>Gerenciar Vendas</h2>
-            <a href="{{ route('sales.create') }}" class="modern-btn modern-btn-success">
-                <i class="fas fa-plus"></i>
-                Nova Venda
-            </a>
+            <div>
+                <a href="{{ route('sales.create-bulk') }}" class="modern-btn modern-btn-primary me-2">
+                    <i class="fas fa-plus-circle"></i>
+                    Múltiplas Vendas
+                </a>
+                <a href="{{ route('sales.create') }}" class="modern-btn modern-btn-success">
+                    <i class="fas fa-plus"></i>
+                    Nova Venda
+                </a>
+            </div>
         </div>
     </div>
 

@@ -35,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('purchases-bulk/create', [PurchaseController::class, 'createBulk'])->name('purchases.create-bulk');
     Route::post('purchases-bulk', [PurchaseController::class, 'storeBulk'])->name('purchases.store-bulk');
     Route::resource('sales', SaleController::class);
+    Route::get('sales-bulk/create', [SaleController::class, 'createBulk'])->name('sales.create-bulk');
+    Route::post('sales-bulk', [SaleController::class, 'storeBulk'])->name('sales.store-bulk');
     Route::resource('vendors', VendorController::class);
     Route::resource('buyers', BuyerController::class);
     Route::resource('categories', CategoryController::class);
@@ -50,8 +52,14 @@ Route::middleware(['auth'])->group(function () {
 
     // 🆕 Rotas para recursos de saúde animal
     Route::resource('animal-weights', AnimalWeightController::class);
+    Route::get('animal-weights-bulk/create', [AnimalWeightController::class, 'createBulk'])->name('animal-weights.create-bulk');
+    Route::post('animal-weights-bulk', [AnimalWeightController::class, 'storeBulk'])->name('animal-weights.store-bulk');
     Route::resource('feedings', FeedingController::class);
+    Route::get('feedings-bulk/create', [FeedingController::class, 'createBulk'])->name('feedings.create-bulk');
+    Route::post('feedings-bulk', [FeedingController::class, 'storeBulk'])->name('feedings.store-bulk');
     Route::resource('medications', MedicationController::class);
+    Route::get('medications-bulk/create', [MedicationController::class, 'createBulk'])->name('medications.create-bulk');
+    Route::post('medications-bulk', [MedicationController::class, 'storeBulk'])->name('medications.store-bulk');
 
     // 💰 Dashboard Financeiro - Lucro/Prejuízo
     Route::get('/profit-loss', [ProfitLossController::class, 'index'])->name('profit-loss.index');

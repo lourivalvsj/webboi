@@ -50,6 +50,12 @@ class AnimalWeightController extends Controller
         return view('animal_weights.create', compact('animals'));
     }
 
+    public function createBulk()
+    {
+        $animals = Animal::availableForRecords()->get();
+        return view('animal_weights.create-bulk', compact('animals'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -75,6 +81,47 @@ class AnimalWeightController extends Controller
 
         AnimalWeight::create($request->all());
         return redirect()->route('animal-weights.index')->with('success', 'Pesagem registrada com sucesso.');
+    }
+
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'weights' => 'required|array|min:1',
+            'weights.*.animal_id' => 'required|exists:animals,id',
+            'weights.*.weight' => 'required|numeric|min:0',
+            'weights.*.recorded_at' => 'required|date',
+        ]);
+
+        $createdCount = 0;
+        $errors = [];
+        
+        foreach ($request->weights as $index => $weightData) {
+            if (!empty($weightData['animal_id']) && !empty($weightData['weight']) && !empty($weightData['recorded_at'])) {
+                $animal = Animal::find($weightData['animal_id']);
+                
+                if (!$animal->hasPurchase()) {
+                    $errors[] = "Animal da linha " . ($index + 1) . " não possui compra registrada.";
+                    continue;
+                }
+                
+                if ($animal->isSold()) {
+                    $errors[] = "Animal da linha " . ($index + 1) . " já foi vendido.";
+                    continue;
+                }
+                
+                AnimalWeight::create($weightData);
+                $createdCount++;
+            }
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('animal-weights.index')
+                ->with('success', "$createdCount pesagens registradas com sucesso.")
+                ->with('errors', $errors);
+        }
+
+        return redirect()->route('animal-weights.index')
+            ->with('success', "$createdCount pesagens registradas com sucesso.");
     }
 
     public function edit(AnimalWeight $animalWeight)

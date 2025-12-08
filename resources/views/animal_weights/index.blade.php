@@ -6,10 +6,16 @@
     <div class="page-header-modern">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="fas fa-weight me-2"></i>Gerenciar Pesagens</h2>
-            <a href="{{ route('animal-weights.create') }}" class="modern-btn modern-btn-success">
-                <i class="fas fa-plus"></i>
-                Nova Pesagem
-            </a>
+            <div>
+                <a href="{{ route('animal-weights.create-bulk') }}" class="modern-btn modern-btn-primary me-2">
+                    <i class="fas fa-plus-circle"></i>
+                    Múltiplas Pesagens
+                </a>
+                <a href="{{ route('animal-weights.create') }}" class="modern-btn modern-btn-success">
+                    <i class="fas fa-plus"></i>
+                    Nova Pesagem
+                </a>
+            </div>
         </div>
     </div>
 

@@ -57,6 +57,13 @@ class SaleController extends Controller
         return view('sales.create', compact('animals', 'buyers'));
     }
 
+    public function createBulk()
+    {
+        $animals = Animal::availableForSale()->get();
+        $buyers = Buyer::all();
+        return view('sales.create-bulk', compact('animals', 'buyers'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -83,6 +90,48 @@ class SaleController extends Controller
 
         Sale::create($request->all());
         return redirect()->route('sales.index')->with('success', 'Venda registrada com sucesso.');
+    }
+
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'sales' => 'required|array|min:1',
+            'sales.*.animal_id' => 'required|exists:animals,id',
+            'sales.*.buyer_id' => 'nullable|exists:buyers,id',
+            'sales.*.sale_date' => 'nullable|date',
+            'sales.*.value' => 'required|numeric|min:0',
+        ]);
+
+        $createdCount = 0;
+        $errors = [];
+        
+        foreach ($request->sales as $index => $saleData) {
+            if (!empty($saleData['animal_id']) && !empty($saleData['value'])) {
+                $animal = Animal::find($saleData['animal_id']);
+                
+                if (!$animal->hasPurchase()) {
+                    $errors[] = "Animal da linha " . ($index + 1) . " não possui compra registrada.";
+                    continue;
+                }
+                
+                if ($animal->isSold()) {
+                    $errors[] = "Animal da linha " . ($index + 1) . " já foi vendido.";
+                    continue;
+                }
+                
+                Sale::create($saleData);
+                $createdCount++;
+            }
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('sales.index')
+                ->with('success', "$createdCount vendas registradas com sucesso.")
+                ->with('errors', $errors);
+        }
+
+        return redirect()->route('sales.index')
+            ->with('success', "$createdCount vendas registradas com sucesso.");
     }
 
     public function show(Sale $sale)

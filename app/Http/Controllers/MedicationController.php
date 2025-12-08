@@ -63,6 +63,17 @@ class MedicationController extends Controller
         return view('medications.create', compact('animals', 'medicationNames'));
     }
 
+    public function createBulk()
+    {
+        $animals = Animal::withPurchase()->whereDoesntHave('sale')->get();
+        $medicationNames = SupplyExpense::where('category', 'medicamento')
+            ->select('name')
+            ->distinct()
+            ->orderBy('name')
+            ->pluck('name');
+        return view('medications.create-bulk', compact('animals', 'medicationNames'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -90,6 +101,49 @@ class MedicationController extends Controller
 
         Medication::create($request->all());
         return redirect()->route('medications.index')->with('success', 'Medicação registrada com sucesso.');
+    }
+
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'medications' => 'required|array|min:1',
+            'medications.*.animal_id' => 'required|exists:animals,id',
+            'medications.*.medication_name' => 'required|string|max:100',
+            'medications.*.dose' => 'required|numeric|min:0',
+            'medications.*.unit_of_measure' => 'nullable|string|max:50',
+            'medications.*.administration_date' => 'required|date',
+        ]);
+
+        $createdCount = 0;
+        $errors = [];
+        
+        foreach ($request->medications as $index => $medicationData) {
+            if (!empty($medicationData['animal_id']) && !empty($medicationData['medication_name']) && !empty($medicationData['dose']) && !empty($medicationData['administration_date'])) {
+                $animal = Animal::find($medicationData['animal_id']);
+                
+                if (!$animal->hasPurchase()) {
+                    $errors[] = "Animal da linha " . ($index + 1) . " não possui compra registrada.";
+                    continue;
+                }
+                
+                if ($animal->isSold()) {
+                    $errors[] = "Animal da linha " . ($index + 1) . " já foi vendido.";
+                    continue;
+                }
+                
+                Medication::create($medicationData);
+                $createdCount++;
+            }
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('medications.index')
+                ->with('success', "$createdCount medicações registradas com sucesso.")
+                ->with('errors', $errors);
+        }
+
+        return redirect()->route('medications.index')
+            ->with('success', "$createdCount medicações registradas com sucesso.");
     }
 
     public function edit(Medication $medication)
