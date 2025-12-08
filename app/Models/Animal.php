@@ -14,6 +14,11 @@ class Animal extends Model
         'breed',
         'gender',
         'is_breeder',
+        'is_dead',
+        'death_date',
+        'death_location',
+        'death_cause',
+        'death_observations',
         'birth_date',
         'initial_weight',
         'category_id'
@@ -21,7 +26,9 @@ class Animal extends Model
 
     protected $casts = [
         'birth_date' => 'date',
+        'death_date' => 'date',
         'is_breeder' => 'boolean',
+        'is_dead' => 'boolean',
     ];
 
     /**
@@ -30,17 +37,19 @@ class Animal extends Model
     public function scopeAvailableForSale($query)
     {
         return $query->whereHas('purchase')
-                    ->whereDoesntHave('sale');
+                    ->whereDoesntHave('sale')
+                    ->where('is_dead', false);
     }
     
     /**
      * Scope para animais disponíveis para registros (pesagem, alimentação, medicação)
-     * São animais com compra registrada que ainda não foram vendidos
+     * São animais com compra registrada que ainda não foram vendidos e estão vivos
      */
     public function scopeAvailableForRecords($query)
     {
         return $query->whereHas('purchase')
-                    ->whereDoesntHave('sale');
+                    ->whereDoesntHave('sale')
+                    ->where('is_dead', false);
     }
 
     /**
@@ -157,5 +166,51 @@ class Animal extends Model
     public function scopeFemaleBreeders($query)
     {
         return $query->where('gender', 'femea')->where('is_breeder', true);
+    }
+
+    /**
+     * Verifica se o animal morreu
+     */
+    public function isDead()
+    {
+        return $this->is_dead === true;
+    }
+
+    /**
+     * Scope para animais vivos
+     */
+    public function scopeAlive($query)
+    {
+        return $query->where('is_dead', false);
+    }
+
+    /**
+     * Scope para animais mortos
+     */
+    public function scopeDead($query)
+    {
+        return $query->where('is_dead', true);
+    }
+
+    /**
+     * Registra o óbito do animal
+     */
+    public function registerDeath($deathData)
+    {
+        $this->update([
+            'is_dead' => true,
+            'death_date' => $deathData['death_date'],
+            'death_location' => $deathData['death_location'],
+            'death_cause' => $deathData['death_cause'],
+            'death_observations' => $deathData['death_observations'] ?? null,
+        ]);
+    }
+
+    /**
+     * Retorna status de vida do animal
+     */
+    public function getLifeStatusAttribute()
+    {
+        return $this->is_dead ? 'Morto' : 'Vivo';
     }
 }

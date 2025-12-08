@@ -44,6 +44,9 @@
                         <i class="fas fa-seedling"></i>Alimentações</a></li>
                     <li><a class="nav-link" href="{{ route('medications.index') }}" onclick="closeDrawer()">
                         <i class="fas fa-pills"></i>Medicações</a></li>
+                    <li><div class="submenu-divider"></div></li>
+                    <li><a class="nav-link" href="{{ route('animal-deaths.index') }}" onclick="closeDrawer()">
+                        <i class="fas fa-cross"></i>Óbitos</a></li>
                 </ul>
             </li>
 

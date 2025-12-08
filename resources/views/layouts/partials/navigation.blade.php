@@ -31,7 +31,7 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ request()->is('animals*') || request()->is('animal-weights*') || request()->is('feedings*') || request()->is('medications*') || request()->is('purchases*') || request()->is('sales*') ? 'active' : '' }}"
+                                <a class="nav-link dropdown-toggle {{ request()->is('animals*') || request()->is('animal-weights*') || request()->is('feedings*') || request()->is('medications*') || request()->is('purchases*') || request()->is('sales*') || request()->is('animal-deaths*') ? 'active' : '' }}"
                                    href="#" 
                                    id="menuAnimal" 
                                    role="button" 
@@ -54,6 +54,9 @@
                                         <i class="fas fa-seedling me-2"></i>Alimentações</a></li>
                                     <li><a class="dropdown-item" href="{{ route('medications.index') }}">
                                         <i class="fas fa-pills me-2"></i>Medicações</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ route('animal-deaths.index') }}">
+                                        <i class="fas fa-cross me-2"></i>Óbitos</a></li>
                                 </ul>
                             </li>
 

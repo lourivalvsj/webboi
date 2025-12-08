@@ -61,6 +61,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('medications-bulk/create', [MedicationController::class, 'createBulk'])->name('medications.create-bulk');
     Route::post('medications-bulk', [MedicationController::class, 'storeBulk'])->name('medications.store-bulk');
 
+    // 💀 Registro de Óbitos dos Animais
+    Route::resource('animal-deaths', App\Http\Controllers\AnimalDeathController::class);
+    Route::patch('animals/{animal}/revive', [App\Http\Controllers\AnimalDeathController::class, 'revive'])->name('animals.revive');
+
     // 💰 Dashboard Financeiro - Lucro/Prejuízo
     Route::get('/profit-loss', [ProfitLossController::class, 'index'])->name('profit-loss.index');
     Route::get('/profit-loss/period', [ProfitLossController::class, 'profitByPeriod'])->name('profit-loss.period');
