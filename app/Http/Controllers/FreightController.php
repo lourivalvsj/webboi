@@ -51,13 +51,40 @@ class FreightController extends Controller
             $query->where('value', '<=', $request->max_value);
         }
 
+        // Calcular estatísticas de todos os registros filtrados (antes da paginação)
+        $allFreights = $query->get();
+        $statistics = [
+            'total_value' => $allFreights->sum('value'),
+            'total_animals' => $allFreights->sum('quantity_animals'),
+            'average_value' => $allFreights->count() > 0 ? $allFreights->avg('value') : 0,
+            'count' => $allFreights->count()
+        ];
+        
+        // Calcular análise de status baseada em todos os registros
+        $now = now();
+        $statusAnalysis = [
+            'agendados' => $allFreights->filter(function($f) use ($now) {
+                $dep = $f->departure_date ? \Carbon\Carbon::parse($f->departure_date) : null;
+                return $dep && $dep->isFuture();
+            })->count(),
+            'em_transito' => $allFreights->filter(function($f) use ($now) {
+                $dep = $f->departure_date ? \Carbon\Carbon::parse($f->departure_date) : null;
+                $arr = $f->arrival_date ? \Carbon\Carbon::parse($f->arrival_date) : null;
+                return $dep && $dep->isPast() && $arr && $arr->isFuture();
+            })->count(),
+            'finalizados' => $allFreights->filter(function($f) use ($now) {
+                $arr = $f->arrival_date ? \Carbon\Carbon::parse($f->arrival_date) : null;
+                return $arr && $arr->isPast();
+            })->count()
+        ];
+        
         $freights = $query->orderBy('departure_date', 'desc')->paginate(15)->withQueryString();
         
         // Buscar caminhoneiros e locais para os filtros
         $truckDrivers = TruckDriver::orderBy('name')->get();
         $locals = Local::orderBy('name')->get();
             
-        return view('freights.index', compact('freights', 'truckDrivers', 'locals'));
+        return view('freights.index', compact('freights', 'truckDrivers', 'locals', 'statistics', 'statusAnalysis'));
     }
 
     public function create()

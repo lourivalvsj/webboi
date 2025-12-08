@@ -231,25 +231,25 @@
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <h5 class="text-muted mb-1">Total de Fretes</h5>
-                                    <h3 class="text-primary">{{ $freights->total() }}</h3>
+                                    <h3 class="text-primary">{{ $statistics['count'] }}</h3>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <h5 class="text-muted mb-1">Valor Total</h5>
-                                    <h3 class="text-danger">R$ {{ number_format($freights->sum('value'), 2, ',', '.') }}</h3>
+                                    <h3 class="text-danger">R$ {{ number_format($statistics['total_value'], 2, ',', '.') }}</h3>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <h5 class="text-muted mb-1">Animais Transportados</h5>
-                                    <h3 class="text-success">{{ $freights->sum('quantity_animals') }}</h3>
+                                    <h3 class="text-success">{{ $statistics['total_animals'] }}</h3>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <h5 class="text-muted mb-1">Valor Médio</h5>
-                                    <h3 class="text-warning">R$ {{ $freights->count() > 0 ? number_format($freights->avg('value'), 2, ',', '.') : '0,00' }}</h3>
+                                    <h3 class="text-warning">R$ {{ number_format($statistics['average_value'], 2, ',', '.') }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -264,25 +264,6 @@
                         <h5 class="mb-3"><i class="fas fa-chart-line me-2"></i>Análise de Status</h5>
                         
                         <div class="row">
-                            @php
-                                $now = now();
-                                $agendados = $freights->filter(function($f) use ($now) {
-                                    $dep = $f->departure_date ? \Carbon\Carbon::parse($f->departure_date) : null;
-                                    return $dep && $dep->isFuture();
-                                })->count();
-                                
-                                $emTransito = $freights->filter(function($f) use ($now) {
-                                    $dep = $f->departure_date ? \Carbon\Carbon::parse($f->departure_date) : null;
-                                    $arr = $f->arrival_date ? \Carbon\Carbon::parse($f->arrival_date) : null;
-                                    return $dep && $dep->isPast() && $arr && $arr->isFuture();
-                                })->count();
-                                
-                                $finalizados = $freights->filter(function($f) use ($now) {
-                                    $arr = $f->arrival_date ? \Carbon\Carbon::parse($f->arrival_date) : null;
-                                    return $arr && $arr->isPast();
-                                })->count();
-                            @endphp
-                            
                             <div class="col-md-4 mb-3">
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-body text-center">
@@ -290,7 +271,7 @@
                                             <i class="fas fa-clock text-warning me-2 fs-4"></i>
                                             <h5 class="mb-0">Agendados</h5>
                                         </div>
-                                        <h3 class="text-warning mb-1">{{ $agendados }}</h3>
+                                        <h3 class="text-warning mb-1">{{ $statusAnalysis['agendados'] }}</h3>
                                         <small class="text-muted">fretes futuros</small>
                                     </div>
                                 </div>
@@ -303,7 +284,7 @@
                                             <i class="fas fa-shipping-fast text-info me-2 fs-4"></i>
                                             <h5 class="mb-0">Em Trânsito</h5>
                                         </div>
-                                        <h3 class="text-info mb-1">{{ $emTransito }}</h3>
+                                        <h3 class="text-info mb-1">{{ $statusAnalysis['em_transito'] }}</h3>
                                         <small class="text-muted">fretes em andamento</small>
                                     </div>
                                 </div>
@@ -316,7 +297,7 @@
                                             <i class="fas fa-check-circle text-success me-2 fs-4"></i>
                                             <h5 class="mb-0">Finalizados</h5>
                                         </div>
-                                        <h3 class="text-success mb-1">{{ $finalizados }}</h3>
+                                        <h3 class="text-success mb-1">{{ $statusAnalysis['finalizados'] }}</h3>
                                         <small class="text-muted">fretes concluídos</small>
                                     </div>
                                 </div>
