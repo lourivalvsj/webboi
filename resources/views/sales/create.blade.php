@@ -67,6 +67,22 @@
 
                         <div class="col-md-6">
                             <div class="modern-form-group">
+                                <label class="modern-form-label">Peso na Venda (kg) *</label>
+                                <input type="number" step="0.01" name="weight_at_sale" class="modern-form-control @error('weight_at_sale') is-invalid @enderror" value="{{ old('weight_at_sale') }}" required>
+                                @error('weight_at_sale')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Peso do animal no momento da venda
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="modern-form-group">
                                 <label class="modern-form-label">Valor da Venda (R$) *</label>
                                 <input type="number" step="0.01" name="value" class="modern-form-control @error('value') is-invalid @enderror" value="{{ old('value') }}" required>
                                 @error('value')

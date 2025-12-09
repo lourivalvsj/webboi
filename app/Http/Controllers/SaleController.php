@@ -71,6 +71,7 @@ class SaleController extends Controller
             'buyer_id' => 'nullable|exists:buyers,id',
             'sale_date' => 'nullable|date',
             'value' => 'required|numeric',
+            'weight_at_sale' => 'required|numeric|min:0.01',
         ]);
 
         // Verificar se o animal tem uma compra registrada
@@ -100,13 +101,14 @@ class SaleController extends Controller
             'sales.*.buyer_id' => 'nullable|exists:buyers,id',
             'sales.*.sale_date' => 'nullable|date',
             'sales.*.value' => 'required|numeric|min:0',
+            'sales.*.weight_at_sale' => 'required|numeric|min:0.01',
         ]);
 
         $createdCount = 0;
         $errors = [];
         
         foreach ($request->sales as $index => $saleData) {
-            if (!empty($saleData['animal_id']) && !empty($saleData['value'])) {
+            if (!empty($saleData['animal_id']) && !empty($saleData['value']) && !empty($saleData['weight_at_sale'])) {
                 $animal = Animal::find($saleData['animal_id']);
                 
                 if (!$animal->hasPurchase()) {
@@ -161,6 +163,7 @@ class SaleController extends Controller
             'buyer_id' => 'nullable|exists:buyers,id',
             'sale_date' => 'nullable|date',
             'value' => 'required|numeric',
+            'weight_at_sale' => 'required|numeric|min:0.01',
         ]);
 
         // Verificar se o animal tem uma compra registrada

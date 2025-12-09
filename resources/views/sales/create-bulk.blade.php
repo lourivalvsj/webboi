@@ -50,11 +50,12 @@
                 <table class="table table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th style="width: 30%">Animal <span class="text-danger">*</span></th>
-                            <th style="width: 25%">Comprador</th>
-                            <th style="width: 20%">Data da Venda</th>
-                            <th style="width: 20%">Valor (R$) <span class="text-danger">*</span></th>
-                            <th style="width: 5%">Ação</th>
+                            <th style="width: 25%">Animal <span class="text-danger">*</span></th>
+                            <th style="width: 20%">Comprador</th>
+                            <th style="width: 15%">Data da Venda</th>
+                            <th style="width: 15%">Peso (kg) <span class="text-danger">*</span></th>
+                            <th style="width: 15%">Valor (R$) <span class="text-danger">*</span></th>
+                            <th style="width: 10%">Ação</th>
                         </tr>
                     </thead>
                     <tbody id="saleRows">
@@ -81,6 +82,9 @@
                             </td>
                             <td>
                                 <input type="date" name="sales[0][sale_date]" class="form-control form-control-sm">
+                            </td>
+                            <td>
+                                <input type="number" step="0.01" name="sales[0][weight_at_sale]" class="form-control form-control-sm" placeholder="0.00" required>
                             </td>
                             <td>
                                 <input type="number" step="0.01" name="sales[0][value]" class="form-control form-control-sm" placeholder="0.00" required>
@@ -141,6 +145,9 @@
             </td>
             <td>
                 <input type="date" name="sales[${saleRowCount}][sale_date]" class="form-control form-control-sm">
+            </td>
+            <td>
+                <input type="number" step="0.01" name="sales[${saleRowCount}][weight_at_sale]" class="form-control form-control-sm" placeholder="0.00" required>
             </td>
             <td>
                 <input type="number" step="0.01" name="sales[${saleRowCount}][value]" class="form-control form-control-sm" placeholder="0.00" required>
