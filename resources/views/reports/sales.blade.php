@@ -128,7 +128,7 @@
                         <th><i class="fas fa-weight me-2"></i>Peso</th>
                         <th><i class="fas fa-dollar-sign me-2"></i>Valor</th>
                         <th><i class="fas fa-calculator me-2"></i>Preço/kg</th>
-                        <th><i class="fas fa-chart-line me-2"></i>Margem</th>
+                        <th><i class="fas fa-chart-line me-2"></i>Margem <small>(sobre compra)</small></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,7 +156,7 @@
                         <td class="fw-bold text-success">R$ {{ number_format($sale->value, 2, ',', '.') }}</td>
                         <td>R$ {{ number_format($pricePerKg, 2, ',', '.') }}/kg</td>
                         <td>
-                            <span class="badge {{ $margin >= 10 ? 'bg-success' : ($margin >= 0 ? 'bg-warning' : 'bg-danger') }}">
+                            <span class="{{ $margin >= 10 ? 'text-success' : ($margin >= 0 ? 'text-warning' : 'text-danger') }} fw-bold">
                                 {{ number_format($margin, 1) }}%
                             </span>
                         </td>
