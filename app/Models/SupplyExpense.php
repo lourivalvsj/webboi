@@ -36,6 +36,11 @@ class SupplyExpense extends Model
         return $this->belongsTo(Animal::class);
     }
 
+    public function renewals()
+    {
+        return $this->hasMany(SupplyRenewal::class);
+    }
+
     /**
      * Calcula a quantidade restante do insumo após uso em medicações e alimentações
      */

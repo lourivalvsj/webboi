@@ -114,7 +114,7 @@
                             <th>Quantidade</th>
                             <th>Unidade</th>
                             <th>Valor</th>
-                            <th width="150">Ações</th>
+                            <th width="200">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -182,7 +182,17 @@
                                     </strong>
                                 </td>
                                 <td data-label="Ações">
-                                    <div class="d-flex gap-1 flex-wrap">
+                                    <div class="d-flex gap-1 justify-content-start">
+                                        <a href="{{ route('supply-expenses.renew', $expense) }}" 
+                                           class="modern-btn modern-btn-success"
+                                           title="Renovar Estoque">
+                                            <i class="fas fa-plus-circle"></i>
+                                        </a>
+                                        <a href="{{ route('supply-expenses.renewal-history', $expense) }}" 
+                                           class="modern-btn modern-btn-info"
+                                           title="Histórico de Renovações">
+                                            <i class="fas fa-history"></i>
+                                        </a>
                                         <a href="{{ route('supply-expenses.edit', $expense) }}" 
                                            class="modern-btn modern-btn-warning"
                                            title="Editar">

@@ -48,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('locals', LocalController::class);
     Route::resource('schedules', ScheduleController::class);
     Route::resource('supply-expenses', SupplyExpenseController::class);
+    Route::get('supply-expenses/{supplyExpense}/renew', [SupplyExpenseController::class, 'renew'])->name('supply-expenses.renew');
+    Route::post('supply-expenses/{supplyExpense}/renew', [SupplyExpenseController::class, 'processRenewal'])->name('supply-expenses.process-renewal');
+    Route::get('supply-expenses/{supplyExpense}/renewal-history', [SupplyExpenseController::class, 'renewalHistory'])->name('supply-expenses.renewal-history');
     Route::resource('operational-expenses', OperationalExpenseController::class);
 
     // 🆕 Rotas para recursos de saúde animal
