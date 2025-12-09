@@ -375,14 +375,25 @@ class ReportController extends Controller
             $animal = $records->first()->animal;
             $totalQuantityConsumed = $records->sum('quantity');
             
-            // Calcular custo real baseado na fórmula: (valor_total/quantidade_total) * quantidade_usada
+            // Calcular custo real baseado no tipo de ração consumida
             $realCost = 0;
-            foreach($feedingSupplies as $supply) {
-                if($supply->quantity > 0) {
-                    $costPerUnit = $supply->value / $supply->quantity;
-                    // Para simplificação, assumimos que o animal consumiu proporcionalmente de cada compra
-                    $consumedFromThisSupply = ($totalQuantityConsumed / $feedingSupplies->sum('quantity')) * $supply->quantity;
-                    $realCost += $costPerUnit * $consumedFromThisSupply;
+            $animalFeedingsByType = $records->groupBy('feed_type');
+            
+            foreach($animalFeedingsByType as $feedType => $typeRecords) {
+                $quantityConsumed = $typeRecords->sum('quantity');
+                
+                // Encontrar insumos deste tipo de ração
+                $matchingSupplies = $feedingSupplies->where('name', $feedType);
+                
+                if($matchingSupplies->count() > 0) {
+                    // Usar o custo médio ponderado dos insumos deste tipo
+                    $totalSupplyQuantity = $matchingSupplies->sum('quantity');
+                    $totalSupplyValue = $matchingSupplies->sum('value');
+                    
+                    if($totalSupplyQuantity > 0) {
+                        $averageCostPerUnit = $totalSupplyValue / $totalSupplyQuantity;
+                        $realCost += $averageCostPerUnit * $quantityConsumed;
+                    }
                 }
             }
             
@@ -460,14 +471,25 @@ class ReportController extends Controller
             $animal = $records->first()->animal;
             $totalDoseUsed = $records->sum('dose');
             
-            // Calcular custo real baseado na fórmula: (valor_total/quantidade_total) * dose_usada
+            // Calcular custo real baseado no tipo de medicamento consumido
             $realCost = 0;
-            foreach($medicationSupplies as $supply) {
-                if($supply->quantity > 0) {
-                    $costPerUnit = $supply->value / $supply->quantity;
-                    // Para simplificação, assumimos que o animal consumiu proporcionalmente de cada compra
-                    $usedFromThisSupply = ($totalDoseUsed / $medicationSupplies->sum('quantity')) * $supply->quantity;
-                    $realCost += $costPerUnit * $usedFromThisSupply;
+            $animalMedicationsByType = $records->groupBy('medication_name');
+            
+            foreach($animalMedicationsByType as $medicationType => $typeRecords) {
+                $doseUsed = $typeRecords->sum('dose');
+                
+                // Encontrar insumos deste tipo de medicamento
+                $matchingSupplies = $medicationSupplies->where('name', $medicationType);
+                
+                if($matchingSupplies->count() > 0) {
+                    // Usar o custo médio ponderado dos insumos deste tipo
+                    $totalSupplyQuantity = $matchingSupplies->sum('quantity');
+                    $totalSupplyValue = $matchingSupplies->sum('value');
+                    
+                    if($totalSupplyQuantity > 0) {
+                        $averageCostPerUnit = $totalSupplyValue / $totalSupplyQuantity;
+                        $realCost += $averageCostPerUnit * $doseUsed;
+                    }
                 }
             }
             
