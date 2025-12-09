@@ -45,8 +45,8 @@ class AnimalWeightController extends Controller
 
     public function create()
     {
-        // Apenas animais disponíveis para registros
-        $animals = Animal::availableForRecords()->get();
+        // Apenas animais disponíveis para registros, incluindo purchase e animalWeights
+        $animals = Animal::availableForRecords()->with(['purchase', 'animalWeights'])->get();
         return view('animal_weights.create', compact('animals'));
     }
 

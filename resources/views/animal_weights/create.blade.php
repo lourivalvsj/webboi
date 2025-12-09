@@ -21,10 +21,14 @@
                         <div class="col-md-6">
                             <div class="modern-form-group">
                                 <label class="modern-form-label">Animal *</label>
-                                <select name="animal_id" class="modern-form-control @error('animal_id') is-invalid @enderror" required>
+                                <select name="animal_id" class="modern-form-control @error('animal_id') is-invalid @enderror" required onchange="updateWeightAndDate()">
                                     <option value="">Selecione um animal</option>
                                     @foreach ($animals as $animal)
-                                        <option value="{{ $animal->id }}" {{ old('animal_id') == $animal->id ? 'selected' : '' }}>
+                                        <option value="{{ $animal->id }}" 
+                                                data-initial-weight="{{ $animal->initial_weight }}" 
+                                                data-purchase-date="{{ $animal->purchase ? $animal->purchase->purchase_date->format('Y-m-d') : '' }}"
+                                                data-has-weights="{{ $animal->animalWeights->count() > 0 ? 'true' : 'false' }}"
+                                                {{ old('animal_id') == $animal->id ? 'selected' : '' }}>
                                             {{ $animal->tag }}
                                             @if($animal->breed) - {{ $animal->breed }} @endif
                                             @if($animal->purchase) - Comprado por R$ {{ number_format($animal->purchase->value, 2, ',', '.') }} @endif
@@ -44,10 +48,14 @@
                         <div class="col-md-6">
                             <div class="modern-form-group">
                                 <label class="modern-form-label">Peso (kg) *</label>
-                                <input type="number" name="weight" step="0.01" class="modern-form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" required>
+                                <input type="number" name="weight" id="weight" step="0.01" class="modern-form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" required>
                                 @error('weight')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <small class="form-text text-muted" id="weight-hint" style="display: none;">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    <span class="text-primary">Peso inicial do cadastro preenchido automaticamente para primeira pesagem</span>
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -56,10 +64,14 @@
                         <div class="col-md-6">
                             <div class="modern-form-group">
                                 <label class="modern-form-label">Data da Pesagem *</label>
-                                <input type="date" name="recorded_at" class="modern-form-control @error('recorded_at') is-invalid @enderror" value="{{ old('recorded_at', date('Y-m-d')) }}" required>
+                                <input type="date" name="recorded_at" id="recorded_at" class="modern-form-control @error('recorded_at') is-invalid @enderror" value="{{ old('recorded_at', date('Y-m-d')) }}" required>
                                 @error('recorded_at')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <small class="form-text text-muted" id="date-hint" style="display: none;">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    <span class="text-primary">Data de compra preenchida automaticamente para primeira pesagem</span>
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -103,4 +115,59 @@
             </div>
         @endif
     </div>
+
+    <script>
+        function updateWeightAndDate() {
+            const select = document.querySelector('select[name="animal_id"]');
+            const selectedOption = select.selectedOptions[0];
+            const weightInput = document.getElementById('weight');
+            const dateInput = document.getElementById('recorded_at');
+            const weightHint = document.getElementById('weight-hint');
+            const dateHint = document.getElementById('date-hint');
+            
+            if (selectedOption && selectedOption.value) {
+                const initialWeight = selectedOption.dataset.initialWeight;
+                const purchaseDate = selectedOption.dataset.purchaseDate;
+                const hasWeights = selectedOption.dataset.hasWeights === 'true';
+                
+                // Se é a primeira pesagem (animal não tem pesagens anteriores)
+                if (!hasWeights) {
+                    // Preencher peso inicial se disponível
+                    if (initialWeight && initialWeight !== '' && initialWeight !== '0') {
+                        weightInput.value = initialWeight;
+                        weightHint.style.display = 'block';
+                    } else {
+                        weightInput.value = '';
+                        weightHint.style.display = 'none';
+                    }
+                    
+                    // Preencher data de compra se disponível
+                    if (purchaseDate && purchaseDate !== '') {
+                        dateInput.value = purchaseDate;
+                        dateHint.style.display = 'block';
+                    } else {
+                        dateInput.value = new Date().toISOString().split('T')[0];
+                        dateHint.style.display = 'none';
+                    }
+                } else {
+                    // Animal já tem pesagens, usar valores padrão
+                    weightInput.value = '';
+                    dateInput.value = new Date().toISOString().split('T')[0];
+                    weightHint.style.display = 'none';
+                    dateHint.style.display = 'none';
+                }
+            } else {
+                // Limpar campos se nenhum animal selecionado
+                weightInput.value = '';
+                dateInput.value = new Date().toISOString().split('T')[0];
+                weightHint.style.display = 'none';
+                dateHint.style.display = 'none';
+            }
+        }
+
+        // Executar ao carregar a página se já houver animal selecionado
+        document.addEventListener('DOMContentLoaded', function() {
+            updateWeightAndDate();
+        });
+    </script>
 @endsection
